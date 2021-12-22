@@ -38,7 +38,7 @@ class AuthFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             authFragment = this@AuthFragment
         }
-        (activity as AppCompatActivity).supportActionBar?.title = "Register"
+        (activity as AppCompatActivity).supportActionBar?.title = "Registration"
     }
 
     fun goToSignInPage() {

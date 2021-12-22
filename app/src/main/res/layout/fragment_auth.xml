@@ -24,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/logo"
             android:id="@+id/logo_img"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             />
         <com.google.android.material.button.MaterialButton
             android:layout_width="300dp"
@@ -138,6 +138,31 @@
                 android:id="@+id/password_edit_text" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:checkedButton="@id/trainee"
+            app:layout_constraintTop_toBottomOf="@id/password_input_layout"
+            app:layout_constraintStart_toStartOf="@id/password_input_layout"
+            app:layout_constraintEnd_toEndOf="@id/password_input_layout"
+            android:id="@+id/user_options">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trainer"
+                app:useMaterialThemeColors="false"
+                android:id="@+id/trainer"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trainee"
+                app:useMaterialThemeColors="false"
+                android:id="@+id/trainee"/>
+
+        </RadioGroup>
+
 <!--        <com.google.android.material.textfield.TextInputLayout-->
 <!--            android:layout_width="300dp"-->
 <!--            android:layout_height="wrap_content"-->
@@ -159,10 +184,10 @@
         <com.google.android.material.button.MaterialButton
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="@id/password_input_layout"
-            app:layout_constraintEnd_toEndOf="@id/password_input_layout"
-            app:layout_constraintTop_toBottomOf="@id/password_input_layout"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/user_options"
+            app:layout_constraintEnd_toEndOf="@id/user_options"
+            app:layout_constraintTop_toBottomOf="@id/user_options"
             android:text="Sign up"
             android:onClick="@{()-> authFragment.registration()}"
             android:backgroundTint="@color/app_theme"
