@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "427576789394",
+    "project_id": "rightway-1020c",
+    "storage_bucket": "rightway-1020c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427576789394:android:c179ac0a452092710a994b",
+        "android_client_info": {
+          "package_name": "com.rahafcs.co.rightway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427576789394-3botmelcdrunvn14h1dptpibd8n3r7kj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtOH7nO7YtJ86QZYY33SzZqK4gWH_X72Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427576789394-3botmelcdrunvn14h1dptpibd8n3r7kj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
