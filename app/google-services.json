@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "427576789394-l8eru4c6t1g0tj6o0njtq0vsv7osh9mv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rahafcs.co.rightway",
+            "certificate_hash": "0d3302947b52cb6c92ad40fc1334b86469e98a1c"
+          }
+        },
+        {
           "client_id": "427576789394-pvo1dmgfpqgo7691c565su79am2ro57a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

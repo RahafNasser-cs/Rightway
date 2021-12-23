@@ -7,6 +7,20 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\CS_ra\\Documents\\keystore\\rahafcskeystore.jks')
+            storePassword 'Bna@15665'
+            keyPassword 'Bna@15665'
+            keyAlias 'rightway'
+        }
+        config {
+            storeFile file('C:\\Users\\CS_ra\\Documents\\keystore\\rahafcskeystore.jks')
+            storePassword 'Bna@15665'
+            keyAlias 'rightway'
+            keyPassword 'Bna@15665'
+        }
+    }
     compileSdk 31
 
     buildFeatures{
@@ -28,6 +42,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {
