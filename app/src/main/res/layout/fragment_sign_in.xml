@@ -6,22 +6,105 @@
 
     <!-- TODO: Update blank fragment layout -->
     <data>
-
+        <variable
+            name="signInFragment"
+            type="com.rahafcs.co.rightway.ui.SignInFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="200dp"
+            android:text="Sign in with Google"
+            android:onClick="@{()-> signInFragment.signInWithGoogle()}"
+            app:icon="@drawable/google_icon"
+            app:iconSize="20dp"
+            app:iconGravity="textStart"
+            app:iconTint="@null"
+            android:id="@+id/sign_up_with_google_btn"
+            android:backgroundTint="@color/dark_white"
+            android:textColor="@color/light_black"
+            />
+        <View
+            android:id="@+id/divider1"
+            style="@style/Widget.Rightway.Divider"
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_with_google_btn"
+            app:layout_constraintStart_toStartOf="@id/sign_up_with_google_btn"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign in page"
-            android:textSize="30sp"
-            android:fontFamily="casual"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:text="Or"
+            android:id="@+id/or_textview"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_with_google_btn"
+            app:layout_constraintStart_toEndOf="@id/divider1"
+            app:layout_constraintEnd_toStartOf="@id/divider2"/>
+        <View
+            android:id="@+id/divider2"
+            style="@style/Widget.Rightway.Divider"
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_with_google_btn"
+            app:layout_constraintEnd_toEndOf="@id/sign_up_with_google_btn"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/divider1"
+            app:layout_constraintEnd_toEndOf="@id/divider2"
+            app:layout_constraintTop_toBottomOf="@id/or_textview"
+            android:layout_marginTop="8dp"
+            android:hint="Email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/email_input_layout">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:id="@+id/email_edit_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/email_input_layout"
+            app:layout_constraintEnd_toEndOf="@id/email_input_layout"
+            app:layout_constraintTop_toBottomOf="@id/email_input_layout"
+            android:layout_marginTop="8dp"
+            android:hint="Password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/password_input_layout">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:id="@+id/password_edit_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/password_input_layout"
+            app:layout_constraintEnd_toEndOf="@id/password_input_layout"
+            app:layout_constraintTop_toBottomOf="@id/password_input_layout"
+            android:text="Sign in"
+            android:onClick="@{()-> signInFragment.signInWithEmailAndPassword()}"
+            android:backgroundTint="@color/app_theme"
+            android:id="@+id/sign_in_btn"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -43,14 +43,14 @@ class SignUpFragment : Fragment() {
     }
 
     fun goToSignInPage() {
-        Toast.makeText(requireContext(), "sign in page", Toast.LENGTH_SHORT).show()
+        message("sign in page")
         findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         // TODO
     }
 
     private fun signUpWithEmailAndPassword(task: Task<AuthResult>) {
         val firebaseUser = task.result?.user
-        Toast.makeText(requireContext(), "hello ${firebaseUser?.email}", Toast.LENGTH_SHORT).show()
+        message("hello ${firebaseUser?.email}")
         // save user info 
         // TODO
     }
@@ -83,18 +83,10 @@ class SignUpFragment : Fragment() {
         val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credentials).addOnCompleteListener {
             if (it.isSuccessful) {
-                Toast.makeText(
-                    requireContext(),
-                    "hello ${it.result?.user?.email}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                message("hello ${it.result?.user?.email}")
             }
         }.addOnFailureListener {
-            Toast.makeText(
-                requireContext(),
-                "${it.message}",
-                Toast.LENGTH_SHORT
-            ).show()
+            message("${it.message}")
         }
     }
 
@@ -105,23 +97,19 @@ class SignUpFragment : Fragment() {
         ).addOnCompleteListener {
             if (it.isSuccessful) {
                 signUpWithEmailAndPassword(it)
-            } else {
-                // error 
-                Toast.makeText(requireContext(), "Error, try again", Toast.LENGTH_SHORT).show()
-                // TODO
             }
-        }
+        }.addOnFailureListener { message("${it.message}") }
     }
 
     fun registration() {
         if (!isValidFirstName()) {
-            Toast.makeText(requireContext(), "Enter a first name", Toast.LENGTH_SHORT).show()
+            message("Enter a first name")
         } else if (!isValidLastName()) {
-            Toast.makeText(requireContext(), "Enter a last name", Toast.LENGTH_SHORT).show()
+            message("Enter a last name")
         } else if (!isValidEmail()) {
-            Toast.makeText(requireContext(), "Enter a valid email", Toast.LENGTH_SHORT).show()
+            message("Enter a valid email")
         } else if (!isValidPassword()) {
-            Toast.makeText(requireContext(), "Enter a password", Toast.LENGTH_SHORT).show()
+            message("Enter a password")
         } else {
             register()
         }
@@ -151,5 +139,9 @@ class SignUpFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    fun message(str: String) {
+        Toast.makeText(requireContext(), str, Toast.LENGTH_SHORT).show()
     }
 }
