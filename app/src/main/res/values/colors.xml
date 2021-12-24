@@ -13,4 +13,5 @@
 
     <color name="app_theme">#ad91d5</color>
     <color name="background_screen">#F7F7F7</color>
+    <color name="disable_color">#999999</color>
 </resources>

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -17,12 +18,20 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.data.RegistrationStatus
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
+import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 
 const val REQUEST_CODE_SIGNING = 0
 
 class SignUpFragment : Fragment() {
     private var binding: FragmentSignUpBinding? = null
+    val viewModel: SignUpViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.title = "Registration"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,9 +46,8 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            authFragment = this@SignUpFragment
+            signUpFragment = this@SignUpFragment
         }
-        (activity as AppCompatActivity).supportActionBar?.title = "Registration"
     }
 
     fun goToSignInPage() {
@@ -96,9 +104,13 @@ class SignUpFragment : Fragment() {
             binding?.passwordEditText?.text.toString()
         ).addOnCompleteListener {
             if (it.isSuccessful) {
+                viewModel.setRegistrationStatus(RegistrationStatus.LOADING)
                 signUpWithEmailAndPassword(it)
             }
-        }.addOnFailureListener { message("${it.message}") }
+        }.addOnFailureListener {
+            viewModel.setRegistrationStatus(RegistrationStatus.FAILURE)
+            message("${it.message}")
+        }
     }
 
     fun registration() {
@@ -111,6 +123,8 @@ class SignUpFragment : Fragment() {
         } else if (!isValidPassword()) {
             message("Enter a password")
         } else {
+            viewModel.setRegistrationStatus(RegistrationStatus.LOADING)
+            binding?.signUpWithEmailPasswordBtn?.isEnabled = false
             register()
         }
     }
@@ -141,7 +155,7 @@ class SignUpFragment : Fragment() {
         binding = null
     }
 
-    fun message(str: String) {
+    private fun message(str: String) {
         Toast.makeText(requireContext(), str, Toast.LENGTH_SHORT).show()
     }
 }

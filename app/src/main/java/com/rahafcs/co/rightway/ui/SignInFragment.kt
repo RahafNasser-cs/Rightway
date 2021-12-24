@@ -21,6 +21,11 @@ import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
 class SignInFragment : Fragment() {
     var binding: FragmentSignInBinding? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.title = "Sign in"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,7 +38,6 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Sign in"
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             signInFragment = this@SignInFragment
@@ -51,6 +55,7 @@ class SignInFragment : Fragment() {
             startActivityForResult(it, REQUEST_CODE_SIGNING)
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_SIGNING) {
@@ -58,6 +63,7 @@ class SignInFragment : Fragment() {
             account?.let { googleAuthFirebase(it) }
         }
     }
+
     private fun googleAuthFirebase(account: GoogleSignInAccount) {
         val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credentials).addOnCompleteListener {
@@ -75,6 +81,7 @@ class SignInFragment : Fragment() {
         } else if (!isValidPassword()) {
             message("Enter a valid password")
         } else {
+            binding?.signInBtn?.isEnabled = false
             signIn()
         }
     }
@@ -106,5 +113,10 @@ class SignInFragment : Fragment() {
 
     private fun message(str: String) {
         Toast.makeText(requireContext(), str, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

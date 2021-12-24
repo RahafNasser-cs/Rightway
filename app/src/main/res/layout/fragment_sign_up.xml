@@ -6,8 +6,11 @@
     >
     <data>
         <variable
-            name="authFragment"
+            name="signUpFragment"
             type="com.rahafcs.co.rightway.ui.SignUpFragment" />
+        <variable
+            name="signUpViewModel"
+            type="com.rahafcs.co.rightway.viewmodels.SignUpViewModel" />
 
     </data>
 
@@ -24,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="80dp"
             android:text="Sign up with Google"
-            android:onClick="@{()-> authFragment.signUpWithGoogle()}"
+            android:onClick="@{()-> signUpFragment.signUpWithGoogle()}"
             app:icon="@drawable/google_icon"
             app:iconSize="20dp"
             app:iconGravity="textStart"
@@ -179,8 +182,8 @@
             app:layout_constraintEnd_toEndOf="@id/user_options"
             app:layout_constraintTop_toBottomOf="@id/user_options"
             android:text="Sign up"
-            android:onClick="@{()-> authFragment.registration()}"
-            android:backgroundTint="@color/app_theme"
+            android:background="@drawable/button_disabled"
+            android:onClick="@{()-> signUpFragment.registration()}"
             android:id="@+id/sign_up_with_email_password_btn"
             />
 
@@ -197,12 +200,35 @@
             android:layout_height="wrap_content"
             android:text="Sign in"
             android:layout_marginStart="8dp"
-            android:onClick="@{()-> authFragment.goToSignInPage()}"
+            android:onClick="@{()-> signUpFragment.goToSignInPage()}"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             app:layout_constraintStart_toEndOf="@id/ask_user_registered_textview"
             app:layout_constraintTop_toTopOf="@id/ask_user_registered_textview"
             app:layout_constraintBottom_toBottomOf="@id/ask_user_registered_textview"
             android:id="@+id/sign_in_link_btn"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_rawRes="@raw/loading"
+            app:registrationStatus="@{signUpViewModel.status}"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/sign_up_with_email_password_btn"
+            app:layout_constraintEnd_toEndOf="@+id/sign_up_with_email_password_btn"
+            app:layout_constraintTop_toTopOf="@+id/sign_up_with_email_password_btn" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

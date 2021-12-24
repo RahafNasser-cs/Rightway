@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentWelcomeBinding
 
@@ -25,11 +26,11 @@ class WelcomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.title = "Welcome"
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             welcomeFragment = this@WelcomeFragment
         }
-        (activity as AppCompatActivity).supportActionBar?.title = "Welcome"
     }
 
     fun goToSignUpPage() {
@@ -38,5 +39,13 @@ class WelcomeFragment : Fragment() {
 
     fun goToSignInPage() {
         findNavController().navigate(R.id.action_welcomeFragment_to_signInFragment)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val account = FirebaseAuth.getInstance().currentUser
+        if (account != null) {
+            findNavController().navigate(R.id.action_welcomeFragment_to_homeFragment)
+        }
     }
 }

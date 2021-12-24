@@ -4,4 +4,6 @@
     <style name="Widget.Rightway.Divider" parent="">
         <item name="android:background">?attr/dividerHorizontal</item>
     </style>
+    <!--  -->
+
 </resources>
