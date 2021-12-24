@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Rightway</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="web_client">427576789394-3botmelcdrunvn14h1dptpibd8n3r7kj.apps.googleusercontent.com</string>
 </resources>
