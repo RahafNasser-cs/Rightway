@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rahafcs.co.rightway.data.RegistrationStatus
+import com.rahafcs.co.rightway.data.User
 
 class SignUpViewModel : ViewModel() {
     private var _status = MutableLiveData<RegistrationStatus>()
@@ -11,5 +12,8 @@ class SignUpViewModel : ViewModel() {
 
     fun setRegistrationStatus(status: RegistrationStatus) {
         _status.value = status
+    }
+
+    fun userInfo(user: User) {
     }
 }

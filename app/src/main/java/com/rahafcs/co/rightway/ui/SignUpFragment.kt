@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.RegistrationStatus
+import com.rahafcs.co.rightway.data.SubscriptionStatus
+import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 
@@ -50,6 +52,26 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    private fun getUserInfo(userId: String) {
+        val firstName = binding?.firstNameEditText?.text.toString()
+        val lastName = binding?.lastNameEditText?.text.toString()
+        val subscriptionStatus = if (binding?.trainee?.isChecked == true) {
+            SubscriptionStatus.TRAINEE
+        } else {
+            SubscriptionStatus.TRAINER
+        }
+        createUserInfo(userId, firstName, lastName, subscriptionStatus)
+    }
+
+    private fun createUserInfo(
+        userId: String,
+        firstName: String,
+        lastName: String,
+        subscriptionStatus: SubscriptionStatus
+    ) {
+        viewModel.userInfo(User(userId, firstName, lastName, subscriptionStatus))
+    }
+
     fun goToSignInPage() {
         message("sign in page")
         findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
@@ -59,6 +81,7 @@ class SignUpFragment : Fragment() {
     private fun signUpWithEmailAndPassword(task: Task<AuthResult>) {
         val firebaseUser = task.result?.user
         message("hello ${firebaseUser?.email}")
+        firebaseUser?.let { getUserInfo(it.uid) }
         // save user info 
         // TODO
     }
