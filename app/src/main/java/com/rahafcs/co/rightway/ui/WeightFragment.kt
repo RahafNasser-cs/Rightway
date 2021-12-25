@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentWeightBinding
 
 class WeightFragment : Fragment() {
@@ -26,6 +28,20 @@ class WeightFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             weightFragment = this@WeightFragment
         }
+    }
+
+    private fun goToAgePage() {
+        findNavController().navigate(R.id.action_weightFragment_to_ageFragment)
+    }
+
+    fun userWeightByPound() {
+        // send user weight to viewModel TODO()
+        goToAgePage()
+    }
+
+    fun userWeightByKilogram() {
+        // send user weight to viewModel TODO()
+        goToAgePage()
     }
 
     override fun onDestroyView() {

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentHeightBinding
 
 class HeightFragment : Fragment() {
@@ -25,6 +27,24 @@ class HeightFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             heightFragment = this@HeightFragment
         }
+    }
+
+    private fun goToWeightPage() {
+        findNavController().navigate(R.id.action_heightFragment_to_weightFragment)
+    }
+
+    fun userHeightByFeet() {
+        if (binding?.heightEditText?.text.toString().isNotEmpty()) {
+            // send to viewModel TODO()
+        }
+        goToWeightPage()
+    }
+
+    fun userHeightByCentimeter() {
+        if (binding?.heightEditText?.text.toString().isNotEmpty()) {
+            // send to viewModel TODO()
+        }
+        goToWeightPage()
     }
 
     override fun onDestroyView() {

@@ -52,24 +52,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Little or no exercise"
+                android:onClick="@{()-> activityFragment.setActivityLevel(0)}"
                 android:id="@+id/little_option"/>
             <RadioButton
                 android:textColor="@color/light_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Exercise 1-3 times/week"
+                android:onClick="@{()-> activityFragment.setActivityLevel(1)}"
                 android:id="@+id/week1_3_option"/>
             <RadioButton
                 android:textColor="@color/light_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Exercise 4-5 times/week"
+                android:onClick="@{()-> activityFragment.setActivityLevel(2)}"
                 android:id="@+id/week4_5_option"/>
             <RadioButton
                 android:textColor="@color/light_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Intense exercise 6-7 times/week"
+                android:onClick="@{()-> activityFragment.setActivityLevel(3)}"
                 android:id="@+id/week6_7_option"/>
         </RadioGroup>
         <com.google.android.material.button.MaterialButton
@@ -80,6 +84,7 @@
             app:layout_constraintEnd_toEndOf="@id/activity_options"
             android:id="@+id/male_btn"
             android:text="Next"
+            android:onClick="@{()-> activityFragment.goToHomePage()}"
             android:layout_marginTop="52dp"
             android:textSize="16sp"
             android:textAllCaps="false"

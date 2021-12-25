@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentActivityBinding
 
 class ActivityFragment : Fragment() {
@@ -25,6 +27,14 @@ class ActivityFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             activityFragment = this@ActivityFragment
         }
+    }
+
+    fun goToHomePage() {
+        findNavController().navigate(R.id.action_activityFragment_to_homeFragment)
+    }
+
+    fun setActivityLevel(level: Int) {
+        // send user level to viewModel TODO()
     }
 
     override fun onDestroyView() {

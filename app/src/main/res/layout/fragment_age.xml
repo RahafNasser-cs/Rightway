@@ -50,6 +50,7 @@
             app:layout_constraintEnd_toEndOf="@id/age_input_layout"
             android:id="@+id/female_btn"
             android:text="Next"
+            android:onClick="@{()-> ageFragment.goToActivityPage()}"
             android:layout_marginTop="52dp"
             android:textSize="16sp"
             android:textAllCaps="false"

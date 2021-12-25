@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentWelcomeBinding
 
@@ -26,6 +27,10 @@ class WelcomeFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             welcomeFragment = this@WelcomeFragment
         }
+    }
+
+    fun goToGenderPage() {
+        findNavController().navigate(R.id.action_welcomeFragment_to_genderFragment)
     }
 
     override fun onDestroyView() {

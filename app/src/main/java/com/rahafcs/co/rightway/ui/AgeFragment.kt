@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentAgeBinding
 
 class AgeFragment : Fragment() {
@@ -25,6 +27,17 @@ class AgeFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             ageFragment = this@AgeFragment
         }
+    }
+
+    fun goToActivityPage() {
+        if (binding?.ageEditText?.text.toString().isNotEmpty()) {
+            userAge()
+            findNavController().navigate(R.id.action_ageFragment_to_activityFragment)
+        }
+    }
+
+    private fun userAge() {
+        // send user age to viewModel TODO()
     }
 
     override fun onDestroyView() {

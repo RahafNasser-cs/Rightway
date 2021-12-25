@@ -1,13 +1,15 @@
 package com.rahafcs.co.rightway.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -17,9 +19,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
+import com.rahafcs.co.rightway.utility.toast
 
 class SignInFragment : Fragment() {
     var binding: FragmentSignInBinding? = null
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,18 +72,18 @@ class SignInFragment : Fragment() {
         val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credentials).addOnCompleteListener {
             if (it.isSuccessful) {
-                message("hello ${it.result?.user?.email}")
+                requireContext().toast("hello ${it.result?.user?.email}")
             }
         }.addOnFailureListener {
-            message("${it.message}")
+            requireContext().toast("${it.message}")
         }
     }
 
     fun signInWithEmailAndPassword() {
         if (!isValidEmail()) {
-            message("Enter a valid email")
+            requireContext().toast("Enter a valid email")
         } else if (!isValidPassword()) {
-            message("Enter a valid password")
+            requireContext().toast("Enter a valid password")
         } else {
             binding?.signInBtn?.isEnabled = false
             signIn()
@@ -95,12 +99,29 @@ class SignInFragment : Fragment() {
                 if (it.isSuccessful) {
                     signInOnSuccess(it)
                 }
-            }.addOnFailureListener { message("${it.message}") }
+            }.addOnFailureListener { requireContext().toast("${it.message}") }
     }
 
     private fun signInOnSuccess(it: Task<AuthResult>) {
         val firebaseUser = it.result.user
-        message("Hello ${firebaseUser?.email}")
+        firebaseUser?.let {
+            addToSharedPreference(it.uid)
+            goToHomePage()
+        }
+        requireContext().toast("Hello ${firebaseUser?.email}")
+    }
+
+    private fun goToHomePage() {
+        findNavController().navigate(R.id.action_signInFragment_to_homeFragment)
+    }
+
+    private fun addToSharedPreference(userId: String) {
+        sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val editor = sharedPreferences.edit()
+        editor.apply {
+            putString(SignUpFragment.USERID, userId)
+            apply()
+        }
     }
 
     private fun isValidEmail(): Boolean {
@@ -109,10 +130,6 @@ class SignInFragment : Fragment() {
 
     private fun isValidPassword(): Boolean {
         return binding?.emailEditText?.text.toString().isNotEmpty()
-    }
-
-    private fun message(str: String) {
-        Toast.makeText(requireContext(), str, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
