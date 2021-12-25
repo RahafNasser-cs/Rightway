@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.databinding.FragmentWelcomeBinding
+import com.rahafcs.co.rightway.databinding.FragmentHeightBinding
 
-class WelcomeFragment : Fragment() {
-    private var binding: FragmentWelcomeBinding? = null
+class HeightFragment : Fragment() {
+    private var binding: FragmentHeightBinding? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+        binding = FragmentHeightBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -25,12 +25,26 @@ class WelcomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            welcomeFragment = this@WelcomeFragment
+            heightFragment = this@HeightFragment
         }
     }
 
-    fun goToGenderPage() {
-        findNavController().navigate(R.id.action_welcomeFragment_to_genderFragment)
+    private fun goToWeightPage() {
+        findNavController().navigate(R.id.action_heightFragment_to_weightFragment)
+    }
+
+    fun userHeightByFeet() {
+        if (binding?.heightEditText?.text.toString().isNotEmpty()) {
+            // send to viewModel TODO()
+        }
+        goToWeightPage()
+    }
+
+    fun userHeightByCentimeter() {
+        if (binding?.heightEditText?.text.toString().isNotEmpty()) {
+            // send to viewModel TODO()
+        }
+        goToWeightPage()
     }
 
     override fun onDestroyView() {

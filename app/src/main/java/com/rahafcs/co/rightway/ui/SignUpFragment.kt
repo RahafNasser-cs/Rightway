@@ -1,14 +1,14 @@
 package com.rahafcs.co.rightway.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -18,15 +18,16 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.data.RegistrationStatus
+import com.rahafcs.co.rightway.data.SubscriptionStatus
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
-import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
+import com.rahafcs.co.rightway.utility.toast
 
 const val REQUEST_CODE_SIGNING = 0
 
 class SignUpFragment : Fragment() {
     private var binding: FragmentSignUpBinding? = null
-    val viewModel: SignUpViewModel by viewModels()
+    lateinit var sharedPreferences: SharedPreferences
+    // private val viewModel: SignUpViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,21 +51,61 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    private fun getUserInfo(userId: String) {
+        val firstName = binding?.firstNameEditText?.text.toString()
+        val lastName = binding?.lastNameEditText?.text.toString()
+        val subscriptionStatus = if (binding?.trainee?.isChecked == true) {
+            SubscriptionStatus.TRAINEE
+        } else {
+            SubscriptionStatus.TRAINER
+        }
+        createUserInfo(userId, firstName, lastName, subscriptionStatus)
+        addToSharedPreference(userId, firstName, subscriptionStatus)
+    }
+
+    private fun addToSharedPreference(
+        userId: String,
+        firstName: String,
+        subscriptionStatus: SubscriptionStatus
+    ) {
+        sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val editor = sharedPreferences.edit()
+        editor.apply {
+            putString(USERID, userId)
+            putString(FIRSTNAME, firstName)
+            putString(SUPERSCRIPTION, subscriptionStatus.toString())
+            apply()
+        }
+    }
+
+    private fun createUserInfo(
+        userId: String,
+        firstName: String,
+        lastName: String,
+        subscriptionStatus: SubscriptionStatus
+    ) {
+        // viewModel.userInfo(User(userId, firstName, lastName, subscriptionStatus))
+    }
+
     fun goToSignInPage() {
-        message("sign in page")
+        requireContext().toast("sign in page")
         findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         // TODO
     }
 
     private fun signUpWithEmailAndPassword(task: Task<AuthResult>) {
         val firebaseUser = task.result?.user
-        message("hello ${firebaseUser?.email}")
+        requireContext().toast("hello ${firebaseUser?.email}")
+        firebaseUser?.let {
+            getUserInfo(it.uid)
+            goToWelcomePage()
+        }
         // save user info 
         // TODO
     }
 
-    fun goToGetStartedPage() {
-        // TODO
+    private fun goToWelcomePage() {
+        findNavController().navigate(R.id.action_signUpFragment_to_welcomeFragment)
     }
 
     fun signUpWithGoogle() {
@@ -91,10 +132,10 @@ class SignUpFragment : Fragment() {
         val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credentials).addOnCompleteListener {
             if (it.isSuccessful) {
-                message("hello ${it.result?.user?.email}")
+                requireContext().toast("hello ${it.result?.user?.email}")
             }
         }.addOnFailureListener {
-            message("${it.message}")
+            requireContext().toast("${it.message}")
         }
     }
 
@@ -104,26 +145,26 @@ class SignUpFragment : Fragment() {
             binding?.passwordEditText?.text.toString()
         ).addOnCompleteListener {
             if (it.isSuccessful) {
-                viewModel.setRegistrationStatus(RegistrationStatus.LOADING)
+                // viewModel.setRegistrationStatus(RegistrationStatus.LOADING)
                 signUpWithEmailAndPassword(it)
             }
         }.addOnFailureListener {
-            viewModel.setRegistrationStatus(RegistrationStatus.FAILURE)
-            message("${it.message}")
+            // viewModel.setRegistrationStatus(RegistrationStatus.FAILURE)
+            requireContext().toast("${it.message}")
         }
     }
 
     fun registration() {
         if (!isValidFirstName()) {
-            message("Enter a first name")
+            requireContext().toast("Enter a first name")
         } else if (!isValidLastName()) {
-            message("Enter a last name")
+            requireContext().toast("Enter a last name")
         } else if (!isValidEmail()) {
-            message("Enter a valid email")
+            requireContext().toast("Enter a valid email")
         } else if (!isValidPassword()) {
-            message("Enter a password")
+            requireContext().toast("Enter a password")
         } else {
-            viewModel.setRegistrationStatus(RegistrationStatus.LOADING)
+            // viewModel.setRegistrationStatus(RegistrationStatus.LOADING)
             binding?.signUpWithEmailPasswordBtn?.isEnabled = false
             register()
         }
@@ -155,7 +196,9 @@ class SignUpFragment : Fragment() {
         binding = null
     }
 
-    private fun message(str: String) {
-        Toast.makeText(requireContext(), str, Toast.LENGTH_SHORT).show()
+    companion object {
+        const val USERID = "userId"
+        const val FIRSTNAME = "firstName"
+        const val SUPERSCRIPTION = "SubscriptionStatus"
     }
 }

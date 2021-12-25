@@ -7,17 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.databinding.FragmentWelcomeBinding
+import com.rahafcs.co.rightway.databinding.FragmentGenderBinding
 
-class WelcomeFragment : Fragment() {
-    private var binding: FragmentWelcomeBinding? = null
+class GenderFragment : Fragment() {
+    private var binding: FragmentGenderBinding? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+        binding = FragmentGenderBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -25,12 +26,22 @@ class WelcomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            welcomeFragment = this@WelcomeFragment
+            genderFragment = this@GenderFragment
         }
     }
 
-    fun goToGenderPage() {
-        findNavController().navigate(R.id.action_welcomeFragment_to_genderFragment)
+    private fun goToHeightPage() {
+        findNavController().navigate(R.id.action_genderFragment_to_heightFragment)
+    }
+
+    fun userGenderIsFemale() {
+        // send info "female" to viewModel TODO()
+        goToHeightPage()
+    }
+
+    fun userGenderIsMale() {
+        // send info "male" to viewModel TODO()
+        goToHeightPage()
     }
 
     override fun onDestroyView() {

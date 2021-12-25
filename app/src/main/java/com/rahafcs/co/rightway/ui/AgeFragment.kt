@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.databinding.FragmentWelcomeBinding
+import com.rahafcs.co.rightway.databinding.FragmentAgeBinding
 
-class WelcomeFragment : Fragment() {
-    private var binding: FragmentWelcomeBinding? = null
+class AgeFragment : Fragment() {
+    private var binding: FragmentAgeBinding? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+        binding = FragmentAgeBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -25,12 +25,19 @@ class WelcomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            welcomeFragment = this@WelcomeFragment
+            ageFragment = this@AgeFragment
         }
     }
 
-    fun goToGenderPage() {
-        findNavController().navigate(R.id.action_welcomeFragment_to_genderFragment)
+    fun goToActivityPage() {
+        if (binding?.ageEditText?.text.toString().isNotEmpty()) {
+            userAge()
+            findNavController().navigate(R.id.action_ageFragment_to_activityFragment)
+        }
+    }
+
+    private fun userAge() {
+        // send user age to viewModel TODO()
     }
 
     override fun onDestroyView() {
