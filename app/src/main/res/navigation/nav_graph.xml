@@ -19,8 +19,8 @@
         tools:layout="@layout/fragment_sign_in" />
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.rahafcs.co.rightway.ui.WelcomeFragment"
-        tools:layout="@layout/fragment_welcome">
+        android:name="com.rahafcs.co.rightway.ui.RegistrationFragment"
+        tools:layout="@layout/fragment_registration">
         <action
             android:id="@+id/action_welcomeFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />

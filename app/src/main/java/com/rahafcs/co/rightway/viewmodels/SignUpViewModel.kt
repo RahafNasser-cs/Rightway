@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rahafcs.co.rightway.data.RegistrationStatus
 import com.rahafcs.co.rightway.data.User
+import com.rahafcs.co.rightway.data.UserRepository
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
     private var _status = MutableLiveData<RegistrationStatus>()
     val status: LiveData<RegistrationStatus> get() = _status
 
@@ -15,5 +16,6 @@ class SignUpViewModel : ViewModel() {
     }
 
     fun userInfo(user: User) {
+        userRepository.addUserInfo(user)
     }
 }

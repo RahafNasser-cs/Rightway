@@ -28,7 +28,7 @@ const val REQUEST_CODE_SIGNING = 0
 
 class SignUpFragment : Fragment() {
     private var binding: FragmentSignUpBinding? = null
-    val viewModel: SignUpViewModel by viewModels()
+    private val viewModel: SignUpViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

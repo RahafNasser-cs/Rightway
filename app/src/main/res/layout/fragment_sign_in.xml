@@ -117,6 +117,7 @@
             android:onClick="@{()-> signInFragment.signInWithEmailAndPassword()}"
             android:background="@drawable/button_disabled"
             android:id="@+id/sign_in_btn"
+            android:textAllCaps="false"
             />
 
         <ProgressBar

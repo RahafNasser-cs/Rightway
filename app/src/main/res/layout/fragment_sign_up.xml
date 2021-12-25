@@ -35,6 +35,7 @@
             android:id="@+id/sign_up_with_google_btn"
             android:backgroundTint="@color/dark_white"
             android:textColor="@color/light_black"
+            android:textAllCaps="false"
             />
         <View
             android:id="@+id/divider1"
@@ -145,13 +146,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Trainer"
-                app:useMaterialThemeColors="false"
+                android:textColor="@color/light_black"
                 android:id="@+id/trainer"/>
             <RadioButton
+                android:textColor="@color/light_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Trainee"
-                app:useMaterialThemeColors="false"
                 android:id="@+id/trainee"/>
 
         </RadioGroup>
@@ -185,11 +186,13 @@
             android:background="@drawable/button_disabled"
             android:onClick="@{()-> signUpFragment.registration()}"
             android:id="@+id/sign_up_with_email_password_btn"
+            android:textAllCaps="false"
             />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
             android:text="Already registered?"
             android:id="@+id/ask_user_registered_textview"
             app:layout_constraintStart_toStartOf="@id/sign_up_with_email_password_btn"
@@ -199,6 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sign in"
+            android:textAllCaps="false"
             android:layout_marginStart="8dp"
             android:onClick="@{()-> signUpFragment.goToSignInPage()}"
             style="@style/Widget.MaterialComponents.Button.TextButton"
