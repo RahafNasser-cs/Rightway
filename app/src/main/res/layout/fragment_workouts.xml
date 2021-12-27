@@ -8,11 +8,27 @@
         <variable
             name="workoutsFragment"
             type="com.rahafcs.co.rightway.ui.WorkoutsFragment" />
+        <variable
+            name="workoutViewModel"
+            type="com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title_recyclerview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:clipToPadding="false"
+            app:verticalListItem="@{workoutViewModel.workout}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:scrollbars="horizontal"/>
 
         <TextView
             android:layout_width="wrap_content"

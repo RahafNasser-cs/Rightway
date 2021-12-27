@@ -5,10 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutsBinding
+import com.rahafcs.co.rightway.utility.ServiceLocator
+import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
+import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
 
 class WorkoutsFragment : Fragment() {
     private var binding: FragmentWorkoutsBinding? = null
+    private val viewModel: WorkoutsViewModel by activityViewModels<WorkoutsViewModel> {
+        ViewModelFactory(ServiceLocator.provideWorkoutRepository())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +33,7 @@ class WorkoutsFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             workoutsFragment = this@WorkoutsFragment
         }
+        viewModel.getAllWorkouts()
     }
 
     override fun onDestroyView() {

@@ -5,11 +5,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class WorkoutResponse(
-    val workoutResponse: List<WorkoutResponseItem?>? = null
+    val workoutResponse: List<Workout?>? = null
 ) : Parcelable
 
 @Parcelize
-data class WorkoutResponseItem(
+data class Workout(
     val gifUrl: String? = null,
     val name: String? = null,
     val equipment: String? = null,

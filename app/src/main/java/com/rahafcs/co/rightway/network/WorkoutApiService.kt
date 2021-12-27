@@ -1,5 +1,6 @@
 package com.rahafcs.co.rightway.network
 
+import com.rahafcs.co.rightway.data.Workout
 import com.rahafcs.co.rightway.data.WorkoutResponse
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -47,7 +48,7 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-interface ApiService {
+interface WorkoutApiService {
 
     @Headers(
         "x-rapidapi-host: exercisedb.p.rapidapi.com",
@@ -57,8 +58,8 @@ interface ApiService {
     suspend fun getAllWorkout(): WorkoutResponse
 }
 
-object Api {
-    val retrofitService: ApiService by lazy {
-        retrofit.create(ApiService::class.java)
+object WorkoutApi {
+    val retrofitService: WorkoutApiService by lazy {
+        retrofit.create(WorkoutApiService::class.java)
     }
 }

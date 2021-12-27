@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="workoutViewModel"
+            type="com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Waist"
+            android:id="@+id/muscle_name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/inner_recyclerview"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:scrollbars="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/muscle_name"
+            app:layout_constraintStart_toStartOf="@id/muscle_name"
+            android:padding="2dp"
+            app:horizontalListItem="@{workoutViewModel.workout}"
+            android:layout_marginStart="8dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

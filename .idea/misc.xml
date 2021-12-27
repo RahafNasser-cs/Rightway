@@ -20,6 +20,9 @@
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_weight.xml" value="0.25" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_welcome.xml" value="0.4" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_workouts.xml" value="0.25" />
+        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/nested_item.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/nested_outer.xml" value="0.25" />
+        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/outer_item.xml" value="0.3044822256568779" />
       </map>
     </option>
   </component>
