@@ -32,8 +32,10 @@ class WorkoutsFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             workoutsFragment = this@WorkoutsFragment
+            workoutViewModel = viewModel
+            titleRecyclerview.adapter = WorkoutVerticalAdapter()
         }
-        viewModel.getAllWorkouts()
+        // viewModel.getAllWorkouts()
     }
 
     override fun onDestroyView() {

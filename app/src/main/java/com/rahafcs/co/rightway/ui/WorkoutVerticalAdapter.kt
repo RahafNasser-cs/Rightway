@@ -5,15 +5,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.rahafcs.co.rightway.data.Workout
 import com.rahafcs.co.rightway.databinding.OuterItemBinding
+import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
 
 class WorkoutVerticalAdapter :
-    ListAdapter<Workout, WorkoutVerticalAdapter.WorkoutViewHolder>(VerticalDiffCallback) {
-    class WorkoutViewHolder(private val binding: OuterItemBinding) :
+
+    ListAdapter<WorkoutsUiState, WorkoutVerticalAdapter.WorkoutViewHolder>(
+        VerticalDiffCallback
+    ) {
+    inner class WorkoutViewHolder(private val binding: OuterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Workout) {
-            binding.muscleName.text = item.bodyPart ?: "Not found"
+        fun bind(item: WorkoutsUiState) {
+            binding.muscleName.text = item.workoutBodyTargetUiState.bodyPart
+            var adapter = WorkoutHorizontalAdapter()
+            binding.innerRecyclerview.adapter = adapter
+            adapter.submitList(item.workoutsInfoUiState)
         }
     }
 
@@ -26,13 +32,19 @@ class WorkoutVerticalAdapter :
         holder.bind(item)
     }
 
-    companion object VerticalDiffCallback : DiffUtil.ItemCallback<Workout>() {
-        override fun areItemsTheSame(oldItem: Workout, newItem: Workout): Boolean {
-            return oldItem.id == newItem.id
+    companion object VerticalDiffCallback : DiffUtil.ItemCallback<WorkoutsUiState>() {
+        override fun areItemsTheSame(
+            oldItem: WorkoutsUiState,
+            newItem: WorkoutsUiState
+        ): Boolean {
+            return oldItem.workoutBodyTargetUiState.bodyPart == newItem.workoutBodyTargetUiState.bodyPart
         }
 
-        override fun areContentsTheSame(oldItem: Workout, newItem: Workout): Boolean {
-            return oldItem.name == newItem.name
+        override fun areContentsTheSame(
+            oldItem: WorkoutsUiState,
+            newItem: WorkoutsUiState
+        ): Boolean {
+            return oldItem.workoutBodyTargetUiState.bodyPart == newItem.workoutBodyTargetUiState.bodyPart
         }
     }
 }

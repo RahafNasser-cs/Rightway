@@ -2,19 +2,24 @@ package com.rahafcs.co.rightway.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.rahafcs.co.rightway.data.Workout
 import com.rahafcs.co.rightway.databinding.NestedItemBinding
+import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 
 class WorkoutHorizontalAdapter :
-    ListAdapter<Workout, WorkoutHorizontalAdapter.WorkoutViewHolder>(HorizontalDiffCallback) {
+    ListAdapter<WorkoutsInfoUiState, WorkoutHorizontalAdapter.WorkoutViewHolder>(
+        HorizontalDiffCallback
+    ) {
 
     class WorkoutViewHolder(private val binding: NestedItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Workout) {
-            binding.bodyTargetTextview.text = item.name ?: "Not found"
+        fun bind(item: WorkoutsInfoUiState) {
+            binding.bodyTargetTextview.text = item.name
+            binding.workoutGif.setImageURI(item.gifUrl.toUri())
+            // binding.workoutGif.findUrl(item.gifUrl)
         }
     }
 
@@ -27,13 +32,19 @@ class WorkoutHorizontalAdapter :
         holder.bind(item)
     }
 
-    companion object HorizontalDiffCallback : DiffUtil.ItemCallback<Workout>() {
-        override fun areItemsTheSame(oldItem: Workout, newItem: Workout): Boolean {
-            return oldItem.id == newItem.id
+    companion object HorizontalDiffCallback : DiffUtil.ItemCallback<WorkoutsInfoUiState>() {
+        override fun areItemsTheSame(
+            oldItem: WorkoutsInfoUiState,
+            newItem: WorkoutsInfoUiState
+        ): Boolean {
+            return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: Workout, newItem: Workout): Boolean {
-            return oldItem.name == oldItem.name
+        override fun areContentsTheSame(
+            oldItem: WorkoutsInfoUiState,
+            newItem: WorkoutsInfoUiState
+        ): Boolean {
+            return oldItem.name == oldItem.name || oldItem.equipment == oldItem.equipment || oldItem.gifUrl == oldItem.gifUrl || oldItem.target == oldItem.target
         }
     }
 }

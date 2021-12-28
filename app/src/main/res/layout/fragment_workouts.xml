@@ -26,20 +26,9 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:clipToPadding="false"
-            app:verticalListItem="@{workoutViewModel.workout}"
+            app:verticalListItem="@{workoutViewModel.listWorkoutsUiState.component1()}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:scrollbars="horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Workouts"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

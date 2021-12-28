@@ -102,6 +102,10 @@ dependencies {
     // card
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    //LiveData
+    // LiveData
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    // Logging Interceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+    // gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 }
