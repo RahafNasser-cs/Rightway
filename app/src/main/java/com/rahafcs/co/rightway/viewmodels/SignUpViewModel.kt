@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.rahafcs.co.rightway.data.RegistrationStatus
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.data.UserRepository
+import kotlinx.coroutines.flow.Flow
 
 class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
     private var _status = MutableLiveData<RegistrationStatus>()
@@ -18,4 +19,6 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
     fun userInfo(user: User) {
         userRepository.addUserInfo(user)
     }
+
+    fun readUserInfo(userName: String): Flow<User> = userRepository.readUserInfo(userName)
 }

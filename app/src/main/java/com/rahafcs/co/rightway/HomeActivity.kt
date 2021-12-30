@@ -39,7 +39,7 @@ class HomeActivity : AppCompatActivity() {
             return fragments.size
         }
 
-        fun addFragment(fragment: Fragment, title: String){
+        fun addFragment(fragment: Fragment, title: String) {
             fragments.add(fragment)
             fragmentTitle.add(title)
         }

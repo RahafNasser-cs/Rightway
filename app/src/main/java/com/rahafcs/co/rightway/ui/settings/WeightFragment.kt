@@ -1,5 +1,7 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.settings
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentWeightBinding
+import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.WEIGHT
+import com.rahafcs.co.rightway.utility.toast
 
 class WeightFragment : Fragment() {
     private var binding: FragmentWeightBinding? = null
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,12 +41,35 @@ class WeightFragment : Fragment() {
 
     fun userWeightByPound() {
         // send user weight to viewModel TODO()
-        goToAgePage()
+        val weight = binding?.weightEditText?.text.toString()
+        if (weight.isNotEmpty()) {
+            addToSharedPreference(weight + "Pound")
+            goToAgePage()
+        } else {
+            requireContext().toast("Enter a weight")
+        }
     }
 
     fun userWeightByKilogram() {
         // send user weight to viewModel TODO()
-        goToAgePage()
+        val weight = binding?.weightEditText?.text.toString()
+        if (weight.isNotEmpty()) {
+            addToSharedPreference(weight + "kg")
+            goToAgePage()
+        } else {
+            requireContext().toast("Enter a weight")
+        }
+    }
+
+    private fun addToSharedPreference(
+        weight: String,
+    ) {
+        sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val editor = sharedPreferences.edit()
+        editor.apply {
+            putString(WEIGHT, weight)
+            apply()
+        }
     }
 
     override fun onDestroyView() {

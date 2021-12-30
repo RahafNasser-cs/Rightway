@@ -3,7 +3,6 @@ package com.rahafcs.co.rightway.ui
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentBrowsBinding
 import com.rahafcs.co.rightway.utility.toast
 
@@ -25,37 +24,18 @@ class BrowsFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             browsFragment = this@BrowsFragment
-        }
-        binding?.equipmentCard?.setOnClickListener {
-            showMenu()
-//            shownMenu(it, R.menu.equipment_menu)
-        }
-        binding?.barbell?.setOnClickListener {  showWorkoutWithBarbell()}
-        binding?.cable?.setOnClickListener { showWorkoutWithCable() }
-        binding?.allEquipment?.setOnClickListener { showWorkoutWithAllEquipment() }
-        binding?.kettleBell?.setOnClickListener { showWorkoutWithKettleBell() }
-    }
-
-    private fun showMenu() {
-        if (binding?.expandMenu?.visibility == View.GONE) {
-            binding?.expandMenu?.visibility = View.VISIBLE
-        } else {
-            binding?.expandMenu?.visibility = View.GONE
+            barbellChip.setOnClickListener { showWorkoutWithBarbell() }
+            cableChip.setOnClickListener { showWorkoutWithCable() }
+            allEquipmentChip.setOnClickListener { showWorkoutWithAllEquipment() }
+            kettleBellChip.setOnClickListener { showWorkoutWithKettleBell() }
+            resistanceBandChip.setOnClickListener { showWorkoutWithResistanceBand() }
+            dumbbellChip.setOnClickListener { showWorkoutWithDumbbell() }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-    }
-
-    override fun onCreateContextMenu(
-        menu: ContextMenu,
-        v: View,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-        activity?.menuInflater?.inflate(R.menu.equipment_menu, menu)
     }
 
     private fun showWorkoutWithAllEquipment() {
@@ -80,9 +60,5 @@ class BrowsFragment : Fragment() {
 
     private fun showWorkoutWithResistanceBand() {
         requireContext().toast("Show workout with Resistance band")
-    }
-
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        return super.onContextItemSelected(item)
     }
 }

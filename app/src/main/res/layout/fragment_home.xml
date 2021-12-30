@@ -23,6 +23,13 @@
             android:textSize="16sp"
             android:id="@+id/user_info_textview"/>
 
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
@@ -34,7 +41,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:onClick="@{()-> homeFragment.signOut()}"
             android:text="Sign out"
+            android:textAllCaps="false"
             />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/go_to_home"
+            android:text="Home"
+            android:onClick="@{()-> homeFragment.goToHomePage()}"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toBottomOf="@id/sign_out"
+            app:layout_constraintStart_toStartOf="@id/sign_out"
+            app:layout_constraintEnd_toEndOf="@id/sign_out"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

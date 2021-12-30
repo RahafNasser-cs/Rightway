@@ -41,7 +41,11 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.rahafcs.co.rightway.ui.HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.rahafcs.co.rightway.ui.WelcomeFragment"
@@ -53,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/genderFragment"
-        android:name="com.rahafcs.co.rightway.ui.GenderFragment"
+        android:name="com.rahafcs.co.rightway.ui.settings.GenderFragment"
         android:label="fragment_gender"
         tools:layout="@layout/fragment_gender" >
         <action
@@ -62,7 +66,7 @@
     </fragment>
     <fragment
         android:id="@+id/heightFragment"
-        android:name="com.rahafcs.co.rightway.ui.HeightFragment"
+        android:name="com.rahafcs.co.rightway.ui.settings.HeightFragment"
         android:label="fragment_height"
         tools:layout="@layout/fragment_height" >
         <action
@@ -71,7 +75,7 @@
     </fragment>
     <fragment
         android:id="@+id/weightFragment"
-        android:name="com.rahafcs.co.rightway.ui.WeightFragment"
+        android:name="com.rahafcs.co.rightway.ui.settings.WeightFragment"
         android:label="fragment_weight"
         tools:layout="@layout/fragment_weight" >
         <action
@@ -80,7 +84,7 @@
     </fragment>
     <fragment
         android:id="@+id/ageFragment"
-        android:name="com.rahafcs.co.rightway.ui.AgeFragment"
+        android:name="com.rahafcs.co.rightway.ui.settings.AgeFragment"
         android:label="fragment_age"
         tools:layout="@layout/fragment_age" >
         <action
@@ -89,11 +93,16 @@
     </fragment>
     <fragment
         android:id="@+id/activityFragment"
-        android:name="com.rahafcs.co.rightway.ui.ActivityFragment"
+        android:name="com.rahafcs.co.rightway.ui.settings.ActivityFragment"
         android:label="fragment_activity"
         tools:layout="@layout/fragment_activity" >
         <action
             android:id="@+id/action_activityFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.rahafcs.co.rightway.HomeActivity"
+        android:label="activity_home"
+        tools:layout="@layout/activity_home" />
 </navigation>

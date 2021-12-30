@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.HeightFragment">
+    tools:context=".ui.settings.HeightFragment">
 
     <data>
         <variable
             name="heightFragment"
-            type="com.rahafcs.co.rightway.ui.HeightFragment" />
+            type="com.rahafcs.co.rightway.ui.settings.HeightFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

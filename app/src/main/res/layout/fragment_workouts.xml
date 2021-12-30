@@ -23,10 +23,8 @@
             android:id="@+id/title_recyclerview"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
             android:clipToPadding="false"
-            app:verticalListItem="@{workoutViewModel.listWorkoutsUiState.component1()}"
+            app:verticalListItem="@{workoutViewModel.listWorkoutsUiState.workUiState}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:scrollbars="horizontal"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

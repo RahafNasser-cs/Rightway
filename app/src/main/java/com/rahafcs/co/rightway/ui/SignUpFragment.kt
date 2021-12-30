@@ -59,7 +59,7 @@ class SignUpFragment : Fragment() {
         } else {
             SubscriptionStatus.TRAINER
         }
-        createUserInfo(userId, firstName, lastName, subscriptionStatus)
+        // createUserInfo(userId, firstName, lastName, subscriptionStatus)
         addToSharedPreference(userId, firstName, subscriptionStatus)
     }
 
@@ -74,6 +74,8 @@ class SignUpFragment : Fragment() {
             putString(USERID, userId)
             putString(FIRSTNAME, firstName)
             putString(SUPERSCRIPTION, subscriptionStatus.toString())
+            putBoolean(SIGN_IN, true)
+            putBoolean(SIGN_UP, true)
             apply()
         }
     }
@@ -200,5 +202,12 @@ class SignUpFragment : Fragment() {
         const val USERID = "userId"
         const val FIRSTNAME = "firstName"
         const val SUPERSCRIPTION = "SubscriptionStatus"
+        const val GENDER = "gender"
+        const val HEIGHT = "height"
+        const val WEIGHT = "weight"
+        const val AGE = "age"
+        const val SIGN_IN = "signIn"
+        const val ACTIVITY_LEVEL = "activityLevel"
+        const val SIGN_UP = "signUp"
     }
 }

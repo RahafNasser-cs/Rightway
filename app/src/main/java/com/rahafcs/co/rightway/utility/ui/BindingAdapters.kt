@@ -7,12 +7,14 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.Glide
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.RegistrationStatus
 import com.rahafcs.co.rightway.ui.WorkoutHorizontalAdapter
 import com.rahafcs.co.rightway.ui.WorkoutVerticalAdapter
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
+import pl.droidsonroids.gif.GifImageView
 
 @BindingAdapter("registrationStatus")
 fun LottieAnimationView.bindRegistrationStatus(status: RegistrationStatus?) {
@@ -54,5 +56,47 @@ fun ImageView.findUrl(imgUrl: String?) {
             placeholder(R.drawable.loading_animation)
             error(R.drawable.broken_image)
         }
+    }
+}
+
+@BindingAdapter("imageUrl")
+fun GifImageView.findUrl(imgUrl: String?) {
+    imgUrl?.let {
+        var imgUri = imgUrl.toUri().buildUpon().scheme("http").build()
+        this.load(imgUri) {
+            placeholder(R.drawable.loading_animation)
+            error(R.drawable.broken_image)
+        }
+    }
+}
+
+// @BindingAdapter("imageUrl")
+// fun GifImageView.findUrl2(imgUrl: String?) {
+//    val imageLoader = ImageLoader.Builder(this.context).componentRegistry {
+//        if (SDK_INT >= 28) {
+//            add(ImageDecoderDecoder(context))
+//        } else {
+//            add(GifDecoder("https://i.gifer.com/X5Nj.gif"))
+//        }.build()
+//    }
+//    imgUrl?.let {
+//        var imgUri = imgUrl.toUri().buildUpon().scheme("http").build()
+//        this.load(imgUri) {
+//            
+//            
+//        }
+//    }
+// }
+
+@BindingAdapter("imageUrl")
+fun ImageView.findUrlGlide(imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+        Glide.with(this)
+            .asGif()
+            .load(imgUri).fitCenter()
+            .placeholder(R.drawable.loading_animation)
+            .error(R.drawable.broken_image)
+            .into(this)
     }
 }

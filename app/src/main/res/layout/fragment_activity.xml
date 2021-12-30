@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.ActivityFragment">
+    tools:context=".ui.settings.ActivityFragment">
 
     <data>
         <variable
             name="activityFragment"
-            type="com.rahafcs.co.rightway.ui.ActivityFragment" />
+            type="com.rahafcs.co.rightway.ui.settings.ActivityFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

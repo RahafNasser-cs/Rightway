@@ -1,5 +1,7 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.settings
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentHeightBinding
+import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.HEIGHT
+import com.rahafcs.co.rightway.utility.toast
 
 class HeightFragment : Fragment() {
     private var binding: FragmentHeightBinding? = null
+    lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,17 +40,36 @@ class HeightFragment : Fragment() {
     }
 
     fun userHeightByFeet() {
-        if (binding?.heightEditText?.text.toString().isNotEmpty()) {
+        val height = binding?.heightEditText?.text.toString()
+        if (height.isNotEmpty()) {
             // send to viewModel TODO()
+            addToSharedPreference(height + "feet")
+            goToWeightPage()
+        } else {
+            requireContext().toast("Enter a height")
         }
-        goToWeightPage()
     }
 
     fun userHeightByCentimeter() {
-        if (binding?.heightEditText?.text.toString().isNotEmpty()) {
+        val height = binding?.heightEditText?.text.toString()
+        if (height.isNotEmpty()) {
             // send to viewModel TODO()
+            addToSharedPreference(height + "cm")
+            goToWeightPage()
+        } else {
+            requireContext().toast("Enter a height")
         }
-        goToWeightPage()
+    }
+
+    private fun addToSharedPreference(
+        height: String,
+    ) {
+        sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val editor = sharedPreferences.edit()
+        editor.apply {
+            putString(HEIGHT, height)
+            apply()
+        }
     }
 
     override fun onDestroyView() {

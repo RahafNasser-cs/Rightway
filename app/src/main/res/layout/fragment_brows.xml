@@ -43,56 +43,43 @@
                         android:text="Equipment"
                         android:padding="16dp"
                         android:textAppearance="?attr/textAppearanceHeadline6"/>
-                    <LinearLayout
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:id="@+id/expand_menu"
-                        android:orientation="vertical">
-                        <com.google.android.material.textview.MaterialTextView
+                        android:padding="8dp">
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/all_equipment_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="All equipment"
-                            android:id="@+id/all_equipment"
-                            android:padding="16dp"
-                            android:textAppearance="?attr/textAppearanceBody1"/>
-                        <com.google.android.material.textview.MaterialTextView
+                            android:text="All equipment"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/barbell_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Barbell"
-                            android:id="@+id/barbell"
-                            android:padding="16dp"
-                            android:textAppearance="?attr/textAppearanceBody1"/>
-                        <com.google.android.material.textview.MaterialTextView
+                            android:text="Barbell"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/cable_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cable"
-                            android:id="@+id/cable"
-                            android:padding="16dp"
-                            android:textAppearance="?attr/textAppearanceBody1"/>
-                        <com.google.android.material.textview.MaterialTextView
+                            android:text="Cable"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/dumbbell_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dumbbell"
-                            android:id="@+id/dumbbell"
-                            android:padding="16dp"
-                            android:textAppearance="?attr/textAppearanceBody1"/>
-                        <com.google.android.material.textview.MaterialTextView
+                            android:text="Dumbbell"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/kettle_bell_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kettle bell"
-                            android:id="@+id/kettle_bell"
-                            android:padding="16dp"
-                            android:textAppearance="?attr/textAppearanceBody1"/>
-                        <com.google.android.material.textview.MaterialTextView
+                            android:text="Kettle bell"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/resistance_band_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Resistance band"
-                            android:id="@+id/resistance_band"
-                            android:padding="16dp"
-                            android:textAppearance="?attr/textAppearanceBody1"/>
+                            android:text="Resistance band"/>
 
-                    </LinearLayout>
+                    </com.google.android.material.chip.ChipGroup>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

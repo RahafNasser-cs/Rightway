@@ -1,5 +1,7 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.settings
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentGenderBinding
+import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.GENDER
 
 class GenderFragment : Fragment() {
     private var binding: FragmentGenderBinding? = null
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,12 +40,25 @@ class GenderFragment : Fragment() {
 
     fun userGenderIsFemale() {
         // send info "female" to viewModel TODO()
+        addToSharedPreference("Female")
         goToHeightPage()
     }
 
     fun userGenderIsMale() {
         // send info "male" to viewModel TODO()
+        addToSharedPreference("Male")
         goToHeightPage()
+    }
+
+    private fun addToSharedPreference(
+        gender: String,
+    ) {
+        sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val editor = sharedPreferences.edit()
+        editor.apply {
+            putString(GENDER, gender)
+            apply()
+        }
     }
 
     override fun onDestroyView() {

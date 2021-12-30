@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rahafcs.co.rightway.data.UserRepository
 import com.rahafcs.co.rightway.data.Workout
 import com.rahafcs.co.rightway.data.WorkoutRepository
 import com.rahafcs.co.rightway.ui.state.ListWorkUiState
@@ -11,9 +12,14 @@ import com.rahafcs.co.rightway.ui.state.WorkoutBodyTargetUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class WorkoutsViewModel(private val repository: WorkoutRepository) : ViewModel() {
+class WorkoutsViewModel(
+    private val workoutRepository: WorkoutRepository,
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val tag = WorkoutsViewModel::class.java.name
     private var _workout = MutableLiveData<List<Workout>>()
     val workout: MutableLiveData<List<Workout>> get() = _workout
@@ -38,22 +44,43 @@ class WorkoutsViewModel(private val repository: WorkoutRepository) : ViewModel()
         Log.d("TAG", "getAllWorkouts: Fist fun")
         viewModelScope.launch {
             try {
-                val result = repository.getAllWorkouts()
-                result.let {
-                    _workout.value = it
-                    Log.d("WorkoutViewModel", "getAllWorkouts: ${_workout.value?.toString()}")
+                val result = workoutRepository.getAllWorkouts()
+                val listOfBodyParts = result.distinctBy { it.bodyPart }.map { it.bodyPart }
+                val listOfWorkOts = result.map {
+                    WorkoutsInfoUiState(
+                        it.gifUrl,
+                        it.name,
+                        it.equipment,
+                        it.target,
+                        it.bodyPart
+                    )
                 }
-                val newsItem = getListWorkoutsUiState()
-//                val workoutBodyTargetUiStateItem = getWorkoutBodyTargetUiState()
-//                _workoutBodyTargetUiState.value = workoutBodyTargetUiStateItem
-//                val workoutsInfoUiStateItems = getWorkoutsInfoUiState()
-//                _workoutsInfoUiState.value = workoutsInfoUiStateItems
-                _listWorkoutsUiState.value = newsItem
+                val workoutsUiState = listOfBodyParts.map {
+                    WorkoutsUiState(
+                        WorkoutBodyTargetUiState(it),
+                        listOfWorkOts.filter { workoutsInfoUiState -> workoutsInfoUiState.bodyPart == it }
+                    )
+                }
+
+                Log.d("TAG", "getAllWorkouts: $workoutsUiState")
+                _listWorkoutsUiState.update {
+                    it.copy(workUiState = workoutsUiState)
+                }
+//                result.let {
+//                    _workout.value = it
+//                    Log.d("WorkoutViewModel", "getAllWorkouts: ${_workout.value?.toString()}")
+//                }
+//                val newsItem = getListWorkoutsUiState()
+//                _listWorkoutsUiState.value = newsItem
             } catch (e: Exception) {
                 Log.d(tag, "getAllWorkouts: error $e")
                 _workout.value = listOf()
             }
         }
+    }
+
+    fun addUserWorkout(userName: String) {
+        userRepository.addUserWorkout(getWorkoutsInfoUiState(), userName)
     }
 
     private fun getListWorkoutsUiState(): ListWorkUiState {

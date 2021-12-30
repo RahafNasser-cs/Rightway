@@ -10,7 +10,8 @@ data class WorkoutsInfoUiState(
     val gifUrl: String = "",
     val name: String = "",
     val equipment: String = "",
-    val target: String = ""
+    val target: String = "",
+    val bodyPart: String = ""
 )
 
 data class ListWorkUiState(

@@ -5,8 +5,8 @@ data class User(
     val firstName: String = "",
     val lastName: String = "",
     val subscriptionStatus: SubscriptionStatus = SubscriptionStatus.NONE,
-    val weight: Double = 0.0,
-    val height: Double = 0.0,
+    val weight: String = "",
+    val height: String = "",
     val gender: String = "",
-    val activity: Int = 0
+    val activity: String = ""
 )
