@@ -3,12 +3,16 @@ package com.rahafcs.co.rightway.ui
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
@@ -27,6 +31,7 @@ import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     var binding: FragmentHomeBinding? = null
@@ -60,6 +65,7 @@ class HomeFragment : Fragment() {
             homeFragment = this@HomeFragment
         }
         saveUserInfo()
+        readUserInfo()
         showUserInfo()
     }
 
@@ -75,7 +81,13 @@ class HomeFragment : Fragment() {
 
     fun readUserInfo() {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-        viewModel.readUserInfo(sharedPreferences.getString(FIRSTNAME, "")!!)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.readUserInfo("sharedPreferences.getString(FIRSTNAME, !").collect {
+                    Log.d("TAG", "readUserInfo: $it")
+                }
+            }
+        }
     }
 
     fun signOut() {

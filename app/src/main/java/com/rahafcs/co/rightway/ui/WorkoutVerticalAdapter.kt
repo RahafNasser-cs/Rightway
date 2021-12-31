@@ -17,7 +17,7 @@ class WorkoutVerticalAdapter :
     inner class WorkoutViewHolder(private val binding: OuterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: WorkoutsUiState) {
-            binding.muscleName.text = item.workoutBodyTargetUiState.bodyPart.capitalizeFormat()
+            binding.muscleName.text = item.workoutTypeUiState.bodyPart.capitalizeFormat()
             var adapter = WorkoutHorizontalAdapter()
             binding.innerRecyclerview.adapter = adapter
             adapter.submitList(item.workoutsInfoUiState)
@@ -38,14 +38,14 @@ class WorkoutVerticalAdapter :
             oldItem: WorkoutsUiState,
             newItem: WorkoutsUiState
         ): Boolean {
-            return oldItem.workoutBodyTargetUiState.bodyPart == newItem.workoutBodyTargetUiState.bodyPart
+            return oldItem.workoutTypeUiState.bodyPart == newItem.workoutTypeUiState.bodyPart
         }
 
         override fun areContentsTheSame(
             oldItem: WorkoutsUiState,
             newItem: WorkoutsUiState
         ): Boolean {
-            return oldItem.workoutBodyTargetUiState.bodyPart == newItem.workoutBodyTargetUiState.bodyPart
+            return oldItem.workoutTypeUiState.bodyPart == newItem.workoutTypeUiState.bodyPart
         }
     }
 }

@@ -10,8 +10,10 @@ import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.RegistrationStatus
+import com.rahafcs.co.rightway.ui.CoachAdapter
 import com.rahafcs.co.rightway.ui.WorkoutHorizontalAdapter
 import com.rahafcs.co.rightway.ui.WorkoutVerticalAdapter
+import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
 import pl.droidsonroids.gif.GifImageView
@@ -48,6 +50,12 @@ fun RecyclerView.bindHorizontalRecyclerView(data: List<WorkoutsInfoUiState?>?) {
     adapter.submitList(data)
 }
 
+@BindingAdapter("coachListItem")
+fun RecyclerView.binCoachRecyclerView(data: List<CoachInfoUiState>?) {
+    val adapter = this.adapter as CoachAdapter
+    adapter.submitList(data)
+}
+
 @BindingAdapter("imageUrl")
 fun ImageView.findUrl(imgUrl: String?) {
     imgUrl?.let {
@@ -69,24 +77,6 @@ fun GifImageView.findUrl(imgUrl: String?) {
         }
     }
 }
-
-// @BindingAdapter("imageUrl")
-// fun GifImageView.findUrl2(imgUrl: String?) {
-//    val imageLoader = ImageLoader.Builder(this.context).componentRegistry {
-//        if (SDK_INT >= 28) {
-//            add(ImageDecoderDecoder(context))
-//        } else {
-//            add(GifDecoder("https://i.gifer.com/X5Nj.gif"))
-//        }.build()
-//    }
-//    imgUrl?.let {
-//        var imgUri = imgUrl.toUri().buildUpon().scheme("http").build()
-//        this.load(imgUri) {
-//            
-//            
-//        }
-//    }
-// }
 
 @BindingAdapter("imageUrl")
 fun ImageView.findUrlGlide(imgUrl: String?) {

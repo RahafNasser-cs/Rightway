@@ -3,10 +3,10 @@ package com.rahafcs.co.rightway.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.rahafcs.co.rightway.data.UserRepository
-import com.rahafcs.co.rightway.data.WorkoutRepository
+import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
 
 class ViewModelFactory(
-    private val workoutRepository: WorkoutRepository,
+    private val workoutRepository: DefaultWorkoutsRepository,
     private val userRepository: UserRepository
 ) :
     ViewModelProvider.Factory {

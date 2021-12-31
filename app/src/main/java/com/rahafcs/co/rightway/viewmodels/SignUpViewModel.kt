@@ -20,5 +20,6 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
         userRepository.addUserInfo(user)
     }
 
-    fun readUserInfo(userName: String): Flow<User> = userRepository.readUserInfo(userName)
+    suspend fun readUserInfo(userName: String): Flow<User> =
+        userRepository.readUserInfo(userName)
 }

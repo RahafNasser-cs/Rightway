@@ -5,6 +5,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -29,20 +31,31 @@ class UserRemoteDataSource {
             }
     }
 
-    fun readUserInfo(userName: String): Flow<User> = callbackFlow {
-        db.collection("users").document(userName).collection("info").document(
-            "\n" +
-                "dSz1cbS8qD3nNiUkE1cn"
-        ).get()
-            .addOnSuccessListener {
-                // val user = it.toObjects(User::class.java)
-                it?.let {
-                    Log.d(TAG, "readUserInfo: $it")
-                }
-                Log.d(TAG, "readUserInfo: error ")
-                // offer(user)
-            }.addOnFailureListener { Log.d(TAG, "readUserInfo: ${it.message}") }.addOnCompleteListener {
-                it.let { Log.d(TAG, "readUserInfo: ${it.result.data}") }
+    suspend fun readUserInfo(userName: String): Flow<User> = callbackFlow {
+        val firebaseDb = FirebaseFirestore.getInstance()
+        val direc = firebaseDb.collection("users").document(
+            "Rahaf"
+        ).collection("info")
+        direc.addSnapshotListener { value, error ->
+            Log.d(TAG, "readUserInfo: $value- $error")
+            for (item in value?.documents!!) {
+                Log.d(TAG, "readUserInfo: a ${item.toObject(User::class.java)}")
+                val userInfo = item?.toObject(User::class.java)!!
+trySend(userInfo)
+                Log.d(TAG, "readUserInfo: $userInfo")
             }
+
+        }
+
+        awaitClose { cancel() }
     }
 }
+// fun readUserInfo(userName: String): Flow<User> = callbackFlow {
+//    val firebaseDb = FirebaseFirestore.getInstance()
+//    val direc = firebaseDb.collection("users").document(userName).collection("info")
+//    direc.addSnapshotListener { value, error ->
+//        for (item in value?.documents!!) {
+//            Log.d(TAG, "readUserInfo: a ${item.toObject(User::class.java)}")
+//        }
+//    }
+// }

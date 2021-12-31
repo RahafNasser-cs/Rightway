@@ -105,4 +105,9 @@
         android:name="com.rahafcs.co.rightway.HomeActivity"
         android:label="activity_home"
         tools:layout="@layout/activity_home" />
+    <fragment
+        android:id="@+id/workoutDetailsFragment"
+        android:name="com.rahafcs.co.rightway.ui.WorkoutDetailsFragment"
+        android:label="fragment_workout_details"
+        tools:layout="@layout/fragment_workout_details" />
 </navigation>

@@ -1,12 +1,15 @@
 package com.rahafcs.co.rightway.ui.state
 
 data class WorkoutsUiState(
-    val workoutBodyTargetUiState: WorkoutBodyTargetUiState = WorkoutBodyTargetUiState(),
+    val workoutTypeUiState: WorkoutTypeUiState = WorkoutTypeUiState(),
     val workoutsInfoUiState: List<WorkoutsInfoUiState> = listOf()
 )
 
-data class WorkoutBodyTargetUiState(val bodyPart: String = "")
+data class WorkoutTypeUiState(val bodyPart: String = "")
+
+// @Entity(tableName = "WorkoutsInfo")
 data class WorkoutsInfoUiState(
+    // @PrimaryKey(autoGenerate = true)val id: Int = 0,
     val gifUrl: String = "",
     val name: String = "",
     val equipment: String = "",
@@ -14,7 +17,14 @@ data class WorkoutsInfoUiState(
     val bodyPart: String = ""
 )
 
-data class ListWorkUiState(
+data class ListWorkoutsUiState(
     val workUiState: List<WorkoutsUiState> = listOf(),
     val isSigned: Boolean = false
+)
+
+data class CoachInfoUiState(
+    val name: String = "",
+    val experience: String = "",
+    val phoneNumber: String = "",
+    val price: String = ""
 )

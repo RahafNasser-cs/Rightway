@@ -40,11 +40,11 @@ class WorkoutsFragment : Fragment() {
             workoutViewModel = viewModel
             titleRecyclerview.adapter = WorkoutVerticalAdapter()
         }
-        // viewModel.getAllWorkouts()
+        // to test Firestore
         addUserWorkout()
     }
 
-    fun addUserWorkout() {
+    private fun addUserWorkout() {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         sharedPreferences.getString(FIRSTNAME, "")?.let { viewModel.addUserWorkout(it) }
     }

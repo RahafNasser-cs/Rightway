@@ -19,6 +19,9 @@ class WorkoutHorizontalAdapter :
         fun bind(item: WorkoutsInfoUiState) {
             binding.bodyTargetTextview.text = item.name
             binding.workoutGif.findUrlGlide(item.gifUrl)
+            binding.workoutCardView.setOnClickListener {
+
+            }
         }
     }
 

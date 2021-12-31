@@ -16,5 +16,5 @@ class UserRepository(
     fun addUserWorkout(workoutsInfoUiState: WorkoutsInfoUiState, userName: String) =
         userRemoteDataSource.addUserWorkout(workoutsInfoUiState, userName)
 
-    fun readUserInfo(userName: String): Flow<User> = userRemoteDataSource.readUserInfo(userName)
+    suspend fun readUserInfo(userName: String): Flow<User> = userRemoteDataSource.readUserInfo(userName)
 }

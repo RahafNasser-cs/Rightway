@@ -9,6 +9,7 @@
         android:layout_height="370dp"
         app:cardElevation="11dp"
         app:cardCornerRadius="11dp"
+        android:id="@+id/workout_card_view"
         android:backgroundTint="@color/dark_white"
         app:cardUseCompatPadding="true">
 
