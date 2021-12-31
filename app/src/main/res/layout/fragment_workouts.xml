@@ -24,6 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:clipToPadding="false"
+            tools:listitem="@layout/outer_item"
             app:verticalListItem="@{workoutViewModel.listWorkoutsUiState.workUiState}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:scrollbars="horizontal"/>

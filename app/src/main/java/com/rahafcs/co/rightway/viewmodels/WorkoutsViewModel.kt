@@ -21,12 +21,19 @@ class WorkoutsViewModel(
 
     private val _listWorkoutsUiState = MutableStateFlow(ListWorkoutsUiState())
     val listWorkoutsUiState: MutableStateFlow<ListWorkoutsUiState> = _listWorkoutsUiState
+
     // TODO() set _workoutsInfoUiState a value
     private val _workoutsInfoUiState = MutableStateFlow(WorkoutsInfoUiState())
     val workoutsInfoUiState: MutableStateFlow<WorkoutsInfoUiState> = _workoutsInfoUiState
 
     init {
         getAllWorkouts()
+        setWorkoutsInfoUiState(getWorkoutsInfoUiState())
+    }
+
+    fun setWorkoutsInfoUiState(workout: WorkoutsInfoUiState) {
+        _workoutsInfoUiState.value = workout
+        Log.d("TAG", "setWorkoutsInfoUiState: $workout")
     }
 
     private fun getAllWorkouts() {

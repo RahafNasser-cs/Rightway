@@ -2,9 +2,12 @@ package com.rahafcs.co.rightway.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.NestedItemBinding
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ui.findUrlGlide
@@ -20,7 +23,8 @@ class WorkoutHorizontalAdapter :
             binding.bodyTargetTextview.text = item.name
             binding.workoutGif.findUrlGlide(item.gifUrl)
             binding.workoutCardView.setOnClickListener {
-
+//                val bundle = bundleOf("WORKOUT" to item)
+//                binding.root.findNavController().navigate(R.id.action_workoutsFragment_to_workoutDetailsFragment2, bundle)
             }
         }
     }

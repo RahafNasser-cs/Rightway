@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_homeFragment_to_homeActivity"
             app:destination="@id/homeActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_viewPagerFragment2"
+            app:destination="@id/viewPagerFragment2" />
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
@@ -106,7 +109,16 @@
         android:label="activity_home"
         tools:layout="@layout/activity_home" />
     <fragment
-        android:id="@+id/workoutDetailsFragment"
+        android:id="@+id/viewPagerFragment2"
+        android:name="com.rahafcs.co.rightway.ViewPagerFragment"
+        android:label="fragment_view_pager"
+        tools:layout="@layout/fragment_view_pager" >
+        <action
+            android:id="@+id/action_viewPagerFragment2_to_workoutDetailsFragment2"
+            app:destination="@id/workoutDetailsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/workoutDetailsFragment2"
         android:name="com.rahafcs.co.rightway.ui.WorkoutDetailsFragment"
         android:label="fragment_workout_details"
         tools:layout="@layout/fragment_workout_details" />
