@@ -20,6 +20,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.SubscriptionStatus
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
+import com.rahafcs.co.rightway.utility.apToUp
 import com.rahafcs.co.rightway.utility.toast
 
 const val REQUEST_CODE_SIGNING = 0

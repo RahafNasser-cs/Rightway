@@ -107,7 +107,7 @@ class UserInfoSettingsFragment : Fragment() {
             userHeight.text = userInfo.height
             userWeight.text = userInfo.weight
             userAge.text = userInfo.age
-            userGender.text = userInfo.age
+            userGender.text = userInfo.gender
             userActivityLeve.text = userInfo.activity
             subscriptionStatus.text = userInfo.subscriptionStatus
         }

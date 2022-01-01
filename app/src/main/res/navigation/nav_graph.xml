@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_signInFragment_to_viewPagerFragment2"
             app:destination="@id/viewPagerFragment2" />
+        <action
+            android:id="@+id/action_signInFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -87,6 +90,9 @@
         <action
             android:id="@+id/action_activityFragment_to_viewPagerFragment2"
             app:destination="@id/viewPagerFragment2" />
+        <action
+            android:id="@+id/action_activityFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
     </fragment>
     <activity
         android:id="@+id/homeActivity"
