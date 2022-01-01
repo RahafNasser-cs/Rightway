@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/registrationFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/signUpFragment"
@@ -129,5 +129,18 @@
         android:id="@+id/userInfoSettingsFragment2"
         android:name="com.rahafcs.co.rightway.ui.UserInfoSettingsFragment"
         android:label="fragment_user_info_settings"
-        tools:layout="@layout/fragment_user_info_settings" />
+        tools:layout="@layout/fragment_user_info_settings" >
+        <action
+            android:id="@+id/action_userInfoSettingsFragment2_to_viewPagerFragment2"
+            app:destination="@id/viewPagerFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.rahafcs.co.rightway.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
 </navigation>

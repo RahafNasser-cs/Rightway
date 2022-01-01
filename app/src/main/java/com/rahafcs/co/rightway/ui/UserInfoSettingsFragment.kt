@@ -57,8 +57,8 @@ class UserInfoSettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            signOut.setOnClickListener { signOut() }
-            goToHome.setOnClickListener { goToHomePage() }
+            logoutImg.setOnClickListener { signOut() }
+            homeImg.setOnClickListener { goToHomePage() }
         }
         readUserInfo()
         // showUserInfo()
@@ -115,7 +115,7 @@ class UserInfoSettingsFragment : Fragment() {
     }
 
     private fun goToHomePage() {
-        // findNavController().navigate(R.id.action_homeFragment_to_homeActivity)
+         findNavController().navigate(R.id.action_userInfoSettingsFragment2_to_viewPagerFragment2)
     }
 
     override fun onDestroyView() {
