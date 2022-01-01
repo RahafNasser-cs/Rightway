@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rahafcs.co.rightway.databinding.FragmentViewPagerBinding
 import com.rahafcs.co.rightway.ui.BrowsFragment
@@ -43,6 +44,15 @@ class ViewPagerFragment : Fragment() {
         }.attach()
 
         return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding?.userInfo?.setOnClickListener { goToInfoSettings() }
+    }
+
+    private fun goToInfoSettings() {
+        findNavController().navigate(R.id.action_viewPagerFragment2_to_userInfoSettingsFragment2)
     }
 
     private fun getFragmentList(): ArrayList<Fragment> = arrayListOf(

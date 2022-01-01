@@ -6,9 +6,6 @@
 
     <!-- TODO: Update blank fragment layout -->
     <data>
-        <variable
-            name="signInFragment"
-            type="com.rahafcs.co.rightway.ui.SignInFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -63,7 +60,7 @@
             android:id="@+id/animationView"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -78,7 +75,7 @@
             app:layout_constraintEnd_toEndOf="@id/animationView"
             app:layout_constraintTop_toBottomOf="@id/animationView"
             android:layout_marginTop="20dp"
-            android:hint="Email"
+            android:hint="@string/email"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/email_input_layout">
             <com.google.android.material.textfield.TextInputEditText
@@ -95,7 +92,7 @@
             app:layout_constraintEnd_toEndOf="@id/email_input_layout"
             app:layout_constraintTop_toBottomOf="@id/email_input_layout"
             android:layout_marginTop="8dp"
-            android:hint="Password"
+            android:hint="@string/password"
             app:endIconMode="password_toggle"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/password_input_layout">
@@ -113,8 +110,7 @@
             app:layout_constraintStart_toStartOf="@id/password_input_layout"
             app:layout_constraintEnd_toEndOf="@id/password_input_layout"
             app:layout_constraintTop_toBottomOf="@id/password_input_layout"
-            android:text="Sign in"
-            android:onClick="@{()-> signInFragment.signInWithEmailAndPassword()}"
+            android:text="@string/sign_in"
             android:background="@drawable/button_disabled"
             android:id="@+id/sign_in_btn"
             android:textAllCaps="false"

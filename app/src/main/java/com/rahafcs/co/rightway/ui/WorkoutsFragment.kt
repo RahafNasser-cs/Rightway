@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutsBinding
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.FIRSTNAME
+import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.FIRST_NAME
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
@@ -46,7 +46,7 @@ class WorkoutsFragment : Fragment() {
 
     private fun addUserWorkout() {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-        sharedPreferences.getString(FIRSTNAME, "")?.let { viewModel.addUserWorkout(it) }
+        sharedPreferences.getString(FIRST_NAME, "")?.let { viewModel.addUserWorkout(it) }
     }
 
     override fun onDestroyView() {

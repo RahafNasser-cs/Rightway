@@ -5,9 +5,7 @@
     tools:context=".ui.settings.ActivityFragment">
 
     <data>
-        <variable
-            name="activityFragment"
-            type="com.rahafcs.co.rightway.ui.settings.ActivityFragment" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,9 +14,18 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="2 out of 2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Activity Level"
             android:textSize="25sp"
-            app:fontFamily="casual"
+
             android:textStyle="bold"
             android:textColor="@color/light_black"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,36 +52,32 @@
             app:layout_constraintTop_toBottomOf="@id/description_activity_textview"
             app:layout_constraintStart_toStartOf="@id/description_activity_textview"
             app:layout_constraintEnd_toEndOf="@id/description_activity_textview"
-            android:checkedButton="@id/little_option"
+            android:checkedButton="@id/option_0"
             android:orientation="vertical">
             <RadioButton
                 android:textColor="@color/light_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Little or no exercise"
-                android:onClick="@{()-> activityFragment.setActivityLevel(0)}"
-                android:id="@+id/little_option"/>
+                android:text="@string/option_0"
+                android:id="@+id/option_0"/>
             <RadioButton
                 android:textColor="@color/light_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Exercise 1-3 times/week"
-                android:onClick="@{()-> activityFragment.setActivityLevel(1)}"
-                android:id="@+id/week1_3_option"/>
+                android:text="@string/option_1"
+                android:id="@+id/option_1"/>
             <RadioButton
                 android:textColor="@color/light_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Exercise 4-5 times/week"
-                android:onClick="@{()-> activityFragment.setActivityLevel(2)}"
-                android:id="@+id/week4_5_option"/>
+                android:text="@string/option_2"
+                android:id="@+id/option_2"/>
             <RadioButton
                 android:textColor="@color/light_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Intense exercise 6-7 times/week"
-                android:onClick="@{()-> activityFragment.setActivityLevel(3)}"
-                android:id="@+id/week6_7_option"/>
+                android:text="@string/option_3"
+                android:id="@+id/option_3"/>
         </RadioGroup>
         <com.google.android.material.button.MaterialButton
             android:layout_width="300dp"
@@ -82,9 +85,8 @@
             app:layout_constraintTop_toBottomOf="@id/activity_options"
             app:layout_constraintStart_toStartOf="@id/activity_options"
             app:layout_constraintEnd_toEndOf="@id/activity_options"
-            android:id="@+id/male_btn"
-            android:text="Next"
-            android:onClick="@{()-> activityFragment.goToHomePage()}"
+            android:id="@+id/done_btn"
+            android:text="Done"
             android:layout_marginTop="52dp"
             android:textSize="16sp"
             android:textAllCaps="false"

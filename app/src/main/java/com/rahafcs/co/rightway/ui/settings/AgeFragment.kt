@@ -37,7 +37,7 @@ class AgeFragment : Fragment() {
         val age = binding?.ageEditText?.text.toString()
         if (age.isNotEmpty()) {
             userAge(age)
-            findNavController().navigate(R.id.action_ageFragment_to_activityFragment)
+            //findNavController().navigate(R.id.action_ageFragment_to_activityFragment)
         } else {
             requireContext().toast("Enter a age")
         }

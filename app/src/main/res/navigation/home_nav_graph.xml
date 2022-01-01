@@ -41,5 +41,13 @@
         <action
             android:id="@+id/action_viewPagerFragment_to_workoutsFragment"
             app:destination="@id/workoutsFragment" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_userInfoSettingsFragment"
+            app:destination="@id/userInfoSettingsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userInfoSettingsFragment"
+        android:name="com.rahafcs.co.rightway.ui.UserInfoSettingsFragment"
+        android:label="fragment_user_info_settings"
+        tools:layout="@layout/fragment_user_info_settings" />
 </navigation>

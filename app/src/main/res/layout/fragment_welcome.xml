@@ -5,9 +5,6 @@
     tools:context=".ui.WelcomeFragment">
 
     <data>
-        <variable
-            name="welcomeFragment"
-            type="com.rahafcs.co.rightway.ui.WelcomeFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:lottie_rawRes="@raw/dumbbell_icon"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="80dp"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             />
@@ -36,7 +33,6 @@
             android:id="@+id/welcome_textview"
             android:layout_marginTop="52dp"
             android:textColor="@color/light_black"
-            android:text="Welcome Rahaf, you're in!"
             android:textSize="25sp"
             android:fontFamily="casual"
             android:textStyle="bold"/>
@@ -47,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@id/welcome_textview"
             app:layout_constraintStart_toStartOf="@id/welcome_textview"
             app:layout_constraintEnd_toEndOf="@id/welcome_textview"
-            android:text="Start to take some information to help you in best way."
+            android:text="@string/intro_get_started"
             android:id="@+id/intro_textview"
             android:layout_marginTop="16dp"
             android:textSize="16sp"/>
@@ -55,11 +51,11 @@
         <com.google.android.material.button.MaterialButton
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="Get started"
-            android:onClick="@{()-> welcomeFragment.goToGenderPage()}"
+            android:text="@string/get_started"
             app:layout_constraintStart_toStartOf="@id/intro_textview"
             app:layout_constraintEnd_toEndOf="@id/intro_textview"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/intro_textview"
             android:layout_marginBottom="16dp"
             android:id="@+id/get_started_btn"
             android:textAllCaps="false"/>

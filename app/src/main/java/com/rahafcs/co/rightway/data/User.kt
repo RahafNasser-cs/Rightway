@@ -4,9 +4,10 @@ data class User(
     val id: String = "",
     val firstName: String = "",
     val lastName: String = "",
-    val subscriptionStatus: SubscriptionStatus = SubscriptionStatus.NONE,
+    val subscriptionStatus: String = "",
     val weight: String = "",
     val height: String = "",
     val gender: String = "",
+    val age: String = "",
     val activity: String = ""
 )

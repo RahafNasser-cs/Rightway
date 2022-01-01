@@ -3,4 +3,29 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="web_client">427576789394-3botmelcdrunvn14h1dptpibd8n3r7kj.apps.googleusercontent.com</string>
+    <string name="option_3">Intense exercise 6–7 times/week</string>
+    <string name="option_2">Exercise 4–5 times/week</string>
+    <string name="option_1">Exercise 1–3 times/week</string>
+    <string name="option_0">Little or no exercise</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
+    <string name="or">Or</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="trainer">Trainer</string>
+    <string name="trainee">Trainee</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_registered">Already registered?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="get_started">Get started</string>
+    <string name="intro_get_started">Start to take some information to help you in best way.</string>
+    <string name="password_requirements">Should be at least 6 characters</string>
+    <string name="height">Height:</string>
+    <string name="weight">Weight:</string>
+    <string name="age">Age:</string>
+    <string name="gender">Gender:</string>
+    <string name="activity_level">Activity level:</string>
+    <string name="sign_out">Sign out</string>
+    <string name="back_to_home">Back to Home</string>
 </resources>

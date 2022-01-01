@@ -47,7 +47,9 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            signUpFragment = this@SignUpFragment
+            signUpWithEmailPasswordBtn.setOnClickListener { registration() }
+            signInLinkBtn.setOnClickListener { goToSignInPage() }
+            signUpWithGoogleBtn.setOnClickListener { signUpWithGoogle() }
         }
     }
 
@@ -55,25 +57,26 @@ class SignUpFragment : Fragment() {
         val firstName = binding?.firstNameEditText?.text.toString()
         val lastName = binding?.lastNameEditText?.text.toString()
         val subscriptionStatus = if (binding?.trainee?.isChecked == true) {
-            SubscriptionStatus.TRAINEE
+            SubscriptionStatus.TRAINEE.toString()
         } else {
-            SubscriptionStatus.TRAINER
+            SubscriptionStatus.TRAINER.toString()
         }
         // createUserInfo(userId, firstName, lastName, subscriptionStatus)
-        addToSharedPreference(userId, firstName, subscriptionStatus)
+        addToSharedPreference(userId, firstName, lastName, subscriptionStatus)
     }
 
     private fun addToSharedPreference(
         userId: String,
         firstName: String,
-        subscriptionStatus: SubscriptionStatus
+        lastName: String,
+        subscriptionStatus: String
     ) {
         sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-        val editor = sharedPreferences.edit()
-        editor.apply {
+        sharedPreferences.edit().apply {
             putString(USERID, userId)
-            putString(FIRSTNAME, firstName)
-            putString(SUPERSCRIPTION, subscriptionStatus.toString())
+            putString(FIRST_NAME, firstName)
+            putString(LAST_NAME, lastName)
+            putString(SUPERSCRIPTION, subscriptionStatus)
             putBoolean(SIGN_IN, true)
             putBoolean(SIGN_UP, true)
             apply()
@@ -153,6 +156,7 @@ class SignUpFragment : Fragment() {
         }.addOnFailureListener {
             // viewModel.setRegistrationStatus(RegistrationStatus.FAILURE)
             requireContext().toast("${it.message}")
+            binding?.signUpWithEmailPasswordBtn?.isEnabled = true
         }
     }
 
@@ -200,7 +204,7 @@ class SignUpFragment : Fragment() {
 
     companion object {
         const val USERID = "userId"
-        const val FIRSTNAME = "firstName"
+        const val FIRST_NAME = "firstName"
         const val SUPERSCRIPTION = "SubscriptionStatus"
         const val GENDER = "gender"
         const val HEIGHT = "height"
@@ -209,5 +213,6 @@ class SignUpFragment : Fragment() {
         const val SIGN_IN = "signIn"
         const val ACTIVITY_LEVEL = "activityLevel"
         const val SIGN_UP = "signUp"
+        const val LAST_NAME = "lastName"
     }
 }

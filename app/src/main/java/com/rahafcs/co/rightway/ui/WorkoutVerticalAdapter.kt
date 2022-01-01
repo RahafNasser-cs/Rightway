@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rahafcs.co.rightway.databinding.OuterItemBinding
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
-import com.rahafcs.co.rightway.utility.capitalizeFormat
+import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
 
 class WorkoutVerticalAdapter :
 
@@ -17,8 +17,9 @@ class WorkoutVerticalAdapter :
     inner class WorkoutViewHolder(private val binding: OuterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: WorkoutsUiState) {
-            binding.muscleName.text = item.workoutTypeUiState.bodyPart.capitalizeFormat()
-            var adapter = WorkoutHorizontalAdapter()
+            binding.muscleName.text =
+                item.workoutTypeUiState.bodyPart.capitalizeFormatIfFirstLatterSmall()
+            val adapter = WorkoutHorizontalAdapter()
             binding.innerRecyclerview.adapter = adapter
             adapter.submitList(item.workoutsInfoUiState)
         }
