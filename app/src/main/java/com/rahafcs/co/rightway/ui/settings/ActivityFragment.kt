@@ -18,6 +18,7 @@ import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.ACTIVITY_LEVEL
 import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.AGE
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
+import com.rahafcs.co.rightway.utility.upToTop
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 
@@ -51,6 +52,7 @@ class ActivityFragment : Fragment() {
                 saveUserInfo()
                 goToHomePage()
             }
+            backArrow.setOnClickListener { this@ActivityFragment.upToTop() }
         }
     }
 

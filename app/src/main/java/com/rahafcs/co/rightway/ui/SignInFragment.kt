@@ -20,6 +20,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
 import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.USERID
+import com.rahafcs.co.rightway.utility.upToTop
 import com.rahafcs.co.rightway.utility.toast
 
 class SignInFragment : Fragment() {
@@ -46,6 +47,7 @@ class SignInFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             signInBtn.setOnClickListener { signInWithEmailAndPassword() }
+            backArrow.setOnClickListener { this@SignInFragment.upToTop() }
         }
     }
 

@@ -19,6 +19,6 @@ fun String.capitalizeFormatIfFirstLatterCapital(): String {
     return this.lowercase().replace('_', ' ').replace(temp.lowercaseChar(), temp)
 }
 
-fun Fragment.apToUp() {
+fun Fragment.upToTop() {
     findNavController().popBackStack()
 }

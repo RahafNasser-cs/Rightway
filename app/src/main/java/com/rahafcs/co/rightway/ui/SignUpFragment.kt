@@ -20,8 +20,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.SubscriptionStatus
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
-import com.rahafcs.co.rightway.utility.apToUp
 import com.rahafcs.co.rightway.utility.toast
+import com.rahafcs.co.rightway.utility.upToTop
 
 const val REQUEST_CODE_SIGNING = 0
 
@@ -51,6 +51,7 @@ class SignUpFragment : Fragment() {
             signUpWithEmailPasswordBtn.setOnClickListener { registration() }
             signInLinkBtn.setOnClickListener { goToSignInPage() }
             signUpWithGoogleBtn.setOnClickListener { signUpWithGoogle() }
+            backArrow.setOnClickListener { this@SignUpFragment.upToTop() }
         }
     }
 
@@ -94,14 +95,14 @@ class SignUpFragment : Fragment() {
     }
 
     fun goToSignInPage() {
-        requireContext().toast("sign in page")
+//        requireContext().toast("sign in page")
         findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         // TODO
     }
 
     private fun signUpWithEmailAndPassword(task: Task<AuthResult>) {
         val firebaseUser = task.result?.user
-        requireContext().toast("hello ${firebaseUser?.email}")
+//        requireContext().toast("hello ${firebaseUser?.email}")
         firebaseUser?.let {
             getUserInfo(it.uid)
             goToWelcomePage()
@@ -114,7 +115,7 @@ class SignUpFragment : Fragment() {
         findNavController().navigate(R.id.action_signUpFragment_to_welcomeFragment)
     }
 
-    fun signUpWithGoogle() {
+    private fun signUpWithGoogle() {
         val options = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client))
@@ -161,7 +162,7 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    fun registration() {
+    private fun registration() {
         if (!isValidFirstName()) {
             requireContext().toast("Enter a first name")
         } else if (!isValidLastName()) {
