@@ -56,7 +56,10 @@ class SignUpFragment : Fragment() {
     }
 
     private fun getUserInfo(userId: String) {
-        val firstName = binding?.firstNameEditText?.text.toString()
+        var firstName = binding?.firstNameEditText?.text.toString()
+        if (firstName.isEmpty()) { // if signup with google 
+            firstName = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+        }
         val lastName = binding?.lastNameEditText?.text.toString()
         val subscriptionStatus = if (binding?.trainee?.isChecked == true) {
             SubscriptionStatus.TRAINEE.toString()
@@ -139,7 +142,9 @@ class SignUpFragment : Fragment() {
         val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credentials).addOnCompleteListener {
             if (it.isSuccessful) {
-                requireContext().toast("hello ${it.result?.user?.email}")
+                // requireContext().toast("hello ${it.result?.user?.email}")
+                getUserInfo(it.result.user?.uid!!)
+                goToWelcomePage()
             }
         }.addOnFailureListener {
             requireContext().toast("${it.message}")

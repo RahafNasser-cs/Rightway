@@ -18,7 +18,7 @@ class UserRemoteDataSource {
 
     fun saveUserInfo(userInfo: User) {
         user?.let {
-            db.collection("users").document(userInfo.firstName).collection("info").add(userInfo)
+            db.collection("users").document(it.uid).collection("info").add(userInfo)
                 .addOnSuccessListener {
                     Log.d(TAG, "saveUserInfo: $userInfo")
                 }
@@ -39,10 +39,10 @@ class UserRemoteDataSource {
         }
     }
 
-    suspend fun readUserInfo(userName: String): Flow<User> = callbackFlow {
+    suspend fun readUserInfo(): Flow<User> = callbackFlow {
         val firebaseDb = FirebaseFirestore.getInstance()
         val direc = firebaseDb.collection("users").document(
-            userName
+            user?.uid!!
         ).collection("info")
         direc.addSnapshotListener { value, error ->
             Log.d(TAG, "readUserInfo: ${value?.documents}- $error")

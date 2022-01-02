@@ -32,8 +32,8 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
     }
 
     // userInfoSettingsFragment
-    suspend fun readUserInfo(userName: String): Flow<User> =
-        userRepository.readUserInfo(userName)
+    suspend fun readUserInfo(): Flow<User> =
+        userRepository.readUserInfo()
 
     fun setUserInfo(userInfo: User) {
         Log.d("SiginUpViewModel", "setUserInfo: $userInfo")

@@ -18,10 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentUserInfoSettingsBinding
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.FIRST_NAME
 import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.SIGN_IN
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.SUPERSCRIPTION
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.USERID
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
@@ -61,18 +58,13 @@ class UserInfoSettingsFragment : Fragment() {
             homeImg.setOnClickListener { goToHomePage() }
         }
         readUserInfo()
-        // showUserInfo()
     }
 
     private fun readUserInfo() {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-//                viewModel.setUserInfo()
-
-                viewModel.readUserInfo(sharedPreferences.getString(FIRST_NAME, "")!!).collect {
+                viewModel.readUserInfo().collect {
                     Log.d("UserInfoSettingsFragment", "readUserInfo: $it")
-                    // viewModel.setUserInfo(it)
                     showUserInfo(it)
                 }
             }
@@ -90,18 +82,6 @@ class UserInfoSettingsFragment : Fragment() {
     }
 
     private fun showUserInfo(userInfo: User) {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-        val message = "User Name: ${
-        sharedPreferences.getString(
-            FIRST_NAME,
-            "defName"
-        )
-        }\nUser id: ${
-        sharedPreferences.getString(
-            USERID,
-            "defUserId"
-        )
-        }\nUser status: ${sharedPreferences.getString(SUPERSCRIPTION, "defStatus")}"
         binding?.apply {
             userNameTextview.text = userInfo.firstName
             userHeight.text = userInfo.height
@@ -111,11 +91,10 @@ class UserInfoSettingsFragment : Fragment() {
             userActivityLeve.text = userInfo.activity
             subscriptionStatus.text = userInfo.subscriptionStatus
         }
-        // binding?.userInfoTextview?.text = message
     }
 
     private fun goToHomePage() {
-         findNavController().navigate(R.id.action_userInfoSettingsFragment2_to_viewPagerFragment2)
+        findNavController().navigate(R.id.action_userInfoSettingsFragment2_to_viewPagerFragment2)
     }
 
     override fun onDestroyView() {
