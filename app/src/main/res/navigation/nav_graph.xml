@@ -115,7 +115,12 @@
         android:id="@+id/workoutDetailsFragment2"
         android:name="com.rahafcs.co.rightway.ui.WorkoutDetailsFragment"
         android:label="fragment_workout_details"
-        tools:layout="@layout/fragment_workout_details" />
+        tools:layout="@layout/fragment_workout_details"
+        >
+        <argument
+            android:name="workoutInfoUiState"
+            app:argType="com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState" />
+    </fragment>
     <fragment
         android:id="@+id/userInfoFragment"
         android:name="com.rahafcs.co.rightway.UserInfoFragment"
@@ -142,5 +147,14 @@
         <action
             android:id="@+id/action_splashFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/workoutsFragment2"
+        android:name="com.rahafcs.co.rightway.ui.WorkoutsFragment"
+        android:label="fragment_workouts"
+        tools:layout="@layout/fragment_workouts" >
+        <action
+            android:id="@+id/action_workoutsFragment2_to_workoutDetailsFragment2"
+            app:destination="@id/workoutDetailsFragment2" />
     </fragment>
 </navigation>

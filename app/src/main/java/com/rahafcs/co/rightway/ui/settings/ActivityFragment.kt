@@ -97,7 +97,6 @@ class ActivityFragment : Fragment() {
     private fun getUserInfo(): User {
         sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         return User(
-            id = sharedPreferences.getString(SignUpFragment.USERID, "")!!,
             firstName = sharedPreferences.getString(SignUpFragment.FIRST_NAME, "")!!,
             lastName = sharedPreferences.getString(SignUpFragment.LAST_NAME, "")!!,
             subscriptionStatus = sharedPreferences.getString(SignUpFragment.SUPERSCRIPTION, "")!!

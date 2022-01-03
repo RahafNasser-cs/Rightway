@@ -20,8 +20,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
 import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.USERID
-import com.rahafcs.co.rightway.utility.upToTop
 import com.rahafcs.co.rightway.utility.toast
+import com.rahafcs.co.rightway.utility.upToTop
 
 class SignInFragment : Fragment() {
     var binding: FragmentSignInBinding? = null
@@ -102,7 +102,10 @@ class SignInFragment : Fragment() {
                 if (it.isSuccessful) {
                     signInOnSuccess(it)
                 }
-            }.addOnFailureListener { requireContext().toast("${it.message}") }
+            }.addOnFailureListener {
+                requireContext().toast("${it.message}")
+                binding?.signInBtn?.isEnabled = true
+            }
     }
 
     private fun signInOnSuccess(it: Task<AuthResult>) {

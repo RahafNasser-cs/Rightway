@@ -31,6 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="80dp"
+            app:cornerRadius="6dp"
             android:text="@string/sign_up_with_google"
             app:icon="@drawable/google_icon"
             app:iconSize="20dp"
@@ -174,6 +175,7 @@
         <com.google.android.material.button.MaterialButton
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            app:cornerRadius="6dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@id/user_options"
             app:layout_constraintEnd_toEndOf="@id/user_options"

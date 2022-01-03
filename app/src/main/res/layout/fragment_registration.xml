@@ -48,6 +48,7 @@
             android:onClick="@{()-> registrationFragment.goToSignUpPage()}"
             android:backgroundTint="@color/app_theme"
             android:id="@+id/sign_up_btn"
+            app:cornerRadius="6dp"
             android:textAllCaps="false"
             />
         <com.google.android.material.button.MaterialButton
@@ -58,6 +59,7 @@
             app:layout_constraintEnd_toEndOf="@id/sign_up_btn"
             app:layout_constraintTop_toBottomOf="@id/sign_up_btn"
             android:text="Sign in"
+            app:cornerRadius="6dp"
             android:onClick="@{()-> registrationFragment.goToSignInPage()}"
             android:backgroundTint="@color/app_theme"
             android:id="@+id/sign_in_btn"

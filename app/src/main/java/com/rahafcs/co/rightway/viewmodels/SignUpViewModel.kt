@@ -39,7 +39,6 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
         Log.d("SiginUpViewModel", "setUserInfo: $userInfo")
         _userInfo.update {
             it.copy(
-                id = userInfo.id,
                 firstName = userInfo.firstName,
                 lastName = userInfo.lastName,
                 subscriptionStatus = userInfo.activity,
@@ -59,7 +58,6 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
     }
 
     private fun getUserInfo(): User = User(
-        id = "ArSPa54GfNXljCDR3Ljer1YwefY2",
         firstName = "Rahaf",
         lastName = "Nasser",
         subscriptionStatus = "NONE",

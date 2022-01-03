@@ -1,6 +1,7 @@
 package com.rahafcs.co.rightway.viewmodels
 
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
@@ -9,6 +10,7 @@ import com.rahafcs.co.rightway.ui.state.ListWorkoutsUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutTypeUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
+import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -77,9 +79,16 @@ class WorkoutsViewModel(
     private fun getWorkoutsInfoUiState(): WorkoutsInfoUiState {
         return WorkoutsInfoUiState(
             "http://d205bpvrqc9yn1.cloudfront.net/0003.gif",
-            "air bike",
+            "air bike".capitalizeFormatIfFirstLatterSmall(),
             "body weight",
-            "abs"
+            "abs",
+            "waist".capitalizeFormatIfFirstLatterSmall()
         )
+    }
+
+    fun shareMessage(): String {
+        return "Hi! I'm training now\nLook at my workout\n ${
+        _workoutsInfoUiState.value.gifUrl.toUri().buildUpon().scheme("http").build()
+        }\nWorkout name: ${_workoutsInfoUiState.value.name}\nBody part: ${_workoutsInfoUiState.value.bodyPart}"
     }
 }
