@@ -71,8 +71,8 @@ class WorkoutsViewModel(
         }
     }
 
-    fun addUserWorkout(userName: String) {
-        userRepository.addUserWorkout(getWorkoutsInfoUiState(), userName)
+    fun addUserWorkout(workoutsInfoUiState: List<WorkoutsInfoUiState>) {
+        userRepository.addUserWorkout(workoutsInfoUiState)
     }
 
     // to test Firestore

@@ -18,7 +18,7 @@ class UserRemoteDataSource {
 
     fun saveUserInfo(userInfo: User) {
         user?.let {
-            db.collection("users").document(it.uid).collection("info").add(userInfo)
+            db.collection("users").document(it.uid).set(userInfo)
                 .addOnSuccessListener {
                     Log.d(TAG, "saveUserInfo: $userInfo")
                 }
@@ -26,18 +26,46 @@ class UserRemoteDataSource {
         }
     }
 
-    fun addUserWorkout(workoutsInfoUiState: WorkoutsInfoUiState, userName: String) {
+    fun addUserWorkout(workoutsInfoUiState: List<WorkoutsInfoUiState>) {
+        // val savedWorkoutsInfoUiState = workoutsInfoUiState.copy(isSaved = true)
         user?.let {
-            db.collection("users").document(it.uid).collection("listWorkout")
-                .add(workoutsInfoUiState)
-                .addOnSuccessListener {
-                    Log.d(
-                        TAG,
-                        "addListWorkout: $workoutsInfoUiState"
-                    )
-                }
+            db.collection("users").document(it.uid).update("savedWorkouts", workoutsInfoUiState)
+            Log.e(TAG, "addUserWorkout: $workoutsInfoUiState")
+            getOldWorkoutList()
+
+//            val test = db.collection("").whereEqualTo("name", workoutsInfoUiState[0].name)
+//            db.collection("").whereEqualTo("","").get().addOnSuccessListener { docs ->
+//                for (domc in docs) {
+//
+//                }
+//            }
         }
     }
+
+    fun getOldWorkoutList(): List<WorkoutsInfoUiState> {
+        var oldList = listOf<WorkoutsInfoUiState>()
+//        db.collection("users").whereEqualTo("","").get().addOnSuccessListener { docs ->
+//            for (domc in docs) {
+//
+//            }
+//        }
+
+        db.collection("users").document(user?.uid!!).get().addOnSuccessListener { docs ->
+            oldList = docs.toObject(User::class.java)?.savedWorkouts ?: listOf()
+            Log.e("", "old saved workout ---> $oldList")
+        }
+        return oldList
+    }
+
+//    fun updateListWorkout(workoutsInfoUiState: WorkoutsInfoUiState): List<WorkoutsInfoUiState> {
+//        var savedListWorkouts = listOf<WorkoutsInfoUiState>()
+//        user?.uid?.let {
+//            db.collection("users").document(it).addSnapshotListener { value, error ->
+//                savedListWorkouts = value?.get("llll") as ArrayList<WorkoutsInfoUiState>
+//            }
+//        }
+//        return savedListWorkouts
+//    }
 
     suspend fun readUserInfo(): Flow<User> = callbackFlow {
         val firebaseDb = FirebaseFirestore.getInstance()
