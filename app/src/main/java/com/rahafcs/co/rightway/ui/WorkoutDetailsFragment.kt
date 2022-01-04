@@ -24,7 +24,6 @@ class WorkoutDetailsFragment : Fragment() {
 
     var isStarted = false
     var isPause = false
-    var isCancel = false
     var numberOfSeconds = 0
     var numberOfSecondsResume = 0
     var secondsRemaining = 0
@@ -55,10 +54,13 @@ class WorkoutDetailsFragment : Fragment() {
             backArrow.setOnClickListener { this@WorkoutDetailsFragment.upToTop() }
             shareImg.setOnClickListener { shareWorkout() }
             startBtn.setOnClickListener {
-                if (!isStarted && !isPause) {
+                if (numberOfSeconds == 0) {
+                    requireContext().toast("Select a time")
+                } else if (!isStarted && !isPause) {
                     createCountDownTimer(numberOfSeconds)
                     startTimer()
                 } else if (isStarted && !isPause) {
+                    Log.e("MainActivity", "onViewCreated: isStarted && !isPause")
                     pauseTimer()
                 } else {
                     resumeTimer(numberOfSecondsResume)
@@ -98,12 +100,19 @@ class WorkoutDetailsFragment : Fragment() {
         countDownTimer = object : CountDownTimer(1000 * numberOfSeconds.toLong(), 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
+
+                Log.d("MainActivity", "onTick: init $millisUntilFinished")
                 val factor = 100 / numberOfSeconds
-                secondsRemaining = (millisUntilFinished / 1000).toInt() - numberOfSecondsResume
+                Log.d("MainActivity", "onTick: millisUntilFinished ${millisUntilFinished / 1000}")
+
+                secondsRemaining =
+                    (millisUntilFinished / 1000).toInt() - numberOfSecondsResume // 8 -9
                 val progressPercentage = (numberOfSeconds - secondsRemaining) * factor
                 updateProgressBar(progressPercentage)
                 Log.d("MainActivity", "onTick: ${millisUntilFinished / 1000f}")
-                if (secondsRemaining == 0) {
+                Log.d("MainActivity", "onTick: nof: $numberOfSeconds, sr:  $secondsRemaining")
+                if (numberOfSeconds - secondsRemaining == numberOfSeconds) { // 8-7 ==1
+                    Log.e("MainActivity", "onTick: cancel")
                     cancel()
                     binding?.startBtn?.text = "Start"
                     binding?.timerTextview?.text = "00:00"
@@ -112,13 +121,13 @@ class WorkoutDetailsFragment : Fragment() {
                 }
                 binding?.timerTextview?.text = getString(
                     R.string.formatted_time,
-                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % 60,
-                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
+                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished - (numberOfSecondsResume * 1000)) % 60,
+                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished - (numberOfSecondsResume * 1000)) % 60
                 )
             }
 
             override fun onFinish() {
-                Log.d("MainActivity", "onFinish: cancel")
+                Log.e("MainActivity", "onFinish: cancel")
                 isStarted = false
                 isPause = false
                 numberOfSecondsResume = secondsRemaining
@@ -146,16 +155,19 @@ class WorkoutDetailsFragment : Fragment() {
         updateProgressBar(0)
         binding?.timerTextview?.text = "00:00"
         countDownTimer.cancel()
+        countDownTimer.onFinish()
     }
 
     private fun pauseTimer() {
         isPause = true
+        Log.e("MainActivity", "pauseTimer:$secondsRemaining ")
         numberOfSecondsResume = secondsRemaining
         countDownTimer.cancel()
         binding?.startBtn?.text = "Resume"
     }
 
-    fun resumeTimer(resumeTime: Int) {
+    private fun resumeTimer(resumeTime: Int) {
+        Log.e("MainActivity", "resumeTimer: resumeTimer $resumeTime")
         isPause = false
         binding?.startBtn?.text = "Pause"
         // createCountDownTimer(resumeTime)
