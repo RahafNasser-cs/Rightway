@@ -45,7 +45,7 @@ class RegistrationFragment : Fragment() {
         super.onStart()
         val account = FirebaseAuth.getInstance().currentUser
         if (account != null) {
-            findNavController().navigate(R.id.action_welcomeFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_registrationFragment_to_viewPagerFragment2)
         }
     }
 }

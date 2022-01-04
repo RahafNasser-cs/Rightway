@@ -21,6 +21,7 @@ import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.SubscriptionStatus
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
 import com.rahafcs.co.rightway.utility.toast
+import com.rahafcs.co.rightway.utility.upToTop
 
 const val REQUEST_CODE_SIGNING = 0
 
@@ -47,33 +48,42 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            signUpFragment = this@SignUpFragment
+            signUpWithEmailPasswordBtn.setOnClickListener { registration() }
+            signInLinkBtn.setOnClickListener { goToSignInPage() }
+            signUpWithGoogleBtn.setOnClickListener { signUpWithGoogle() }
+            backArrow.setOnClickListener { this@SignUpFragment.upToTop() }
         }
     }
 
     private fun getUserInfo(userId: String) {
-        val firstName = binding?.firstNameEditText?.text.toString()
+        var firstName = binding?.firstNameEditText?.text.toString()
+        if (firstName.isEmpty()) { // if signup with google 
+            firstName = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+        }
         val lastName = binding?.lastNameEditText?.text.toString()
         val subscriptionStatus = if (binding?.trainee?.isChecked == true) {
-            SubscriptionStatus.TRAINEE
+            SubscriptionStatus.TRAINEE.toString()
         } else {
-            SubscriptionStatus.TRAINER
+            SubscriptionStatus.TRAINER.toString()
         }
-        createUserInfo(userId, firstName, lastName, subscriptionStatus)
-        addToSharedPreference(userId, firstName, subscriptionStatus)
+        // createUserInfo(userId, firstName, lastName, subscriptionStatus)
+        addToSharedPreference(userId, firstName, lastName, subscriptionStatus)
     }
 
     private fun addToSharedPreference(
         userId: String,
         firstName: String,
-        subscriptionStatus: SubscriptionStatus
+        lastName: String,
+        subscriptionStatus: String
     ) {
         sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-        val editor = sharedPreferences.edit()
-        editor.apply {
+        sharedPreferences.edit().apply {
             putString(USERID, userId)
-            putString(FIRSTNAME, firstName)
-            putString(SUPERSCRIPTION, subscriptionStatus.toString())
+            putString(FIRST_NAME, firstName)
+            putString(LAST_NAME, lastName)
+            putString(SUPERSCRIPTION, subscriptionStatus)
+            putBoolean(SIGN_IN, true)
+            putBoolean(SIGN_UP, true)
             apply()
         }
     }
@@ -88,14 +98,14 @@ class SignUpFragment : Fragment() {
     }
 
     fun goToSignInPage() {
-        requireContext().toast("sign in page")
+//        requireContext().toast("sign in page")
         findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         // TODO
     }
 
     private fun signUpWithEmailAndPassword(task: Task<AuthResult>) {
         val firebaseUser = task.result?.user
-        requireContext().toast("hello ${firebaseUser?.email}")
+//        requireContext().toast("hello ${firebaseUser?.email}")
         firebaseUser?.let {
             getUserInfo(it.uid)
             goToWelcomePage()
@@ -108,7 +118,7 @@ class SignUpFragment : Fragment() {
         findNavController().navigate(R.id.action_signUpFragment_to_welcomeFragment)
     }
 
-    fun signUpWithGoogle() {
+    private fun signUpWithGoogle() {
         val options = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client))
@@ -132,7 +142,9 @@ class SignUpFragment : Fragment() {
         val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credentials).addOnCompleteListener {
             if (it.isSuccessful) {
-                requireContext().toast("hello ${it.result?.user?.email}")
+                // requireContext().toast("hello ${it.result?.user?.email}")
+                getUserInfo(it.result.user?.uid!!)
+                goToWelcomePage()
             }
         }.addOnFailureListener {
             requireContext().toast("${it.message}")
@@ -151,10 +163,11 @@ class SignUpFragment : Fragment() {
         }.addOnFailureListener {
             // viewModel.setRegistrationStatus(RegistrationStatus.FAILURE)
             requireContext().toast("${it.message}")
+            binding?.signUpWithEmailPasswordBtn?.isEnabled = true
         }
     }
 
-    fun registration() {
+    private fun registration() {
         if (!isValidFirstName()) {
             requireContext().toast("Enter a first name")
         } else if (!isValidLastName()) {
@@ -198,7 +211,15 @@ class SignUpFragment : Fragment() {
 
     companion object {
         const val USERID = "userId"
-        const val FIRSTNAME = "firstName"
+        const val FIRST_NAME = "firstName"
         const val SUPERSCRIPTION = "SubscriptionStatus"
+        const val GENDER = "gender"
+        const val HEIGHT = "height"
+        const val WEIGHT = "weight"
+        const val AGE = "age"
+        const val SIGN_IN = "signIn"
+        const val ACTIVITY_LEVEL = "activityLevel"
+        const val SIGN_UP = "signUp"
+        const val LAST_NAME = "lastName"
     }
 }

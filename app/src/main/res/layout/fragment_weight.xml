@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.WeightFragment">
+    tools:context=".ui.settings.WeightFragment">
 
     <data>
         <variable
             name="weightFragment"
-            type="com.rahafcs.co.rightway.ui.WeightFragment" />
+            type="com.rahafcs.co.rightway.ui.settings.WeightFragment" />
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout

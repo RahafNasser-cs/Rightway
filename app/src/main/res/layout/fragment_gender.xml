@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.GenderFragment">
+    tools:context=".ui.settings.GenderFragment">
 
     <data>
         <variable
             name="genderFragment"
-            type="com.rahafcs.co.rightway.ui.GenderFragment" />
+            type="com.rahafcs.co.rightway.ui.settings.GenderFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -19,7 +19,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
+import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.USERID
 import com.rahafcs.co.rightway.utility.toast
+import com.rahafcs.co.rightway.utility.upToTop
 
 class SignInFragment : Fragment() {
     var binding: FragmentSignInBinding? = null
@@ -44,7 +46,8 @@ class SignInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            signInFragment = this@SignInFragment
+            signInBtn.setOnClickListener { signInWithEmailAndPassword() }
+            backArrow.setOnClickListener { this@SignInFragment.upToTop() }
         }
     }
 
@@ -99,7 +102,10 @@ class SignInFragment : Fragment() {
                 if (it.isSuccessful) {
                     signInOnSuccess(it)
                 }
-            }.addOnFailureListener { requireContext().toast("${it.message}") }
+            }.addOnFailureListener {
+                requireContext().toast("${it.message}")
+                binding?.signInBtn?.isEnabled = true
+            }
     }
 
     private fun signInOnSuccess(it: Task<AuthResult>) {
@@ -112,14 +118,14 @@ class SignInFragment : Fragment() {
     }
 
     private fun goToHomePage() {
-        findNavController().navigate(R.id.action_signInFragment_to_homeFragment)
+        findNavController().navigate(R.id.action_signInFragment_to_viewPagerFragment2)
     }
 
     private fun addToSharedPreference(userId: String) {
         sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         val editor = sharedPreferences.edit()
         editor.apply {
-            putString(SignUpFragment.USERID, userId)
+            putString(USERID, userId)
             apply()
         }
     }

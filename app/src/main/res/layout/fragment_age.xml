@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.AgeFragment">
+    tools:context=".ui.settings.AgeFragment">
 
    <data>
        <variable
            name="ageFragment"
-           type="com.rahafcs.co.rightway.ui.AgeFragment" />
+           type="com.rahafcs.co.rightway.ui.settings.AgeFragment" />
    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
