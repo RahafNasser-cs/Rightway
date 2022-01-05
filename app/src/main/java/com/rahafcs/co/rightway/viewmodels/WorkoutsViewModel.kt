@@ -71,9 +71,14 @@ class WorkoutsViewModel(
         }
     }
 
-    fun addUserWorkout(workoutsInfoUiState: List<WorkoutsInfoUiState>) {
-        userRepository.addUserWorkout(workoutsInfoUiState)
-    }
+//    fun addUserWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+//        userRepository.addUserWorkout(workoutsInfoUiState)
+//
+//    fun deleteWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+//        userRepository.deleteWorkout(workoutsInfoUiState)
+//
+//    fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+//        userRepository.isSavedWorkout(workoutsInfoUiState)
 
     // to test Firestore
     private fun getWorkoutsInfoUiState(): WorkoutsInfoUiState {
@@ -92,3 +97,39 @@ class WorkoutsViewModel(
         }\nWorkout name: ${_workoutsInfoUiState.value.name}\nBody part: ${_workoutsInfoUiState.value.bodyPart}"
     }
 }
+
+/*
+*     private fun getAllWorkouts() {
+        Log.d("TAG", "getAllWorkouts: First fun")
+        viewModelScope.launch {
+            try {
+                val result = workoutRepository.getAllWorkouts()
+                val listOfBodyParts = result.distinctBy { it.bodyPart }.map { it.bodyPart }
+                val listOfWorkOts = result.map {
+                    WorkoutsInfoUiState(
+                        gifUrl = it.gifUrl,
+                        name = it.name,
+                        equipment = it.equipment,
+                        target = it.target,
+                        bodyPart = it.bodyPart
+                    )
+                }
+                val workoutsUiState = listOfBodyParts.map {
+                    WorkoutsUiState(
+                        WorkoutTypeUiState(it),
+                        listOfWorkOts.filter { workoutsInfoUiState -> workoutsInfoUiState.bodyPart == it }
+                    )
+                }
+
+                Log.d("TAG", "getAllWorkouts: $workoutsUiState")
+                _listWorkoutsUiState.update {
+                    it.copy(workUiState = workoutsUiState)
+                }
+            } catch (e: Exception) {
+                Log.d(tag, "getAllWorkouts: error $e")
+                // _listWorkoutsUiState.value = ListWorkoutsUiState(listOf())
+            }
+        }
+    }
+
+* */

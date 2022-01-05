@@ -6,14 +6,13 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewPagerFragmentDirections
 import com.rahafcs.co.rightway.databinding.NestedItemBinding
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ui.findUrlGlide
 
 // var itemClickListener: (WorkoutsInfoUiState) -> Unit
-class WorkoutHorizontalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Unit) :
+class WorkoutHorizontalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boolean) :
     ListAdapter<WorkoutsInfoUiState, WorkoutHorizontalAdapter.WorkoutViewHolder>(
         HorizontalDiffCallback
     ) {
@@ -30,11 +29,12 @@ class WorkoutHorizontalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> U
                     )
                 binding.root.findNavController().navigate(action)
             }
-            binding.bookmark.setOnClickListener { itemClickListener(item) }
-            if (item.isSaved) {
-                binding.bookmark.setImageResource(R.drawable.bookmark_filled)
-            } else {
-                binding.bookmark.setImageResource(R.drawable.bookmark)
+            binding.bookmark.setOnClickListener {
+                if (itemClickListener(item)) {
+//                    binding.bookmark.setImageResource(R.drawable.bookmark_filled)
+                } else {
+//                    binding.bookmark.setImageResource(R.drawable.bookmark)
+                }
             }
         }
     }

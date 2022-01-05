@@ -28,6 +28,9 @@ class WorkoutDetailsFragment : Fragment() {
     var numberOfSecondsResume = 0
     var secondsRemaining = 0
     lateinit var countDownTimer: CountDownTimer
+    init {
+        createCountDownTimer(0)
+    }
 
     private var binding: FragmentWorkoutDetailsBinding? = null
     private val viewModel: WorkoutsViewModel by activityViewModels<WorkoutsViewModel> {

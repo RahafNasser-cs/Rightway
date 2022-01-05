@@ -10,7 +10,7 @@ import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
 
-class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Unit) :
+class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boolean) :
 
     ListAdapter<WorkoutsUiState, WorkoutVerticalAdapter.WorkoutViewHolder>(
         VerticalDiffCallback

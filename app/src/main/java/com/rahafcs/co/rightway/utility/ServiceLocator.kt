@@ -4,8 +4,6 @@ import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
 import com.rahafcs.co.rightway.data.UserRepository
 import com.rahafcs.co.rightway.data.source.UserRemoteDataSource
 import com.rahafcs.co.rightway.data.source.WorkoutRemoteDataSource
-import com.rahafcs.co.rightway.data.source.local.WorkoutsDao
-import com.rahafcs.co.rightway.data.source.local.WorkoutsLocalDataSource
 import com.rahafcs.co.rightway.network.WorkoutApi
 import com.rahafcs.co.rightway.network.WorkoutApiService
 

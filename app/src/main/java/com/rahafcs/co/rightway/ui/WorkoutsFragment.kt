@@ -2,6 +2,7 @@ package com.rahafcs.co.rightway.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,15 +40,35 @@ class WorkoutsFragment : Fragment() {
             workoutsFragment = this@WorkoutsFragment
             workoutViewModel = viewModel
             titleRecyclerview.adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
-                val savedWorkout = workoutsInfoUiState.copy(isSaved = true)
-                listOfSavedWorkouts.add(savedWorkout)
-                viewModel.addUserWorkout(listOfSavedWorkouts)
+                false
+//                if (viewModel.isSavedWorkout(workoutsInfoUiState)) {
+//                    viewModel.deleteWorkout(workoutsInfoUiState)
+//                    Log.e("WorkoutFragment", "onViewCreated: recycleview is false")
+//                    false
+//                } else {
+//                    val savedWorkout = workoutsInfoUiState.copy(isSaved = true)
+//                    viewModel.addUserWorkout(savedWorkout)
+//                    Log.e("WorkoutFragment", "onViewCreated: recycleview is true")
+//                    true
+//                }
+                // Or
+//                if (!workoutsInfoUiState.isSaved) {
+//                    val savedWorkout = workoutsInfoUiState.copy(isSaved = true)
+//                    viewModel.addUserWorkout(savedWorkout)
+//                    true
+//                } else {
+//                    viewModel.deleteWorkout(workoutsInfoUiState)
+//                    false
+//                }
             }
         }
         // to test Firestore
         // addUserWorkout()
     }
 
+    //    suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {
+//        return viewModel.isSavedWorkout(workoutsInfoUiState)
+//    }
     private fun addUserWorkout() {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         // sharedPreferences.getString(FIRST_NAME, "")?.let { viewModel.addUserWorkout(it) }
