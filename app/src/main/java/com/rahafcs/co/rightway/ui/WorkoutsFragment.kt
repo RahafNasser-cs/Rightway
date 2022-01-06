@@ -8,11 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutsBinding
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class WorkoutsFragment : Fragment() {
     private var binding: FragmentWorkoutsBinding? = null
@@ -40,17 +45,25 @@ class WorkoutsFragment : Fragment() {
             workoutsFragment = this@WorkoutsFragment
             workoutViewModel = viewModel
             titleRecyclerview.adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
-                false
-//                if (viewModel.isSavedWorkout(workoutsInfoUiState)) {
-//                    viewModel.deleteWorkout(workoutsInfoUiState)
-//                    Log.e("WorkoutFragment", "onViewCreated: recycleview is false")
-//                    false
-//                } else {
-//                    val savedWorkout = workoutsInfoUiState.copy(isSaved = true)
-//                    viewModel.addUserWorkout(savedWorkout)
-//                    Log.e("WorkoutFragment", "onViewCreated: recycleview is true")
-//                    true
-//                }
+                checkIsSavedWorkout(workoutsInfoUiState)
+                lifecycleScope.launch {
+                    try {
+                        if (viewModel.isSavedWorkout.value) {
+                            viewModel.deleteWorkout(workoutsInfoUiState)
+                            Log.e("WorkoutFragment", "onViewCreated: recycleview is false")
+                            false
+                        } else {
+                            val savedWorkout = workoutsInfoUiState.copy(isSaved = true)
+                            viewModel.addUserWorkout(savedWorkout)
+                            Log.e("WorkoutFragment", "onViewCreated: recycleview is true")
+                            true
+                        }
+                    } catch (e: Exception) {
+                    }
+                }
+
+                false // to avoid crash
+
                 // Or
 //                if (!workoutsInfoUiState.isSaved) {
 //                    val savedWorkout = workoutsInfoUiState.copy(isSaved = true)
@@ -77,6 +90,14 @@ class WorkoutsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.isSavedWorkout(workoutsInfoUiState)
+            }
+        }
     }
 
     companion object {

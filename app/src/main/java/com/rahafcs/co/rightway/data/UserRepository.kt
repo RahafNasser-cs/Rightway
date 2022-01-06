@@ -1,6 +1,7 @@
 package com.rahafcs.co.rightway.data
 
 import com.rahafcs.co.rightway.data.source.UserRemoteDataSource
+import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -12,14 +13,14 @@ class UserRepository(
 
     fun addUserInfo(userInfo: User) = userRemoteDataSource.saveUserInfo(userInfo)
 
-//    fun addUserWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-//        userRemoteDataSource.addUserWorkout(workoutsInfoUiState)
-//
-//    fun deleteWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-//        userRemoteDataSource.deleteWorkout(workoutsInfoUiState)
-//
-//    fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-//        userRemoteDataSource.isSavedWorkout(workoutsInfoUiState)
+    suspend fun addUserWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRemoteDataSource.addUserWorkout(workoutsInfoUiState)
+
+    suspend fun deleteWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRemoteDataSource.deleteWorkout(workoutsInfoUiState)
+
+    suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRemoteDataSource.isSavedWorkout(workoutsInfoUiState)
 
     suspend fun readUserInfo(): Flow<User> = userRemoteDataSource.readUserInfo()
 }

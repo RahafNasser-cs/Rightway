@@ -14,16 +14,16 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:src="@drawable/logout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="14dp"
             android:id="@+id/logout_img"/>
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:src="@drawable/home"
             app:layout_constraintStart_toEndOf="@id/logout_img"
             app:layout_constraintTop_toTopOf="@id/logout_img"
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:id="@+id/user_img"/>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -81,18 +81,36 @@
             android:text="@string/height"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:id="@+id/height_textview"/>
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
+        <!--region user height textview -->
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintStart_toEndOf="@id/height_textview"-->
+<!--            app:layout_constraintTop_toTopOf="@id/height_textview"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/height_textview"-->
+<!--            android:text="@{userInfoViewModel.userInfo.height}"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:id="@+id/user_height"/>-->
+        <!--endregion -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/height_textview"
             app:layout_constraintTop_toTopOf="@id/height_textview"
             app:layout_constraintBottom_toBottomOf="@id/height_textview"
-            android:text="@{userInfoViewModel.userInfo.height}"
-            android:textSize="16sp"
-            android:layout_marginStart="8dp"
-            android:id="@+id/user_height"/>
+            android:layout_marginStart="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/user_height_input_layout">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@{userInfoViewModel.userInfo.height}"
+                android:id="@+id/user_height_edit_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,18 +119,35 @@
             android:text="@string/weight"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="50dp"
             android:id="@+id/weight_textview"/>
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
+        <!--region user_weight textview-->
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintStart_toEndOf="@id/weight_textview"-->
+<!--            app:layout_constraintTop_toTopOf="@id/weight_textview"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/weight_textview"-->
+<!--            android:text="@{userInfoViewModel.userInfo.weight}"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:textSize="16sp"-->
+<!--            android:id="@+id/user_weight"/>-->
+        <!--endregion -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/weight_textview"
+            app:layout_constraintStart_toStartOf="@id/user_height_input_layout"
             app:layout_constraintTop_toTopOf="@id/weight_textview"
             app:layout_constraintBottom_toBottomOf="@id/weight_textview"
-            android:text="@{userInfoViewModel.userInfo.weight}"
-            android:layout_marginStart="8dp"
-            android:textSize="16sp"
-            android:id="@+id/user_weight"/>
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/user_weight_input_layout">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@{userInfoViewModel.userInfo.weight}"
+                android:id="@+id/user_weight_edit_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -121,18 +156,35 @@
             android:text="@string/age"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="50dp"
             android:id="@+id/age_textview"/>
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
+        <!--region user_age textview -->
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintStart_toEndOf="@id/age_textview"-->
+<!--            app:layout_constraintTop_toTopOf="@id/age_textview"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/age_textview"-->
+<!--            android:text="@{userInfoViewModel.userInfo.age}"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:textSize="16sp"-->
+<!--            android:id="@+id/user_age"/>-->
+        <!--endregion user_age textview -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/age_textview"
+            app:layout_constraintStart_toStartOf="@id/user_weight_input_layout"
             app:layout_constraintTop_toTopOf="@id/age_textview"
             app:layout_constraintBottom_toBottomOf="@id/age_textview"
-            android:text="@{userInfoViewModel.userInfo.age}"
-            android:layout_marginStart="8dp"
-            android:textSize="16sp"
-            android:id="@+id/user_age"/>
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/user_age_input_layout">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@{userInfoViewModel.userInfo.age}"
+                android:id="@+id/user_age_edit_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -141,18 +193,35 @@
             android:text="@string/gender"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="50dp"
             android:id="@+id/gender_textview"/>
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
+        <!--region user_gender textview -->
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintStart_toEndOf="@id/gender_textview"-->
+<!--            app:layout_constraintTop_toTopOf="@id/gender_textview"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/gender_textview"-->
+<!--            android:text="@{userInfoViewModel.userInfo.gender}"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:textSize="16sp"-->
+<!--            android:id="@+id/user_gender"/>-->
+        <!--endregion user_gender textview -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/gender_textview"
+            app:layout_constraintStart_toStartOf="@id/user_age_input_layout"
             app:layout_constraintTop_toTopOf="@id/gender_textview"
             app:layout_constraintBottom_toBottomOf="@id/gender_textview"
-            android:text="@{userInfoViewModel.userInfo.gender}"
-            android:layout_marginStart="8dp"
-            android:textSize="16sp"
-            android:id="@+id/user_gender"/>
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/user_gender_input_layout">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@{userInfoViewModel.userInfo.gender}"
+                android:id="@+id/user_gender_edit_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -161,18 +230,50 @@
             android:text="@string/activity_level"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="50dp"
             android:id="@+id/activity_level_textview"/>
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="250dp"
+        <!--region user_gender textview -->
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            android:layout_width="250dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintStart_toEndOf="@id/activity_level_textview"-->
+<!--            app:layout_constraintTop_toTopOf="@id/activity_level_textview"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/activity_level_textview"-->
+<!--            android:text="@{userInfoViewModel.userInfo.activity}"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:textSize="16sp"-->
+<!--            android:id="@+id/user_activity_leve"/>-->
+        <!--endregion user_gender textview -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/activity_level_textview"
+            app:layout_constraintStart_toStartOf="@id/user_height_input_layout"
             app:layout_constraintTop_toTopOf="@id/activity_level_textview"
             app:layout_constraintBottom_toBottomOf="@id/activity_level_textview"
-            android:text="@{userInfoViewModel.userInfo.activity}"
-            android:layout_marginStart="8dp"
-            android:textSize="16sp"
-            android:id="@+id/user_activity_leve"/>
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/user_activity_leve_input_layout">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@{userInfoViewModel.userInfo.activity}"
+                android:id="@+id/user_activity_leve_edit_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:cornerRadius="6dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_activity_leve_input_layout"
+            android:text="Save"
+            android:enabled="false"
+            android:background="@drawable/button_disabled"
+            android:id="@+id/save_btn"
+            android:textAllCaps="false"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

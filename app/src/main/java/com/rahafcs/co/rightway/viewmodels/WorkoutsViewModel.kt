@@ -24,6 +24,9 @@ class WorkoutsViewModel(
     private val _listWorkoutsUiState = MutableStateFlow(ListWorkoutsUiState())
     val listWorkoutsUiState: MutableStateFlow<ListWorkoutsUiState> = _listWorkoutsUiState
 
+    private val _isSavedWorkout = MutableStateFlow(false)
+    val isSavedWorkout: MutableStateFlow<Boolean> = _isSavedWorkout
+
     // TODO() set _workoutsInfoUiState a value
     private val _workoutsInfoUiState = MutableStateFlow(WorkoutsInfoUiState())
     val workoutsInfoUiState: MutableStateFlow<WorkoutsInfoUiState> = _workoutsInfoUiState
@@ -71,14 +74,25 @@ class WorkoutsViewModel(
         }
     }
 
-//    fun addUserWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-//        userRepository.addUserWorkout(workoutsInfoUiState)
-//
-//    fun deleteWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-//        userRepository.deleteWorkout(workoutsInfoUiState)
-//
-//    fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+    suspend fun addUserWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRepository.addUserWorkout(workoutsInfoUiState)
+
+    suspend fun deleteWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRepository.deleteWorkout(workoutsInfoUiState)
+
+//    suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
 //        userRepository.isSavedWorkout(workoutsInfoUiState)
+
+    suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) {
+        viewModelScope.launch {
+            try {
+                val isSaved = userRepository.isSavedWorkout(workoutsInfoUiState)
+                _isSavedWorkout.update { isSaved }
+            } catch (e: java.lang.Exception) {
+                Log.e("workoutVM", "isSavedWorkout: a error $e")
+            }
+        }
+    }
 
     // to test Firestore
     private fun getWorkoutsInfoUiState(): WorkoutsInfoUiState {

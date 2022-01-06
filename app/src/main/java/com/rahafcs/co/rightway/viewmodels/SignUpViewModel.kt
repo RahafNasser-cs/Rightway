@@ -8,15 +8,16 @@ import com.rahafcs.co.rightway.data.RegistrationStatus
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.data.UserRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 
 class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
     private var _status = MutableLiveData<RegistrationStatus>()
     val status: LiveData<RegistrationStatus> get() = _status
 
-    private var _userInfo = MutableStateFlow(User())
-    val userInfo: MutableStateFlow<User> = _userInfo
+//    private var _userInfo = MutableStateFlow(User())
+//    val userInfo: MutableStateFlow<User> = _userInfo
+
+    private var _userInfo = MutableLiveData<User>()
+    val userInfo: MutableLiveData<User> = _userInfo
 
     fun setRegistrationStatus(status: RegistrationStatus) {
         _status.value = status
@@ -37,18 +38,19 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
 
     fun setUserInfo(userInfo: User) {
         Log.d("SiginUpViewModel", "setUserInfo: $userInfo")
-        _userInfo.update {
-            it.copy(
-                firstName = userInfo.firstName,
-                lastName = userInfo.lastName,
-                subscriptionStatus = userInfo.activity,
-                weight = userInfo.weight,
-                height = userInfo.height,
-                gender = userInfo.age,
-                age = userInfo.gender,
-                activity = userInfo.subscriptionStatus
-            )
-        }
+        _userInfo.value = userInfo
+//        _userInfo.update {
+//            it.copy(
+//                firstName = userInfo.firstName,
+//                lastName = userInfo.lastName,
+//                subscriptionStatus = userInfo.activity,
+//                weight = userInfo.weight,
+//                height = userInfo.height,
+//                gender = userInfo.age,
+//                age = userInfo.gender,
+//                activity = userInfo.subscriptionStatus
+//            )
+//        }
 //        viewModelScope.launch {
 //            readUserInfo("").collect {
 //                _userInfo.value = it

@@ -37,29 +37,21 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/saved_workout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
                         android:layout_margin="8dp"
-                        android:src="@drawable/bookmark"
+                        android:src="@drawable/bookmark_filled"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/user_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
                         android:layout_margin="8dp"
-                        android:src="@drawable/info"
+                        android:src="@drawable/record"
                         app:layout_constraintEnd_toStartOf="@id/saved_workout"
                         app:layout_constraintTop_toTopOf="parent" />
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/logout"
-                        android:layout_margin="8dp"
-                        android:id="@+id/logout"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/user_info"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
 

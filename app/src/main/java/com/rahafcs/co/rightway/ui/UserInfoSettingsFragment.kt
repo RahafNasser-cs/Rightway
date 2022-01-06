@@ -23,6 +23,7 @@ import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class UserInfoSettingsFragment : Fragment() {
@@ -56,6 +57,7 @@ class UserInfoSettingsFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             logoutImg.setOnClickListener { signOut() }
             homeImg.setOnClickListener { goToHomePage() }
+            saveBtn.setOnClickListener { readUserInfo() }
         }
         readUserInfo()
     }
@@ -66,6 +68,7 @@ class UserInfoSettingsFragment : Fragment() {
                 viewModel.readUserInfo().collect {
                     Log.d("UserInfoSettingsFragment", "readUserInfo: $it")
                     showUserInfo(it)
+//                    viewModel.setUserInfo(it)
                 }
             }
         }
@@ -84,13 +87,50 @@ class UserInfoSettingsFragment : Fragment() {
     private fun showUserInfo(userInfo: User) {
         binding?.apply {
             userNameTextview.text = userInfo.firstName
-            userHeight.text = userInfo.height
-            userWeight.text = userInfo.weight
-            userAge.text = userInfo.age
-            userGender.text = userInfo.gender
-            userActivityLeve.text = userInfo.activity
+            userHeightEditText.setText(userInfo.height)
+            userWeightEditText.setText(userInfo.weight)
+            userAgeEditText.setText(userInfo.age)
+            userGenderEditText.setText(userInfo.gender)
+            userActivityLeveEditText.setText(userInfo.activity)
             subscriptionStatus.text = userInfo.subscriptionStatus
         }
+        updateUserInfo(userInfo)
+    }
+
+    private fun updateUserInfo(userInfo: User) {
+        if (checkIfUserInfoChanged(userInfo)) {
+            binding?.saveBtn?.isEnabled = true
+            binding?.saveBtn?.setOnClickListener {
+                saveUserInfo(userInfo)
+                requireContext().toast("Saved changes")
+            }
+        }
+    }
+
+    private fun saveUserInfo(userInfo: User) {
+        viewModel.userInfo(getUpdatedUserInfo(userInfo))
+    }
+
+    private fun getUpdatedUserInfo(oldUserInfo: User): User {
+        return oldUserInfo.copy(
+            height = binding?.userHeightEditText?.text.toString(),
+            weight = binding?.userWeightEditText?.text.toString(),
+            age = binding?.userAgeEditText?.text.toString()
+        )
+    }
+
+    private fun checkIfUserInfoChanged(userInfo: User): Boolean {
+        return binding?.let {
+            if (userInfo.height != it.userHeightEditText.text.toString()) {
+                true
+            } else if (userInfo.weight != it.userWeightEditText.text.toString()) {
+                true
+            } else if (userInfo.age != it.userAgeEditText.text.toString()) {
+                true
+            } else {
+                false
+            }
+        } ?: false
     }
 
     private fun goToHomePage() {

@@ -6,6 +6,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewPagerFragmentDirections
 import com.rahafcs.co.rightway.databinding.NestedItemBinding
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
@@ -31,9 +32,9 @@ class WorkoutHorizontalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> B
             }
             binding.bookmark.setOnClickListener {
                 if (itemClickListener(item)) {
-//                    binding.bookmark.setImageResource(R.drawable.bookmark_filled)
+                    binding.bookmark.setImageResource(R.drawable.bookmark_filled)
                 } else {
-//                    binding.bookmark.setImageResource(R.drawable.bookmark)
+                    binding.bookmark.setImageResource(R.drawable.bookmark)
                 }
             }
         }
