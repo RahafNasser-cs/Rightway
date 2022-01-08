@@ -10,18 +10,20 @@
         android:backgroundTint="@color/dark_white"
         app:cardCornerRadius="11dp"
         app:cardElevation="11dp"
+        android:paddingEnd="8dp"
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/coach_img"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_margin="8dp"
-                android:src="@drawable/person"
+                android:src="@drawable/coach"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -42,10 +44,58 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:textStyle="bold"
                 android:text="Experience"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/coach_name_textview"
                 app:layout_constraintTop_toBottomOf="@id/coach_name_textview" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="coach experience"
+                android:id="@+id/coach_experience"
+                app:layout_constraintStart_toEndOf="@id/experience"
+                app:layout_constraintTop_toTopOf="@id/experience"
+                app:layout_constraintBottom_toBottomOf="@id/experience"
+                android:layout_marginStart="8dp"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/experience"
+                app:layout_constraintTop_toBottomOf="@id/experience"
+                android:layout_marginTop="8dp"
+                android:id="@+id/email_textview"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="coach email"
+                android:id="@+id/coach_email"
+                app:layout_constraintStart_toEndOf="@id/email_textview"
+                app:layout_constraintTop_toTopOf="@id/email_textview"
+                app:layout_constraintBottom_toBottomOf="@id/email_textview"
+                android:layout_marginStart="8dp"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:id="@+id/phone_textview"
+                app:layout_constraintStart_toStartOf="@id/email_textview"
+                app:layout_constraintTop_toBottomOf="@id/email_textview"
+                android:layout_marginTop="8dp"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="coach phone"
+                android:id="@+id/coach_phone"
+                app:layout_constraintStart_toEndOf="@id/phone_textview"
+                app:layout_constraintTop_toTopOf="@id/phone_textview"
+                app:layout_constraintBottom_toBottomOf="@id/phone_textview"
+                android:layout_marginStart="8dp"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/price"
@@ -54,8 +104,27 @@
                 android:layout_marginTop="8dp"
                 android:text="Price"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@id/experience"
-                app:layout_constraintTop_toBottomOf="@id/experience" />
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/phone_textview"
+                app:layout_constraintTop_toBottomOf="@id/phone_textview" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="coach price"
+                android:id="@+id/coach_price"
+                app:layout_constraintStart_toEndOf="@id/price"
+                app:layout_constraintTop_toTopOf="@id/price"
+                app:layout_constraintBottom_toBottomOf="@id/price"
+                android:layout_marginStart="8dp"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:src="@drawable/email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/price"
+                android:layout_marginTop="16dp"
+                android:id="@+id/email_img"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 

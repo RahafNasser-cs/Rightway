@@ -2,9 +2,11 @@ package com.rahafcs.co.rightway.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.rahafcs.co.rightway.ViewPagerFragmentDirections
 import com.rahafcs.co.rightway.databinding.CoachItemBinding
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 
@@ -14,10 +16,17 @@ class CoachAdapter :
     class CoachViewHolder(private val binding: CoachItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CoachInfoUiState) {
-            binding.coachNameTextview.text = item.phoneNumber
-            binding.experience.text = item.experience
             binding.coachNameTextview.text = item.name
-            binding.price.text = item.price
+            binding.coachExperience.text = item.experience
+            binding.coachPhone.text = item.phoneNumber
+            binding.coachEmail.text = item.email
+            binding.coachPrice.text = item.price
+            binding.emailImg.setOnClickListener {
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragment2ToSendEmailFragment(item.email)
+                binding.root.findNavController()
+                    .navigate(action)
+            }
         }
     }
 

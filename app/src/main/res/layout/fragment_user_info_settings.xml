@@ -142,7 +142,7 @@
             android:id="@+id/user_height"/>
         <!--endregion -->
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="280dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/height_textview"
@@ -152,12 +152,33 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/user_height_input_layout">
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="280dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="number"
                 android:text="@{userInfoViewModel.userInfo.height}"
                 android:id="@+id/user_height_edit_text"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:id="@+id/height_option"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/user_height_input_layout"
+            app:layout_constraintTop_toTopOf="@id/user_height_input_layout"
+            app:layout_constraintBottom_toBottomOf="@id/user_height_input_layout"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cm"
+                android:id="@+id/cm_option"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ft"
+                android:id="@+id/ft_option"/>
+        </RadioGroup>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -181,7 +202,7 @@
             android:id="@+id/user_weight"/>
         <!--endregion -->
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="280dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/user_height_input_layout"
@@ -190,12 +211,33 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/user_weight_input_layout">
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="280dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="number"
                 android:text="@{userInfoViewModel.userInfo.weight}"
                 android:id="@+id/user_weight_edit_text"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:id="@+id/weight_option"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/user_weight_input_layout"
+            app:layout_constraintTop_toTopOf="@id/user_weight_input_layout"
+            app:layout_constraintBottom_toBottomOf="@id/user_weight_input_layout"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kg"
+                android:id="@+id/kg_option"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="lb"
+                android:id="@+id/lb_option"/>
+        </RadioGroup>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -230,7 +272,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="number"
                 android:text="@{userInfoViewModel.userInfo.age}"
                 android:id="@+id/user_age_edit_text"/>
         </com.google.android.material.textfield.TextInputLayout>

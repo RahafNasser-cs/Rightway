@@ -221,5 +221,6 @@ class SignUpFragment : Fragment() {
         const val ACTIVITY_LEVEL = "activityLevel"
         const val SIGN_UP = "signUp"
         const val LAST_NAME = "lastName"
+        const val COACH_EMAIL = "coachEmail"
     }
 }

@@ -75,7 +75,6 @@ class WorkoutDetailsFragment : Fragment() {
             minus.setOnClickListener { decrementNumberOfSeconds() }
         }
         Log.d("TAG", "onViewCreated: ${args.workoutInfoUiState}")
-//        viewModel.setWorkoutsInfoUiState(bundle.getParcelable<WorkoutsInfoUiState>("WORKOUT")!!)
         viewModel.setWorkoutsInfoUiState(args.workoutInfoUiState)
     }
 

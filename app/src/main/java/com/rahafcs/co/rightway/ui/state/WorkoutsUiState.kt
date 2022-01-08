@@ -30,6 +30,7 @@ data class ListWorkoutsUiState(
 data class CoachInfoUiState(
     val name: String = "",
     val experience: String = "",
+    val email: String = "",
     val phoneNumber: String = "",
     val price: String = ""
 )
