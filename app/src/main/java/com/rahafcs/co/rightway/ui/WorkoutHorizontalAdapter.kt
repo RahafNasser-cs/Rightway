@@ -13,7 +13,6 @@ import com.rahafcs.co.rightway.ui.WorkoutsFragment.Companion.listOfSavedWorkouts
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ui.findUrlGlide
 
-// var itemClickListener: (WorkoutsInfoUiState) -> Unit
 class WorkoutHorizontalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boolean) :
     ListAdapter<WorkoutsInfoUiState, WorkoutHorizontalAdapter.WorkoutViewHolder>(
         HorizontalDiffCallback

@@ -64,7 +64,6 @@ class UserInfoSettingsFragment : Fragment() {
                     saveBtn.text = "Save"
                     hideUserInfoTextView()
                     readUserInfo()
-                    // showEditUserInfo()
                 }
             }
         }
@@ -105,18 +104,11 @@ class UserInfoSettingsFragment : Fragment() {
             userActivityLeve.text = userInfo.activity
             subscriptionStatus.text = userInfo.subscriptionStatus
         }
-        // updateUserInfo(userInfo)
     }
 
     private fun showEditUserInfo(userInfo: User) {
+        makeEditTextVisible()
         binding?.apply {
-            userHeightInputLayout.visibility = View.VISIBLE
-            userWeightInputLayout.visibility = View.VISIBLE
-            userAgeInputLayout.visibility = View.VISIBLE
-            activityOptions.visibility = View.VISIBLE
-            genderOption.visibility = View.VISIBLE
-            userNameInputLayout.visibility = View.VISIBLE
-            userSubscriptionStatusOptions.visibility = View.VISIBLE
             representUserInfoIntoEditText(userInfo) // show info into editText
             saveBtn.setOnClickListener {
                 if (isEditMode) {
@@ -130,10 +122,24 @@ class UserInfoSettingsFragment : Fragment() {
         }
     }
 
+    private fun makeEditTextVisible() {
+        binding?.apply {
+            userHeightInputLayout.visibility = View.VISIBLE
+            userWeightInputLayout.visibility = View.VISIBLE
+            userAgeInputLayout.visibility = View.VISIBLE
+            activityOptions.visibility = View.VISIBLE
+            genderOption.visibility = View.VISIBLE
+            userNameInputLayout.visibility = View.VISIBLE
+            userSubscriptionStatusOptions.visibility = View.VISIBLE
+            heightOption.visibility = View.VISIBLE
+            weightOption.visibility = View.VISIBLE
+        }
+    }
+
     private fun representUserInfoIntoEditText(userInfo: User) {
         binding?.apply {
-            userHeightEditText.setText(userInfo.height)
-            userWeightEditText.setText(userInfo.weight)
+            userHeightEditText.setText(userInfo.height.substring(0, userInfo.height.length - 2))
+            userWeightEditText.setText(userInfo.weight.substring(0, userInfo.weight.length - 2))
             userAgeEditText.setText(userInfo.age)
             userNameEditText.setText(userInfo.firstName)
             when (userInfo.gender) {
@@ -150,6 +156,14 @@ class UserInfoSettingsFragment : Fragment() {
                 requireContext().getString(R.string.trainee) -> traineeOption.isChecked = true
                 else -> trainerOption.isChecked = true
             }
+            when (userInfo.height.substring(userInfo.height.length - 2, userInfo.height.length)) {
+                "cm" -> cmOption.isChecked = true
+                else -> ftOption.isChecked = true
+            }
+            when (userInfo.weight.substring(userInfo.weight.length - 2, userInfo.weight.length)) {
+                "kg" -> kgOption.isChecked = true
+                else -> lbOption.isChecked = true
+            }
         }
     }
 
@@ -162,6 +176,8 @@ class UserInfoSettingsFragment : Fragment() {
             genderOption.visibility = View.GONE
             userNameInputLayout.visibility = View.GONE
             userSubscriptionStatusOptions.visibility = View.GONE
+            heightOption.visibility = View.GONE
+            weightOption.visibility = View.GONE
         }
     }
 
@@ -195,8 +211,12 @@ class UserInfoSettingsFragment : Fragment() {
 
     private fun getUpdatedUserInfo(oldUserInfo: User): User {
         val firstName = binding?.userNameEditText?.text.toString()
-        val height = binding?.userHeightEditText?.text.toString()
-        val weight = binding?.userWeightEditText?.text.toString()
+        val height =
+            if (binding?.cmOption?.isChecked!!) "${binding?.userHeightEditText?.text?.toString()} cm"
+            else "${binding?.userHeightEditText?.text} ft"
+        val weight =
+            if (binding?.kgOption?.isChecked!!) "${binding?.userWeightEditText?.text} kg"
+            else "${binding?.userWeightEditText?.text} lb"
         val age = binding?.userAgeEditText?.text.toString()
         val gender = if (binding?.femaleOption?.isChecked!!) "Female" else "Male"
         val activityLevel = when (binding?.activityOptions?.checkedRadioButtonId) {

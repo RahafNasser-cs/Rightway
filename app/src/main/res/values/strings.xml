@@ -30,6 +30,5 @@
     <string name="back_to_home">Back to Home</string>
 
 
-
     <string name="formatted_time">%02d:%02d</string>
 </resources>
