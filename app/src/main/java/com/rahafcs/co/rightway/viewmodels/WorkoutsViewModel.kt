@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class WorkoutsViewModel(
     private val workoutRepository: DefaultWorkoutsRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : ViewModel() {
     private val tag = WorkoutsViewModel::class.java.name
 
@@ -32,6 +32,11 @@ class WorkoutsViewModel(
     private val _workoutsInfoUiState = MutableStateFlow(WorkoutsInfoUiState())
     val workoutsInfoUiState: MutableStateFlow<WorkoutsInfoUiState> = _workoutsInfoUiState
 
+    // To Brows workout by equipment
+    private val _listOfWorkoutByEquipment = MutableStateFlow(listOf<WorkoutsInfoUiState>())
+    val listOfWorkoutByEquipment: MutableStateFlow<List<WorkoutsInfoUiState>> =
+        _listOfWorkoutByEquipment
+
     init {
         // TODO() remove the comment from getAllWorkouts(), because number of request in api
         // getAllWorkouts()
@@ -41,6 +46,30 @@ class WorkoutsViewModel(
     fun setWorkoutsInfoUiState(workout: WorkoutsInfoUiState) {
         _workoutsInfoUiState.value = workout
         Log.d("TAG", "setWorkoutsInfoUiState: $workout")
+    }
+
+    fun getWorkoutsByEquipment(equipment: String) {
+        viewModelScope.launch {
+            try {
+                val result = workoutRepository.getWorkoutsByEquipment(equipment)
+                val list = result.map {
+                    WorkoutsInfoUiState(
+                        gifUrl = it.gifUrl,
+                        name = it.name,
+                        equipment = it.equipment,
+                        target = it.target,
+                        bodyPart = it.bodyPart
+                    )
+                }
+                _listOfWorkoutByEquipment.update { list }
+                Log.e(
+                    "WorkoutViewModel",
+                    "getWorkoutsByEquipment: $list",
+                )
+            } catch (e: Exception) {
+                Log.e("WorkoutsViewModel", "getWorkoutsByEquipment: $e")
+            }
+        }
     }
 
     private fun getAllWorkouts() {
