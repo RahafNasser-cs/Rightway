@@ -13,16 +13,23 @@
             type="com.rahafcs.co.rightway.viewmodels.CoachViewModel" />
     </data>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:scrollbars="vertical"
             android:clipToPadding="false"
+            android:scrollbars="vertical"
             app:coachListItem="@{coachViewModel.coachList}"
-            android:id="@+id/recyclerview"
-            tools:listitem="@layout/coach_item"
-            />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/coach_item" />
+
+
+    </RelativeLayout>
+
 
 
 </layout>

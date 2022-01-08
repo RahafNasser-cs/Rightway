@@ -53,7 +53,7 @@ class ViewPagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.userInfo?.setOnClickListener { goToInfoSettings() }
-        binding?.logout?.setOnClickListener { signOut() }
+        // binding?.logout?.setOnClickListener { signOut() }
     }
 
     private fun goToInfoSettings() {

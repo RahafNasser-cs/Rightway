@@ -18,7 +18,8 @@ data class WorkoutsInfoUiState(
     val name: String = "",
     val equipment: String = "",
     val target: String = "",
-    val bodyPart: String = ""
+    val bodyPart: String = "",
+    val isSaved: Boolean = false
 ) : Parcelable
 
 data class ListWorkoutsUiState(

@@ -42,8 +42,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
                 app:layout_constraintEnd_toEndOf="@id/workout_gif"
                 app:layout_constraintTop_toTopOf="@id/workout_gif"
                 android:src="@drawable/bookmark"

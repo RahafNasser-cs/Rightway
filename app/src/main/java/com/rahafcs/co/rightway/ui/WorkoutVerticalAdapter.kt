@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rahafcs.co.rightway.databinding.OuterItemBinding
+import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
+import kotlinx.coroutines.Job
 
-class WorkoutVerticalAdapter :
+class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boolean) :
 
     ListAdapter<WorkoutsUiState, WorkoutVerticalAdapter.WorkoutViewHolder>(
         VerticalDiffCallback
@@ -19,7 +21,9 @@ class WorkoutVerticalAdapter :
         fun bind(item: WorkoutsUiState) {
             binding.muscleName.text =
                 item.workoutTypeUiState.bodyPart.capitalizeFormatIfFirstLatterSmall()
-            val adapter = WorkoutHorizontalAdapter()
+            val adapter = WorkoutHorizontalAdapter { workoutsInfoUiState ->
+                itemClickListener(workoutsInfoUiState)
+            }
             binding.innerRecyclerview.adapter = adapter
             adapter.submitList(item.workoutsInfoUiState)
         }

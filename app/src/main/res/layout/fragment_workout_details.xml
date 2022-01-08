@@ -178,7 +178,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/plus"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@id/time_textview"
             app:layout_constraintTop_toTopOf="@id/time_textview"
             app:layout_constraintBottom_toBottomOf="@id/time_textview"
@@ -191,7 +191,7 @@
             app:layout_constraintEnd_toStartOf="@id/time_textview"
             app:layout_constraintTop_toTopOf="@id/time_textview"
             app:layout_constraintBottom_toBottomOf="@id/time_textview"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="16dp"/>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -215,6 +215,7 @@
             app:cornerRadius="6dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="20dp"
+            android:enabled="false"
             android:id="@+id/start_btn"/>
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
@@ -225,6 +226,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/start_btn"
             android:textAllCaps="false"
+            android:enabled="false"
             app:cornerRadius="6dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="20dp"
