@@ -29,32 +29,21 @@ class UserRemoteDataSource {
     }
 
     // add workout to list of saved workouts
-    suspend fun addUserWorkout(workoutsInfoUiState: WorkoutsInfoUiState) {
-        if (isSavedWorkout(workoutsInfoUiState)) { // check if already exit
-            return
-        }
-        val savedWorkoutList = getOldWorkoutList().toMutableList()
-        savedWorkoutList.add(workoutsInfoUiState)
+    fun addUserWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) {
         user?.let {
-            db.collection("users").document(it.uid).update("savedWorkouts", savedWorkoutList)
+            db.collection("users").document(it.uid).update("savedWorkouts", listOfSavedWorkouts)
                 .addOnSuccessListener {
-                    Log.e(TAG, "addUserWorkout: $savedWorkoutList")
+                    Log.e(TAG, "addUserWorkout: $listOfSavedWorkouts")
                 }
         }
     }
 
     // delete workout from list of saved workouts
-    suspend fun deleteWorkout(workoutsInfoUiState: WorkoutsInfoUiState) {
-        val savedWorkoutList = getOldWorkoutList().toMutableList()
-        Log.e(TAG, "deleteWorkout: savedWorkoutList $savedWorkoutList")
-        if (savedWorkoutList.contains(workoutsInfoUiState)) {
-            savedWorkoutList.remove(workoutsInfoUiState)
-            Log.e(TAG, "deleteWorkout: $workoutsInfoUiState")
-        }
+    fun deleteWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) {
         user?.let {
-            db.collection("users").document(it.uid).update("savedWorkouts", savedWorkoutList)
+            db.collection("users").document(it.uid).update("savedWorkouts", listOfSavedWorkouts)
                 .addOnSuccessListener {
-                    Log.e(TAG, "addUserWorkout: $savedWorkoutList")
+                    Log.e(TAG, "addUserWorkout: $listOfSavedWorkouts")
                 }
         }
     }
@@ -73,7 +62,7 @@ class UserRemoteDataSource {
     }
 
     // To return list of saved workouts
-    suspend fun getOldWorkoutList(): List<WorkoutsInfoUiState> = withContext(Dispatchers.IO) {
+    private suspend fun getOldWorkoutList(): List<WorkoutsInfoUiState> = withContext(Dispatchers.IO) {
         var oldList = listOf<WorkoutsInfoUiState>()
         db.collection("users").document(user?.uid!!).get().addOnCompleteListener { task ->
             Log.e(
@@ -86,20 +75,32 @@ class UserRemoteDataSource {
     }
 
     suspend fun readUserInfo(): Flow<User> = callbackFlow {
-        val firebaseDb = FirebaseFirestore.getInstance()
-        val direc = firebaseDb.collection("users").document(
-            user?.uid!!
-        )
-        direc.addSnapshotListener { value, error ->
-            Log.d(TAG, "readUserInfo: $value- $error")
-            // for (item in value?.documents!!) {
-            Log.d(TAG, "readUserInfo: a ${value?.toObject(User::class.java)}")
-            val userInfo = value?.toObject(User::class.java)!!
-            trySend(userInfo)
-            Log.d(TAG, "readUserInfo: $userInfo")
-            // }
+        user?.let {
+            db.collection("users").document(it.uid).addSnapshotListener { value, error ->
+                Log.d(TAG, "readUserInfo: $value- $error")
+                Log.d(TAG, "readUserInfo: a ${value?.toObject(User::class.java)}")
+                val userInfo = value?.toObject(User::class.java)
+                userInfo?.let {
+                    trySend(userInfo)
+                }
+                Log.d(TAG, "readUserInfo: $userInfo")
+            }
         }
+        awaitClose { cancel() }
+    }
 
+    suspend fun reloadListOfSavedWorkouts(): Flow<List<WorkoutsInfoUiState>> = callbackFlow {
+        user?.let {
+            db.collection("users").document(it.uid).addSnapshotListener { value, error ->
+                Log.e(TAG, "reloadListOfSavedWorkouts: ${value?.toObject(User::class.java)} - $error")
+                value?.apply {
+                    val workoutsList = value.toObject(User::class.java)?.savedWorkouts
+                    if (workoutsList != null) {
+                        trySend(workoutsList)
+                    }
+                }
+            }
+        }
         awaitClose { cancel() }
     }
 }

@@ -13,16 +13,17 @@ class UserRepository(
 
     fun addUserInfo(userInfo: User) = userRemoteDataSource.saveUserInfo(userInfo)
 
-    suspend fun addUserWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-        userRemoteDataSource.addUserWorkout(workoutsInfoUiState)
+    fun addUserWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) =
+        userRemoteDataSource.addUserWorkout(listOfSavedWorkouts)
 
-    suspend fun deleteWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-        userRemoteDataSource.deleteWorkout(workoutsInfoUiState)
+    fun deleteWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) =
+        userRemoteDataSource.deleteWorkout(listOfSavedWorkouts)
 
     suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
         userRemoteDataSource.isSavedWorkout(workoutsInfoUiState)
 
+    suspend fun reloadListOfSavedWorkouts(): Flow<List<WorkoutsInfoUiState>> =
+        userRemoteDataSource.reloadListOfSavedWorkouts()
+
     suspend fun readUserInfo(): Flow<User> = userRemoteDataSource.readUserInfo()
 }
-
-

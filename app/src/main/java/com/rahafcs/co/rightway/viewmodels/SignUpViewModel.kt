@@ -23,9 +23,9 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
         _status.value = status
     }
 
-    init {
-        setUserInfo(getUserInfo())
-    }
+//    init {
+//        // setUserInfo(getUserInfo())
+//    }
 
     // signupFragment
     fun userInfo(user: User) {

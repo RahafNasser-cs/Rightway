@@ -49,7 +49,7 @@ class WorkoutRemoteDataSource(
         withContext(ioDispatcher) {
             try {
                 db.collection("workouts").document("listOfAllWorkouts").get().addOnSuccessListener {
-                     list = it.toObject(WorkoutsInfoUiState::class.java) as List<WorkoutsInfoUiState>
+                    list = it.toObject(WorkoutsInfoUiState::class.java) as List<WorkoutsInfoUiState>
                 }.addOnFailureListener { list = listOf() }
                 return@withContext list
             } catch (e: Exception) {

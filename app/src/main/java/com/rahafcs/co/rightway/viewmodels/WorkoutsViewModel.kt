@@ -11,6 +11,7 @@ import com.rahafcs.co.rightway.ui.state.WorkoutTypeUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,13 +28,14 @@ class WorkoutsViewModel(
     private val _isSavedWorkout = MutableStateFlow(false)
     val isSavedWorkout: MutableStateFlow<Boolean> = _isSavedWorkout
 
-    // TODO() set _workoutsInfoUiState a value
+    // TODO() set _workoutsInfoUiState a value to show in WorkoutFragment
     private val _workoutsInfoUiState = MutableStateFlow(WorkoutsInfoUiState())
     val workoutsInfoUiState: MutableStateFlow<WorkoutsInfoUiState> = _workoutsInfoUiState
 
     init {
-        getAllWorkouts()
-        setWorkoutsInfoUiState(getWorkoutsInfoUiState())
+        // TODO() remove the comment from getAllWorkouts(), because number of request in api
+        // getAllWorkouts()
+        // setWorkoutsInfoUiState(getWorkoutsInfoUiState())
     }
 
     fun setWorkoutsInfoUiState(workout: WorkoutsInfoUiState) {
@@ -74,11 +76,14 @@ class WorkoutsViewModel(
         }
     }
 
-    suspend fun addUserWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-        userRepository.addUserWorkout(workoutsInfoUiState)
+    fun addUserWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) =
+        userRepository.addUserWorkout(listOfSavedWorkouts)
 
-    suspend fun deleteWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-        userRepository.deleteWorkout(workoutsInfoUiState)
+    fun deleteWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) =
+        userRepository.deleteWorkout(listOfSavedWorkouts)
+
+    suspend fun reloadListOfSavedWorkouts(): Flow<List<WorkoutsInfoUiState>> =
+        userRepository.reloadListOfSavedWorkouts()
 
 //    suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
 //        userRepository.isSavedWorkout(workoutsInfoUiState)

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewPagerFragmentDirections
 import com.rahafcs.co.rightway.databinding.NestedItemBinding
+import com.rahafcs.co.rightway.ui.WorkoutsFragment.Companion.listOfSavedWorkouts
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ui.findUrlGlide
 
@@ -30,6 +31,9 @@ class WorkoutHorizontalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> B
                     )
                 binding.root.findNavController().navigate(action)
             }
+            if (isSaved(item)) {
+                binding.bookmark.setImageResource(R.drawable.bookmark_filled)
+            }
             binding.bookmark.setOnClickListener {
                 if (itemClickListener(item)) {
                     binding.bookmark.setImageResource(R.drawable.bookmark_filled)
@@ -38,6 +42,9 @@ class WorkoutHorizontalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> B
                 }
             }
         }
+
+        private fun isSaved(workoutsInfoUiState: WorkoutsInfoUiState) =
+            listOfSavedWorkouts.contains(workoutsInfoUiState)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutViewHolder {

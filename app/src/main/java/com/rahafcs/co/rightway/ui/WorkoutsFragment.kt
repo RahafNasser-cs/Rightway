@@ -1,6 +1,5 @@
 package com.rahafcs.co.rightway.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,7 +16,6 @@ import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class WorkoutsFragment : Fragment() {
     private var binding: FragmentWorkoutsBinding? = null
@@ -45,46 +43,37 @@ class WorkoutsFragment : Fragment() {
             workoutsFragment = this@WorkoutsFragment
             workoutViewModel = viewModel
             titleRecyclerview.adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
-                checkIsSavedWorkout(workoutsInfoUiState)
-                lifecycleScope.launch {
-                    try {
-                        if (viewModel.isSavedWorkout.value) {
-                            viewModel.deleteWorkout(workoutsInfoUiState)
-                            Log.e("WorkoutFragment", "onViewCreated: recycleview is false")
-                            false
-                        } else {
-                            val savedWorkout = workoutsInfoUiState.copy(isSaved = true)
-                            viewModel.addUserWorkout(savedWorkout)
-                            Log.e("WorkoutFragment", "onViewCreated: recycleview is true")
-                            true
-                        }
-                    } catch (e: Exception) {
-                    }
-                }
-
-                false // to avoid crash
-
-                // Or
-//                if (!workoutsInfoUiState.isSaved) {
-//                    val savedWorkout = workoutsInfoUiState.copy(isSaved = true)
-//                    viewModel.addUserWorkout(savedWorkout)
-//                    true
-//                } else {
-//                    viewModel.deleteWorkout(workoutsInfoUiState)
-//                    false
+//                checkIsSavedWorkout(workoutsInfoUiState)
+//                lifecycleScope.launch {
+//                    try {
+//                        if (viewModel.isSavedWorkout.value) {
+//                            viewModel.deleteWorkout(workoutsInfoUiState)
+//                            Log.e("WorkoutFragment", "onViewCreated: recycleview is false")
+//                            false
+//                        } else {
+//                            val savedWorkout = workoutsInfoUiState.copy(isSaved = true)
+//                            viewModel.addUserWorkout(savedWorkout)
+//                            Log.e("WorkoutFragment", "onViewCreated: recycleview is true")
+//                            true
+//                        }
+//                    } catch (e: Exception) {
+//                    }
 //                }
+                if (!checkIsSavedWorkout(workoutsInfoUiState)) {
+                    // val newItem = workoutsInfoUiState.copy(isSaved = true)
+                    listOfSavedWorkouts.add(workoutsInfoUiState)
+                    viewModel.addUserWorkout(listOfSavedWorkouts)
+                    true
+                } else {
+                    // val newItem = workoutsInfoUiState.copy(isSaved = true)
+                    listOfSavedWorkouts.remove(workoutsInfoUiState)
+                    viewModel.deleteWorkout(listOfSavedWorkouts)
+                    false
+                }
             }
         }
-        // to test Firestore
-        // addUserWorkout()
-    }
-
-    //    suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {
-//        return viewModel.isSavedWorkout(workoutsInfoUiState)
-//    }
-    private fun addUserWorkout() {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-        // sharedPreferences.getString(FIRST_NAME, "")?.let { viewModel.addUserWorkout(it) }
+        // reloadListOfSavedWorkouts from Firestore 
+        reloadListOfSavedWorkouts()
     }
 
     override fun onDestroyView() {
@@ -92,10 +81,21 @@ class WorkoutsFragment : Fragment() {
         binding = null
     }
 
-    fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) {
+    private fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {
+        Log.e(
+            "WorkoutFragment",
+            "checkIsSavedWorkout: ${listOfSavedWorkouts.contains(workoutsInfoUiState)}",
+        )
+        return listOfSavedWorkouts.contains(workoutsInfoUiState)
+    }
+
+    private fun reloadListOfSavedWorkouts() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.isSavedWorkout(workoutsInfoUiState)
+                viewModel.reloadListOfSavedWorkouts().collect {
+                    listOfSavedWorkouts = it.toMutableList()
+                    Log.e("WorkoutFragment", "reloadListOfSavedWorkouts: $listOfSavedWorkouts")
+                }
             }
         }
     }

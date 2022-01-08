@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentAgeBinding
 import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.AGE
 import com.rahafcs.co.rightway.utility.toast
@@ -37,7 +35,7 @@ class AgeFragment : Fragment() {
         val age = binding?.ageEditText?.text.toString()
         if (age.isNotEmpty()) {
             userAge(age)
-            //findNavController().navigate(R.id.action_ageFragment_to_activityFragment)
+            // findNavController().navigate(R.id.action_ageFragment_to_activityFragment)
         } else {
             requireContext().toast("Enter a age")
         }

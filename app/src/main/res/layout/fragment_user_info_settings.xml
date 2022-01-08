@@ -9,9 +9,14 @@
             type="com.rahafcs.co.rightway.viewmodels.SignUpViewModel" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:scrollbars="vertical">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="30dp"
@@ -32,13 +37,13 @@
             android:id="@+id/home_img"/>
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/person"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:id="@+id/user_img"/>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -51,24 +56,65 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:id="@+id/user_name_textview"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/user_img"
+            app:layout_constraintStart_toStartOf="@id/user_img"
+            app:layout_constraintEnd_toEndOf="@id/user_img"
+            android:layout_marginStart="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/user_name_input_layout">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@{userInfoViewModel.userInfo.height}"
+                android:id="@+id/user_name_edit_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/user_name_textview"
+            app:layout_constraintTop_toBottomOf="@id/user_img"
             app:layout_constraintStart_toStartOf="@id/user_name_textview"
             app:layout_constraintEnd_toEndOf="@id/user_name_textview"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="80dp"
             android:textSize="18sp"
             android:textStyle="bold"
             android:text="@{userInfoViewModel.userInfo.subscriptionStatus}"
             android:id="@+id/subscription_status"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_marginTop="80dp"
+            app:layout_constraintTop_toBottomOf="@id/user_img"
+            app:layout_constraintStart_toStartOf="@id/user_name_textview"
+            app:layout_constraintEnd_toEndOf="@id/user_name_textview"
+            android:id="@+id/user_subscription_status_options">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trainer"
+                android:textColor="@color/light_black"
+                android:id="@+id/trainer_option"/>
+            <RadioButton
+                android:textColor="@color/light_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trainee"
+                android:id="@+id/trainee_option"/>
+
+        </RadioGroup>
         <View
             android:id="@+id/divider1"
             style="@style/Widget.Rightway.Divider"
             android:layout_width="200dp"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/subscription_status"
+            android:layout_marginTop="124dp"
+            app:layout_constraintTop_toBottomOf="@id/user_img"
             app:layout_constraintStart_toStartOf="@id/subscription_status"
             app:layout_constraintEnd_toEndOf="@id/subscription_status"
             />
@@ -84,20 +130,21 @@
             android:layout_marginTop="50dp"
             android:id="@+id/height_textview"/>
         <!--region user height textview -->
-<!--        <com.google.android.material.textview.MaterialTextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintStart_toEndOf="@id/height_textview"-->
-<!--            app:layout_constraintTop_toTopOf="@id/height_textview"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/height_textview"-->
-<!--            android:text="@{userInfoViewModel.userInfo.height}"-->
-<!--            android:textSize="16sp"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:id="@+id/user_height"/>-->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/height_textview"
+            app:layout_constraintTop_toTopOf="@id/height_textview"
+            app:layout_constraintBottom_toBottomOf="@id/height_textview"
+            android:text="@{userInfoViewModel.userInfo.height}"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            android:id="@+id/user_height"/>
         <!--endregion -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/height_textview"
             app:layout_constraintTop_toTopOf="@id/height_textview"
             app:layout_constraintBottom_toBottomOf="@id/height_textview"
@@ -122,20 +169,21 @@
             android:layout_marginTop="50dp"
             android:id="@+id/weight_textview"/>
         <!--region user_weight textview-->
-<!--        <com.google.android.material.textview.MaterialTextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintStart_toEndOf="@id/weight_textview"-->
-<!--            app:layout_constraintTop_toTopOf="@id/weight_textview"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/weight_textview"-->
-<!--            android:text="@{userInfoViewModel.userInfo.weight}"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:textSize="16sp"-->
-<!--            android:id="@+id/user_weight"/>-->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/weight_textview"
+            app:layout_constraintTop_toTopOf="@id/weight_textview"
+            app:layout_constraintBottom_toBottomOf="@id/weight_textview"
+            android:text="@{userInfoViewModel.userInfo.weight}"
+            android:layout_marginStart="8dp"
+            android:textSize="16sp"
+            android:id="@+id/user_weight"/>
         <!--endregion -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/user_height_input_layout"
             app:layout_constraintTop_toTopOf="@id/weight_textview"
             app:layout_constraintBottom_toBottomOf="@id/weight_textview"
@@ -159,20 +207,21 @@
             android:layout_marginTop="50dp"
             android:id="@+id/age_textview"/>
         <!--region user_age textview -->
-<!--        <com.google.android.material.textview.MaterialTextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintStart_toEndOf="@id/age_textview"-->
-<!--            app:layout_constraintTop_toTopOf="@id/age_textview"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/age_textview"-->
-<!--            android:text="@{userInfoViewModel.userInfo.age}"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:textSize="16sp"-->
-<!--            android:id="@+id/user_age"/>-->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/age_textview"
+            app:layout_constraintTop_toTopOf="@id/age_textview"
+            app:layout_constraintBottom_toBottomOf="@id/age_textview"
+            android:text="@{userInfoViewModel.userInfo.age}"
+            android:layout_marginStart="8dp"
+            android:textSize="16sp"
+            android:id="@+id/user_age"/>
         <!--endregion user_age textview -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/user_weight_input_layout"
             app:layout_constraintTop_toTopOf="@id/age_textview"
             app:layout_constraintBottom_toBottomOf="@id/age_textview"
@@ -196,32 +245,60 @@
             android:layout_marginTop="50dp"
             android:id="@+id/gender_textview"/>
         <!--region user_gender textview -->
-<!--        <com.google.android.material.textview.MaterialTextView-->
-<!--            android:layout_width="wrap_content"-->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/gender_textview"
+            app:layout_constraintTop_toTopOf="@id/gender_textview"
+            app:layout_constraintBottom_toBottomOf="@id/gender_textview"
+            android:text="@{userInfoViewModel.userInfo.gender}"
+            android:layout_marginStart="8dp"
+            android:textSize="16sp"
+            android:id="@+id/user_gender"/>
+        <!--endregion user_gender textview -->
+
+        <!--region user_gender_input_layout -->
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:layout_width="280dp"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintStart_toEndOf="@id/gender_textview"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintStart_toStartOf="@id/user_age_input_layout"-->
 <!--            app:layout_constraintTop_toTopOf="@id/gender_textview"-->
 <!--            app:layout_constraintBottom_toBottomOf="@id/gender_textview"-->
-<!--            android:text="@{userInfoViewModel.userInfo.gender}"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:textSize="16sp"-->
-<!--            android:id="@+id/user_gender"/>-->
-        <!--endregion user_gender textview -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="280dp"
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:id="@+id/user_gender_input_layout">-->
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:layout_width="280dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:inputType="text"-->
+<!--                android:text="@{userInfoViewModel.userInfo.gender}"-->
+<!--                android:id="@+id/user_gender_edit_text"/>-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--endregion user_gender_input_layout -->
+
+        <RadioGroup
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:id="@+id/gender_option"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/user_age_input_layout"
             app:layout_constraintTop_toTopOf="@id/gender_textview"
             app:layout_constraintBottom_toBottomOf="@id/gender_textview"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/user_gender_input_layout">
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="280dp"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:text="@{userInfoViewModel.userInfo.gender}"
-                android:id="@+id/user_gender_edit_text"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="Female"
+                android:id="@+id/female_option"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:id="@+id/male_option"/>
+        </RadioGroup>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -233,48 +310,89 @@
             android:layout_marginTop="50dp"
             android:id="@+id/activity_level_textview"/>
         <!--region user_gender textview -->
-<!--        <com.google.android.material.textview.MaterialTextView-->
-<!--            android:layout_width="250dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintStart_toEndOf="@id/activity_level_textview"-->
-<!--            app:layout_constraintTop_toTopOf="@id/activity_level_textview"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/activity_level_textview"-->
-<!--            android:text="@{userInfoViewModel.userInfo.activity}"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:textSize="16sp"-->
-<!--            android:id="@+id/user_activity_leve"/>-->
-        <!--endregion user_gender textview -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="280dp"
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/user_height_input_layout"
+            app:layout_constraintStart_toEndOf="@id/activity_level_textview"
             app:layout_constraintTop_toTopOf="@id/activity_level_textview"
             app:layout_constraintBottom_toBottomOf="@id/activity_level_textview"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/user_activity_leve_input_layout">
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="280dp"
+            android:text="@{userInfoViewModel.userInfo.activity}"
+            android:layout_marginStart="8dp"
+            android:textSize="16sp"
+            android:id="@+id/user_activity_leve"/>
+        <!--endregion user_gender textview -->
+
+        <!--region user_activity_leve_input_layout -->
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:layout_width="280dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintStart_toStartOf="@id/user_height_input_layout"-->
+<!--            app:layout_constraintTop_toTopOf="@id/activity_level_textview"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/activity_level_textview"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:id="@+id/user_activity_leve_input_layout">-->
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:layout_width="280dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:inputType="text"-->
+<!--                android:text="@{userInfoViewModel.userInfo.activity}"-->
+<!--                android:id="@+id/user_activity_leve_edit_text"/>-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--endregion user_activity_leve_input_layout -->
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:id="@+id/activity_options"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/user_height_input_layout"
+            app:layout_constraintTop_toBottomOf="@id/gender_option"
+            android:checkedButton="@id/option_0"
+            android:orientation="vertical">
+            <RadioButton
+                android:textColor="@color/light_black"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:text="@{userInfoViewModel.userInfo.activity}"
-                android:id="@+id/user_activity_leve_edit_text"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/option_0"
+                android:id="@+id/option_0"/>
+            <RadioButton
+                android:textColor="@color/light_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/option_1"
+                android:id="@+id/option_1"/>
+            <RadioButton
+                android:textColor="@color/light_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/option_2"
+                android:id="@+id/option_2"/>
+            <RadioButton
+                android:textColor="@color/light_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/option_3"
+                android:id="@+id/option_3"/>
+        </RadioGroup>
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             app:cornerRadius="6dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="164dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_activity_leve_input_layout"
-            android:text="Save"
-            android:enabled="false"
+            app:layout_constraintTop_toBottomOf="@id/activity_level_textview"
+            android:text="Edit"
             android:background="@drawable/button_disabled"
             android:id="@+id/save_btn"
             android:textAllCaps="false"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </ScrollView>
 </layout>
