@@ -21,7 +21,7 @@ class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boo
         fun bind(item: WorkoutsUiState) {
             binding.muscleName.text =
                 item.workoutTypeUiState.bodyPart.capitalizeFormatIfFirstLatterSmall()
-            val adapter = WorkoutHorizontalAdapter { workoutsInfoUiState ->
+            val adapter = WorkoutHorizontalAdapter("WorkoutFragment") { workoutsInfoUiState ->
                 itemClickListener(workoutsInfoUiState)
             }
             binding.innerRecyclerview.adapter = adapter

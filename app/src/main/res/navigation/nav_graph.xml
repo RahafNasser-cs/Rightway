@@ -171,5 +171,8 @@
         <argument
             android:name="equipment"
             app:argType="string" />
+        <action
+            android:id="@+id/action_showWorkoutsByEquipmentFragment_to_workoutDetailsFragment2"
+            app:destination="@id/workoutDetailsFragment2" />
     </fragment>
 </navigation>

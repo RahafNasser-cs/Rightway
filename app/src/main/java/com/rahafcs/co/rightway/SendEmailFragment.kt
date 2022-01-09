@@ -12,13 +12,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentSendEmailBinding
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
+import com.rahafcs.co.rightway.viewmodels.EmailViewModel
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import kotlinx.coroutines.flow.collect
@@ -32,12 +32,18 @@ class SendEmailFragment : Fragment() {
             ServiceLocator.provideUserRepository()
         )
     }
+    private val emailViewModel by activityViewModels<EmailViewModel> {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideUserRepository()
+        )
+    }
     private val args: SendEmailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentSendEmailBinding.inflate(inflater, container, false)
@@ -48,8 +54,11 @@ class SendEmailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         readUserInfo()
+        showPreSubject()
         binding?.backArrow?.setOnClickListener { this.upToTop() }
         binding?.emailAddressEditText?.setText(args.coachEmail)
+        binding?.emailViewModel = emailViewModel
+        binding?.lifecycleOwner = viewLifecycleOwner
         binding?.sendBtn?.setOnClickListener {
 
             val email = binding?.emailAddressEditText?.text.toString()
@@ -84,14 +93,19 @@ class SendEmailFragment : Fragment() {
     }
 
     private fun showUserMessage(userInfo: User) {
-       // binding?.messageEditText?.setText("")
+        // binding?.messageEditText?.setText("")
         val preMessage =
             "Hi I'm ${userInfo.firstName}\nI would like to subscribe with you!" +
                 "\nSome info about me:\nGender: ${userInfo.gender}" +
                 "\nHeight: ${userInfo.height}\nWeight: ${userInfo.weight}" +
                 "\nAge: ${userInfo.age}\nActivity level: ${userInfo.activity}\n"
-        val message = preMessage+binding?.messageEditText?.text.toString()
+        val message = preMessage + binding?.messageEditText?.text.toString()
+        // emailViewModel.setPreMessage(preMessage)
         binding?.messageEditText?.setText(preMessage)
+    }
+    private fun showPreSubject(){
+        val preSubject = "Hello, I would like to subscribe with you!"
+        binding?.subjectEditText?.setText(preSubject)
     }
 
     override fun onDestroyView() {

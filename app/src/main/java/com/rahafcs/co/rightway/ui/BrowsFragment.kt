@@ -32,6 +32,7 @@ class BrowsFragment : Fragment() {
             kettleBellChip.setOnClickListener { showWorkoutWithKettleBell() }
             resistanceBandChip.setOnClickListener { showWorkoutWithResistanceBand() }
             dumbbellChip.setOnClickListener { showWorkoutWithDumbbell() }
+            noEquipmentCard.setOnClickListener { showWorkoutWithBodyWeight() }
         }
     }
 
@@ -74,5 +75,10 @@ class BrowsFragment : Fragment() {
         val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("resistance%20band")
         findNavController().navigate(action)
         requireContext().toast("Show workout with Resistance band")
+    }
+    private fun showWorkoutWithBodyWeight() {
+        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("body%20weight")
+        findNavController().navigate(action)
+        requireContext().toast("Show workout with body band weight")
     }
 }

@@ -2,6 +2,7 @@ package com.rahafcs.co.rightway.viewmodels
 
 import android.util.Log
 import androidx.core.net.toUri
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
@@ -33,9 +34,11 @@ class WorkoutsViewModel(
     val workoutsInfoUiState: MutableStateFlow<WorkoutsInfoUiState> = _workoutsInfoUiState
 
     // To Brows workout by equipment
-    private val _listOfWorkoutByEquipment = MutableStateFlow(listOf<WorkoutsInfoUiState>())
-    val listOfWorkoutByEquipment: MutableStateFlow<List<WorkoutsInfoUiState>> =
+    private val _listOfWorkoutByEquipment = MutableStateFlow(WorkoutsUiState())
+    val listOfWorkoutByEquipment: MutableStateFlow<WorkoutsUiState> =
         _listOfWorkoutByEquipment
+    private var _bodyPart = MutableLiveData<String>()
+    val bodyPart: MutableLiveData<String> get() = _bodyPart
 
     init {
         // TODO() remove the comment from getAllWorkouts(), because number of request in api
@@ -51,7 +54,10 @@ class WorkoutsViewModel(
     fun getWorkoutsByEquipment(equipment: String) {
         viewModelScope.launch {
             try {
-                val result = workoutRepository.getWorkoutsByEquipment(equipment)
+                val result = if (equipment.isEmpty()) workoutRepository.getAllWorkouts()
+                else
+                    workoutRepository.getWorkoutsByEquipment(equipment)
+
                 val list = result.map {
                     WorkoutsInfoUiState(
                         gifUrl = it.gifUrl,
@@ -61,10 +67,17 @@ class WorkoutsViewModel(
                         bodyPart = it.bodyPart
                     )
                 }
-                _listOfWorkoutByEquipment.update { list }
+                val type = equipment.replace("%20", " ")
+                _listOfWorkoutByEquipment.update {
+                    it.copy(
+                        workoutsInfoUiState = list,
+                        workoutTypeUiState = WorkoutTypeUiState(type)
+                    )
+                }
+                _bodyPart.value = type.capitalizeFormatIfFirstLatterSmall()
                 Log.e(
                     "WorkoutViewModel",
-                    "getWorkoutsByEquipment: $list",
+                    "getWorkoutsByEquipment: ${_listOfWorkoutByEquipment.value}",
                 )
             } catch (e: Exception) {
                 Log.e("WorkoutsViewModel", "getWorkoutsByEquipment: $e")

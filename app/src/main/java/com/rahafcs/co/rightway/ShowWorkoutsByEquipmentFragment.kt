@@ -1,6 +1,7 @@
 package com.rahafcs.co.rightway
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.rahafcs.co.rightway.databinding.FragmentShowWorkoutsByEquipmentBinding
 import com.rahafcs.co.rightway.ui.WorkoutHorizontalAdapter
+import com.rahafcs.co.rightway.ui.WorkoutsFragment.Companion.listOfSavedWorkouts
+import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.upToTop
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
@@ -40,14 +43,37 @@ class ShowWorkoutsByEquipmentFragment : Fragment() {
         viewModel.getWorkoutsByEquipment(args.equipment)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            val adapter = WorkoutHorizontalAdapter {
-                false
+            val adapter = WorkoutHorizontalAdapter("") { workoutsInfoUiState ->
+                if (!checkIsSavedWorkout(workoutsInfoUiState)) {
+                    listOfSavedWorkouts.add(workoutsInfoUiState)
+                    viewModel.addUserWorkout(listOfSavedWorkouts)
+                    true
+                } else {
+                    listOfSavedWorkouts.remove(workoutsInfoUiState)
+                    viewModel.deleteWorkout(listOfSavedWorkouts)
+                    false
+                }
             }
+            workoutsViewModel = viewModel
             workoutRecyclerview.adapter = adapter
-            adapter.submitList(viewModel.listOfWorkoutByEquipment.value)
+            // adapter.submitList(viewModel.listOfWorkoutByEquipment.value)
             backArrow.setOnClickListener { this@ShowWorkoutsByEquipmentFragment.upToTop() }
         }
         // adapter.submitList(viewModel.listOfWorkoutByEquipment.value) // I submit in xml
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    private fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {
+        Log.e(
+            "WorkoutFragment",
+            "checkIsSavedWorkout: ${
+            listOfSavedWorkouts.contains(workoutsInfoUiState)
+            }",
+        )
+        return listOfSavedWorkouts.contains(workoutsInfoUiState)
     }
 
     override fun onDestroyView() {

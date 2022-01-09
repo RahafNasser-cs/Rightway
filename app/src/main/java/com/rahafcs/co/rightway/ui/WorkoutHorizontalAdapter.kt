@@ -7,13 +7,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.ShowWorkoutsByEquipmentFragmentDirections
 import com.rahafcs.co.rightway.ViewPagerFragmentDirections
 import com.rahafcs.co.rightway.databinding.NestedItemBinding
 import com.rahafcs.co.rightway.ui.WorkoutsFragment.Companion.listOfSavedWorkouts
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ui.findUrlGlide
 
-class WorkoutHorizontalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boolean) :
+class WorkoutHorizontalAdapter(
+    val flag: String,
+    var itemClickListener: (WorkoutsInfoUiState) -> Boolean,
+) :
     ListAdapter<WorkoutsInfoUiState, WorkoutHorizontalAdapter.WorkoutViewHolder>(
         HorizontalDiffCallback
     ) {
@@ -24,11 +28,19 @@ class WorkoutHorizontalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> B
             binding.bodyTargetTextview.text = item.name
             binding.workoutGif.findUrlGlide(item.gifUrl)
             binding.workoutCardView.setOnClickListener {
-                val action =
-                    ViewPagerFragmentDirections.actionViewPagerFragment2ToWorkoutDetailsFragment2(
-                        item
-                    )
-                binding.root.findNavController().navigate(action)
+                if (flag == "WorkoutFragment") {
+                    val action =
+                        ViewPagerFragmentDirections.actionViewPagerFragment2ToWorkoutDetailsFragment2(
+                            item
+                        )
+                    binding.root.findNavController().navigate(action)
+                } else {
+                    val action =
+                        ShowWorkoutsByEquipmentFragmentDirections.actionShowWorkoutsByEquipmentFragmentToWorkoutDetailsFragment2(
+                            item
+                        )
+                    binding.root.findNavController().navigate(action)
+                }
             }
             if (isSaved(item)) {
                 binding.bookmark.setImageResource(R.drawable.bookmark_filled)
@@ -58,14 +70,14 @@ class WorkoutHorizontalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> B
     companion object HorizontalDiffCallback : DiffUtil.ItemCallback<WorkoutsInfoUiState>() {
         override fun areItemsTheSame(
             oldItem: WorkoutsInfoUiState,
-            newItem: WorkoutsInfoUiState
+            newItem: WorkoutsInfoUiState,
         ): Boolean {
             return oldItem.name == newItem.name
         }
 
         override fun areContentsTheSame(
             oldItem: WorkoutsInfoUiState,
-            newItem: WorkoutsInfoUiState
+            newItem: WorkoutsInfoUiState,
         ): Boolean {
             return oldItem.name == oldItem.name || oldItem.equipment == oldItem.equipment || oldItem.gifUrl == oldItem.gifUrl || oldItem.target == oldItem.target
         }
