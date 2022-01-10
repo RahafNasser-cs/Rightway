@@ -23,6 +23,7 @@ class UserRemoteDataSource {
             db.collection("users").document(it.uid).set(userInfo)
                 .addOnSuccessListener {
                     Log.d(TAG, "saveUserInfo: $userInfo")
+                    Log.e(TAG, "saveUserInfo: user id ${user.uid}", )
                 }
                 .addOnFailureListener { }
         }
@@ -77,7 +78,7 @@ class UserRemoteDataSource {
     suspend fun readUserInfo(): Flow<User> = callbackFlow {
         user?.let {
             db.collection("users").document(it.uid).addSnapshotListener { value, error ->
-                Log.d(TAG, "readUserInfo: $value- $error")
+                Log.d(TAG, "readUserInfo: name ${value?.get("name")}- $error")
                 Log.d(TAG, "readUserInfo: a ${value?.toObject(User::class.java)}")
                 val userInfo = value?.toObject(User::class.java)
                 userInfo?.let {

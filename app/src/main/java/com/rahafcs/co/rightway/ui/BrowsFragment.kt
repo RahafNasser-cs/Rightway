@@ -72,12 +72,12 @@ class BrowsFragment : Fragment() {
     }
 
     private fun showWorkoutWithResistanceBand() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("resistance%20band")
+        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("resistance band")
         findNavController().navigate(action)
         requireContext().toast("Show workout with Resistance band")
     }
     private fun showWorkoutWithBodyWeight() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("body%20weight")
+        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("body weight")
         findNavController().navigate(action)
         requireContext().toast("Show workout with body band weight")
     }

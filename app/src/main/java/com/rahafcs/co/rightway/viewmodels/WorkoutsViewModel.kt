@@ -57,7 +57,9 @@ class WorkoutsViewModel(
                 val result = if (equipment.isEmpty()) workoutRepository.getAllWorkouts()
                 else
                     workoutRepository.getWorkoutsByEquipment(equipment)
-
+                val type =
+                    if (equipment.isEmpty()) "All Equipment" else equipment
+                        .capitalizeFormatIfFirstLatterSmall()
                 val list = result.map {
                     WorkoutsInfoUiState(
                         gifUrl = it.gifUrl,
@@ -67,14 +69,13 @@ class WorkoutsViewModel(
                         bodyPart = it.bodyPart
                     )
                 }
-                val type = equipment.replace("%20", " ")
                 _listOfWorkoutByEquipment.update {
                     it.copy(
                         workoutsInfoUiState = list,
                         workoutTypeUiState = WorkoutTypeUiState(type)
                     )
                 }
-                _bodyPart.value = type.capitalizeFormatIfFirstLatterSmall()
+                _bodyPart.value = type
                 Log.e(
                     "WorkoutViewModel",
                     "getWorkoutsByEquipment: ${_listOfWorkoutByEquipment.value}",
