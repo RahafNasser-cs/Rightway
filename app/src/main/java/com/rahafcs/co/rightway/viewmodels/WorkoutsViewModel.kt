@@ -2,18 +2,16 @@ package com.rahafcs.co.rightway.viewmodels
 
 import android.util.Log
 import androidx.core.net.toUri
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
+import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.data.UserRepository
-import com.rahafcs.co.rightway.ui.state.ListWorkoutsUiState
-import com.rahafcs.co.rightway.ui.state.WorkoutTypeUiState
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
-import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
+import com.rahafcs.co.rightway.ui.state.*
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -34,11 +32,8 @@ class WorkoutsViewModel(
     val workoutsInfoUiState: MutableStateFlow<WorkoutsInfoUiState> = _workoutsInfoUiState
 
     // To Brows workout by equipment
-    private val _listOfWorkoutByEquipment = MutableStateFlow(WorkoutsUiState())
-    val listOfWorkoutByEquipment: MutableStateFlow<WorkoutsUiState> =
-        _listOfWorkoutByEquipment
-    private var _bodyPart = MutableLiveData<String>()
-    val bodyPart: MutableLiveData<String> get() = _bodyPart
+    private var _browsWorkoutUiState = MutableStateFlow(BrowsWorkoutUiState())
+    val browsWorkoutUiState: StateFlow<BrowsWorkoutUiState> get() = _browsWorkoutUiState
 
     init {
         // TODO() remove the comment from getAllWorkouts(), because number of request in api
@@ -54,6 +49,7 @@ class WorkoutsViewModel(
     fun getWorkoutsByEquipment(equipment: String) {
         viewModelScope.launch {
             try {
+                _browsWorkoutUiState.update { it.copy(loadingState = LoadingStatus.LOADING) }
                 val result = if (equipment.isEmpty()) workoutRepository.getAllWorkouts()
                 else
                     workoutRepository.getWorkoutsByEquipment(equipment)
@@ -69,19 +65,26 @@ class WorkoutsViewModel(
                         bodyPart = it.bodyPart
                     )
                 }
-                _listOfWorkoutByEquipment.update {
+                _browsWorkoutUiState.update {
                     it.copy(
-                        workoutsInfoUiState = list,
-                        workoutTypeUiState = WorkoutTypeUiState(type)
+                        workoutsUiState = WorkoutsUiState(
+                            WorkoutTypeUiState(type), list
+                        ),
+                        loadingState = LoadingStatus.SUCCESS
                     )
                 }
-                _bodyPart.value = type
-                Log.e(
-                    "WorkoutViewModel",
-                    "getWorkoutsByEquipment: ${_listOfWorkoutByEquipment.value}",
-                )
             } catch (e: Exception) {
                 Log.e("WorkoutsViewModel", "getWorkoutsByEquipment: $e")
+                _browsWorkoutUiState.update {
+                    it.copy(
+                        loadingState = LoadingStatus.FAILURE,
+                        userMsg = "Error $e"
+                    )
+                }
+                Log.e(
+                    "TAG",
+                    "getWorkoutsByEquipment: ${_browsWorkoutUiState.value.loadingState}",
+                )
             }
         }
     }
@@ -90,6 +93,7 @@ class WorkoutsViewModel(
         Log.d("TAG", "getAllWorkouts: First fun")
         viewModelScope.launch {
             try {
+                _listWorkoutsUiState.update { it.copy(loadingState = LoadingStatus.LOADING) }
                 val result = workoutRepository.getAllWorkouts()
                 val listOfBodyParts = result.distinctBy { it.bodyPart }.map { it.bodyPart }
                 val listOfWorkOts = result.map {
@@ -110,11 +114,11 @@ class WorkoutsViewModel(
 
                 Log.d("TAG", "getAllWorkouts: $workoutsUiState")
                 _listWorkoutsUiState.update {
-                    it.copy(workUiState = workoutsUiState)
+                    it.copy(workUiState = workoutsUiState, loadingState = LoadingStatus.SUCCESS)
                 }
             } catch (e: Exception) {
                 Log.d(tag, "getAllWorkouts: error $e")
-                // _listWorkoutsUiState.value = ListWorkoutsUiState(listOf())
+                _listWorkoutsUiState.update { it.copy(loadingState = LoadingStatus.FAILURE) }
             }
         }
     }

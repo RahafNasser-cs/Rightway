@@ -9,7 +9,7 @@ import coil.load
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.data.RegistrationStatus
+import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.ui.CoachAdapter
 import com.rahafcs.co.rightway.ui.WorkoutHorizontalAdapter
 import com.rahafcs.co.rightway.ui.WorkoutVerticalAdapter
@@ -19,15 +19,15 @@ import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
 import pl.droidsonroids.gif.GifImageView
 
 @BindingAdapter("registrationStatus")
-fun LottieAnimationView.bindRegistrationStatus(status: RegistrationStatus?) {
+fun LottieAnimationView.bindRegistrationStatus(status: LoadingStatus?) {
     when (status) {
-        RegistrationStatus.SUCCESS -> {
+        LoadingStatus.SUCCESS -> {
             this.visibility = View.GONE
         }
-        RegistrationStatus.FAILURE -> {
+        LoadingStatus.FAILURE -> {
             this.visibility = View.GONE
         }
-        RegistrationStatus.LOADING -> {
+        LoadingStatus.LOADING -> {
             this.visibility = View.VISIBLE
         }
         else -> {

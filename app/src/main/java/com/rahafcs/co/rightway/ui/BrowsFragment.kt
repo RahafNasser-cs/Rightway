@@ -14,7 +14,7 @@ class BrowsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentBrowsBinding.inflate(inflater, container, false)
@@ -42,42 +42,50 @@ class BrowsFragment : Fragment() {
     }
 
     private fun showWorkoutWithAllEquipment() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("")
+        val action =
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("")
         findNavController().navigate(action)
         requireContext().toast("Show workout with all equipment")
     }
 
     private fun showWorkoutWithBarbell() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("barbell")
+        val action =
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("barbell")
         findNavController().navigate(action)
         requireContext().toast("Show workout with barbell")
     }
 
     private fun showWorkoutWithCable() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("cable")
+        val action =
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("cable")
         findNavController().navigate(action)
         requireContext().toast("Show workout with cable")
     }
 
     private fun showWorkoutWithDumbbell() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("dumbbell")
+        val action =
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("dumbbell")
         findNavController().navigate(action)
         requireContext().toast("Show workout with dumbbell")
     }
 
     private fun showWorkoutWithKettleBell() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("kettlebell")
+        val action =
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("kettlebell")
         findNavController().navigate(action)
         requireContext().toast("Show workout with Kettle bell")
     }
 
     private fun showWorkoutWithResistanceBand() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("resistance band")
+        val action =
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("resistance band")
         findNavController().navigate(action)
         requireContext().toast("Show workout with Resistance band")
     }
+
     private fun showWorkoutWithBodyWeight() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("body weight")
+        val action =
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("body weight")
         findNavController().navigate(action)
         requireContext().toast("Show workout with body band weight")
     }
