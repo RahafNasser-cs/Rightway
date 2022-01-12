@@ -110,13 +110,8 @@ class WorkoutsFragment : Fragment() {
         binding = null
     }
 
-    private fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {
-        Log.e(
-            "WorkoutFragment",
-            "checkIsSavedWorkout: ${listOfSavedWorkouts.contains(workoutsInfoUiState)}",
-        )
-        return listOfSavedWorkouts.contains(workoutsInfoUiState)
-    }
+    private fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+        listOfSavedWorkouts.contains(workoutsInfoUiState)
 
     private fun reloadListOfSavedWorkouts() {
         lifecycleScope.launch {

@@ -19,11 +19,13 @@ class UserRemoteDataSource {
     val id = FirebaseAuth.getInstance().currentUser
 
     fun saveUserInfo(userInfo: User) {
-        user?.let {
-            db.collection("users").document(it.uid).set(userInfo)
+        user?.let { FirebaseUsar ->
+            db.collection("users").document(FirebaseUsar.uid).set(userInfo)
                 .addOnSuccessListener {
+                    Log.d(TAG, "saveUserInfo: $it")
                     Log.d(TAG, "saveUserInfo: $userInfo")
-                    Log.e(TAG, "saveUserInfo: user id ${user.uid}", )
+                    Log.d(TAG, "saveUserInfo: ${FirebaseUsar.email}")
+                    Log.e(TAG, "saveUserInfo: user id ${FirebaseUsar.uid}")
                 }
                 .addOnFailureListener { }
         }
@@ -63,17 +65,18 @@ class UserRemoteDataSource {
     }
 
     // To return list of saved workouts
-    private suspend fun getOldWorkoutList(): List<WorkoutsInfoUiState> = withContext(Dispatchers.IO) {
-        var oldList = listOf<WorkoutsInfoUiState>()
-        db.collection("users").document(user?.uid!!).get().addOnCompleteListener { task ->
-            Log.e(
-                "",
-                "old saved workout ---> ${task.result.toObject(User::class.java)?.savedWorkouts ?: listOf()}"
-            )
-            oldList = task.result.toObject(User::class.java)?.savedWorkouts ?: listOf()
+    private suspend fun getOldWorkoutList(): List<WorkoutsInfoUiState> =
+        withContext(Dispatchers.IO) {
+            var oldList = listOf<WorkoutsInfoUiState>()
+            db.collection("users").document(user?.uid!!).get().addOnCompleteListener { task ->
+                Log.e(
+                    "",
+                    "old saved workout ---> ${task.result.toObject(User::class.java)?.savedWorkouts ?: listOf()}"
+                )
+                oldList = task.result.toObject(User::class.java)?.savedWorkouts ?: listOf()
+            }
+            oldList
         }
-        oldList
-    }
 
     suspend fun readUserInfo(): Flow<User> = callbackFlow {
         user?.let {
@@ -85,6 +88,7 @@ class UserRemoteDataSource {
                     trySend(userInfo)
                 }
                 Log.d(TAG, "readUserInfo: $userInfo")
+                Log.e(TAG, "readUserInfo: uid --> ${user.uid}")
             }
         }
         awaitClose { cancel() }
@@ -93,11 +97,15 @@ class UserRemoteDataSource {
     suspend fun reloadListOfSavedWorkouts(): Flow<List<WorkoutsInfoUiState>> = callbackFlow {
         user?.let {
             db.collection("users").document(it.uid).addSnapshotListener { value, error ->
-                Log.e(TAG, "reloadListOfSavedWorkouts: ${value?.toObject(User::class.java)} - $error")
+                Log.e(
+                    TAG,
+                    "reloadListOfSavedWorkouts: ${value?.toObject(User::class.java)} - $error"
+                )
                 value?.apply {
                     val workoutsList = value.toObject(User::class.java)?.savedWorkouts
                     if (workoutsList != null) {
                         trySend(workoutsList)
+                        Log.e(TAG, "reloadListOfSavedWorkouts trysend: $workoutsList")
                     }
                 }
             }

@@ -15,6 +15,7 @@ import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentShowWorkoutsByEquipmentBinding
 import com.rahafcs.co.rightway.ui.WorkoutHorizontalAdapter
 import com.rahafcs.co.rightway.ui.WorkoutsFragment.Companion.listOfSavedWorkouts
+import com.rahafcs.co.rightway.ui.state.BrowsWorkoutUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.upToTop
@@ -62,7 +63,6 @@ class ShowWorkoutsByEquipmentFragment : Fragment() {
             }
             workoutsViewModel = viewModel
             workoutRecyclerview.adapter = adapter
-            // adapter.submitList(viewModel.listOfWorkoutByEquipment.value)
             backArrow.setOnClickListener { this@ShowWorkoutsByEquipmentFragment.upToTop() }
         }
         loadingState()
@@ -75,26 +75,13 @@ class ShowWorkoutsByEquipmentFragment : Fragment() {
                 viewModel.browsWorkoutUiState.collect { browsWorkoutUiState ->
                     when (browsWorkoutUiState.loadingState) {
                         LoadingStatus.FAILURE -> {
-                            binding?.apply {
-                                loading.visibility = View.GONE
-                                error.visibility = View.VISIBLE
-                                errorMsg.text = browsWorkoutUiState.userMsg
-                                success.visibility = View.GONE
-                            }
+                            showErrorLayout(browsWorkoutUiState)
                         }
                         LoadingStatus.SUCCESS -> {
-                            binding?.apply {
-                                loading.visibility = View.GONE
-                                error.visibility = View.GONE
-                                success.visibility = View.VISIBLE
-                            }
+                            showSuccessLayout()
                         }
                         LoadingStatus.LOADING -> {
-                            binding?.apply {
-                                loading.visibility = View.VISIBLE
-                                error.visibility = View.GONE
-                                success.visibility = View.GONE
-                            }
+                            showLoadingLayout()
                         }
                     }
                 }
@@ -102,8 +89,29 @@ class ShowWorkoutsByEquipmentFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun showLoadingLayout() {
+        binding?.apply {
+            loading.visibility = View.VISIBLE
+            error.visibility = View.GONE
+            success.visibility = View.GONE
+        }
+    }
+
+    private fun showSuccessLayout() {
+        binding?.apply {
+            loading.visibility = View.GONE
+            error.visibility = View.GONE
+            success.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showErrorLayout(browsWorkoutUiState: BrowsWorkoutUiState) {
+        binding?.apply {
+            loading.visibility = View.GONE
+            error.visibility = View.VISIBLE
+            errorMsg.text = browsWorkoutUiState.userMsg
+            success.visibility = View.GONE
+        }
     }
 
     private fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {

@@ -2,6 +2,7 @@ package com.rahafcs.co.rightway.viewmodels
 
 import android.util.Log
 import androidx.core.net.toUri
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
@@ -9,10 +10,7 @@ import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.data.UserRepository
 import com.rahafcs.co.rightway.ui.state.*
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class WorkoutsViewModel(
@@ -35,10 +33,22 @@ class WorkoutsViewModel(
     private var _browsWorkoutUiState = MutableStateFlow(BrowsWorkoutUiState())
     val browsWorkoutUiState: StateFlow<BrowsWorkoutUiState> get() = _browsWorkoutUiState
 
+    // To show saved workout
+    private val _listSavedWorkout = MutableLiveData<List<WorkoutsInfoUiState>>()
+    val listSavedWorkout: MutableLiveData<List<WorkoutsInfoUiState>> get() = _listSavedWorkout
+
     init {
         // TODO() remove the comment from getAllWorkouts(), because number of request in api
         getAllWorkouts()
         // setWorkoutsInfoUiState(getWorkoutsInfoUiState())
+    }
+
+    fun setListSavedWorkout() {
+        viewModelScope.launch {
+            reloadListOfSavedWorkouts().collect {
+                _listSavedWorkout.value = it
+            }
+        }
     }
 
     fun setWorkoutsInfoUiState(workout: WorkoutsInfoUiState) {
@@ -118,7 +128,12 @@ class WorkoutsViewModel(
                 }
             } catch (e: Exception) {
                 Log.d(tag, "getAllWorkouts: error $e")
-                _listWorkoutsUiState.update { it.copy(loadingState = LoadingStatus.FAILURE, userMsg = "Error tray again!") }
+                _listWorkoutsUiState.update {
+                    it.copy(
+                        loadingState = LoadingStatus.FAILURE,
+                        userMsg = "Error tray again!"
+                    )
+                }
             }
         }
     }

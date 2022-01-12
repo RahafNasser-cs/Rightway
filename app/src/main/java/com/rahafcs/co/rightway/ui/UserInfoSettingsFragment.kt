@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.User
@@ -45,7 +46,7 @@ class UserInfoSettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentUserInfoSettingsBinding.inflate(inflater, container, false)
@@ -58,10 +59,11 @@ class UserInfoSettingsFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             logoutImg.setOnClickListener { signOut() }
             homeImg.setOnClickListener { goToHomePage() }
-            saveBtn.setOnClickListener {
+            editImg.setOnClickListener {
                 if (!isEditMode) {
                     isEditMode = true
-                    saveBtn.text = "Save"
+                    it.visibility = View.GONE
+                    binding?.closeImg?.visibility = View.VISIBLE
                     hideUserInfoTextView()
                     readUserInfo()
                 }
@@ -90,8 +92,13 @@ class UserInfoSettingsFragment : Fragment() {
         editor.putBoolean(SIGN_IN, false)
         editor.apply()
         requireContext().toast("${FirebaseAuth.getInstance().currentUser?.email}")
-        FirebaseAuth.getInstance().signOut()
-        findNavController().navigate(R.id.registrationFragment)
+        Log.e("TAG", "signOut: before ${FirebaseAuth.getInstance().currentUser?.uid!!}")
+        AuthUI.getInstance()
+            .signOut(requireContext()).addOnSuccessListener {
+                FirebaseAuth.getInstance().signOut()
+                findNavController().navigate(R.id.registrationFragment)
+            }.addOnFailureListener {
+            }
     }
 
     private fun showUserInfo(userInfo: User) {
@@ -110,10 +117,20 @@ class UserInfoSettingsFragment : Fragment() {
         makeEditTextVisible()
         binding?.apply {
             representUserInfoIntoEditText(userInfo) // show info into editText
+            closeImg.setOnClickListener {
+                if (isEditMode) {
+                    isEditMode = false
+                    it.visibility = View.GONE
+                    binding?.editImg?.visibility = View.VISIBLE
+                    hideEditUserInfo()
+                    showUserInfoTextView()
+                }
+            }
             saveBtn.setOnClickListener {
                 if (isEditMode) {
                     isEditMode = false
-                    saveBtn.text = "Edit"
+                    binding?.closeImg?.visibility = View.GONE
+                    binding?.editImg?.visibility = View.VISIBLE
                     saveUserInfo(getUpdatedUserInfo(userInfo))
                     hideEditUserInfo()
                     showUserInfoTextView()
@@ -133,6 +150,7 @@ class UserInfoSettingsFragment : Fragment() {
             userSubscriptionStatusOptions.visibility = View.VISIBLE
             heightOption.visibility = View.VISIBLE
             weightOption.visibility = View.VISIBLE
+            saveBtn.visibility = View.VISIBLE
         }
     }
 
@@ -178,6 +196,7 @@ class UserInfoSettingsFragment : Fragment() {
             userSubscriptionStatusOptions.visibility = View.GONE
             heightOption.visibility = View.GONE
             weightOption.visibility = View.GONE
+            saveBtn.visibility = View.GONE
         }
     }
 

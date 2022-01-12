@@ -18,7 +18,8 @@ import com.rahafcs.co.rightway.ui.WorkoutsFragment
 import com.rahafcs.co.rightway.utility.toast
 
 class ViewPagerFragment : Fragment() {
-    var binding: FragmentViewPagerBinding? = null
+    private var _binding: FragmentViewPagerBinding? = null
+    val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,18 +30,18 @@ class ViewPagerFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentViewPagerBinding.inflate(inflater, container, false)
+        _binding = FragmentViewPagerBinding.inflate(inflater, container, false)
         val adapter = ViewPagerAdapter(
             getFragmentList(),
             requireActivity().supportFragmentManager,
             lifecycle
         )
-        binding?.viewPager?.isUserInputEnabled = false // to disable swiping
-        binding?.viewPager?.adapter = adapter
+        binding.viewPager.isUserInputEnabled = false // to disable swiping
+        binding.viewPager.adapter = adapter
 
-        TabLayoutMediator(binding?.tabLayout!!, binding?.viewPager!!) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = "Workouts"
                 1 -> tab.text = "Brows"
@@ -48,18 +49,21 @@ class ViewPagerFragment : Fragment() {
             }
         }.attach()
 
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.userInfo?.setOnClickListener { goToInfoSettings() }
+        binding.userInfo.setOnClickListener { goToInfoSettings() }
+        binding.savedWorkout.setOnClickListener { goToSavedWorkoutsPage() }
         // binding?.logout?.setOnClickListener { signOut() }
     }
 
-    private fun goToInfoSettings() {
+    private fun goToInfoSettings() =
         findNavController().navigate(R.id.action_viewPagerFragment2_to_userInfoSettingsFragment2)
-    }
+
+    private fun goToSavedWorkoutsPage() =
+        findNavController().navigate(R.id.action_viewPagerFragment2_to_showSavedWorkoutsFragment)
 
     private fun getFragmentList(): ArrayList<Fragment> = arrayListOf(
         WorkoutsFragment(),
@@ -79,6 +83,6 @@ class ViewPagerFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 }
