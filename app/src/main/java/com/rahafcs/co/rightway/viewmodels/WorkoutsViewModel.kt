@@ -37,7 +37,7 @@ class WorkoutsViewModel(
 
     init {
         // TODO() remove the comment from getAllWorkouts(), because number of request in api
-        // getAllWorkouts()
+        getAllWorkouts()
         // setWorkoutsInfoUiState(getWorkoutsInfoUiState())
     }
 
@@ -78,7 +78,7 @@ class WorkoutsViewModel(
                 _browsWorkoutUiState.update {
                     it.copy(
                         loadingState = LoadingStatus.FAILURE,
-                        userMsg = "Error $e"
+                        userMsg = "Error try again!"
                     )
                 }
                 Log.e(
@@ -118,7 +118,7 @@ class WorkoutsViewModel(
                 }
             } catch (e: Exception) {
                 Log.d(tag, "getAllWorkouts: error $e")
-                _listWorkoutsUiState.update { it.copy(loadingState = LoadingStatus.FAILURE) }
+                _listWorkoutsUiState.update { it.copy(loadingState = LoadingStatus.FAILURE, userMsg = "Error tray again!") }
             }
         }
     }

@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.ViewPagerFragmentDirections
 import com.rahafcs.co.rightway.databinding.FragmentBrowsBinding
-import com.rahafcs.co.rightway.utility.toast
 
 class BrowsFragment : Fragment() {
 
@@ -45,48 +44,41 @@ class BrowsFragment : Fragment() {
         val action =
             ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("")
         findNavController().navigate(action)
-        requireContext().toast("Show workout with all equipment")
     }
 
     private fun showWorkoutWithBarbell() {
         val action =
             ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("barbell")
         findNavController().navigate(action)
-        requireContext().toast("Show workout with barbell")
     }
 
     private fun showWorkoutWithCable() {
         val action =
             ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("cable")
         findNavController().navigate(action)
-        requireContext().toast("Show workout with cable")
     }
 
     private fun showWorkoutWithDumbbell() {
         val action =
             ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("dumbbell")
         findNavController().navigate(action)
-        requireContext().toast("Show workout with dumbbell")
     }
 
     private fun showWorkoutWithKettleBell() {
         val action =
             ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("kettlebell")
         findNavController().navigate(action)
-        requireContext().toast("Show workout with Kettle bell")
     }
 
     private fun showWorkoutWithResistanceBand() {
         val action =
             ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("resistance band")
         findNavController().navigate(action)
-        requireContext().toast("Show workout with Resistance band")
     }
 
     private fun showWorkoutWithBodyWeight() {
         val action =
             ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("body weight")
         findNavController().navigate(action)
-        requireContext().toast("Show workout with body band weight")
     }
 }

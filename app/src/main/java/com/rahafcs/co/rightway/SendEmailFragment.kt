@@ -93,14 +93,12 @@ class SendEmailFragment : Fragment() {
     }
 
     private fun showUserMessage(userInfo: User) {
-        // binding?.messageEditText?.setText("")
         val preMessage =
             "Hi I'm ${userInfo.firstName}\nI would like to subscribe with you!" +
                 "\nSome info about me:\nGender: ${userInfo.gender}" +
                 "\nHeight: ${userInfo.height}\nWeight: ${userInfo.weight}" +
                 "\nAge: ${userInfo.age}\nActivity level: ${userInfo.activity}\n"
-        val message = preMessage + binding?.messageEditText?.text.toString()
-        // emailViewModel.setPreMessage(preMessage)
+
         binding?.messageEditText?.setText(preMessage)
     }
     private fun showPreSubject(){

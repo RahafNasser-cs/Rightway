@@ -26,6 +26,7 @@ data class WorkoutsInfoUiState(
 data class ListWorkoutsUiState(
     val workUiState: List<WorkoutsUiState> = listOf(),
     val loadingState: LoadingStatus = LoadingStatus.LOADING,
+    val userMsg: String = "",
     val isSigned: Boolean = false
 )
 

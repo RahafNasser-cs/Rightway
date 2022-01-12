@@ -10,12 +10,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.navArgs
+import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutsBinding
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class WorkoutsFragment : Fragment() {
@@ -44,37 +45,64 @@ class WorkoutsFragment : Fragment() {
             workoutsFragment = this@WorkoutsFragment
             workoutViewModel = viewModel
             titleRecyclerview.adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
-//                checkIsSavedWorkout(workoutsInfoUiState)
-//                lifecycleScope.launch {
-//                    try {
-//                        if (viewModel.isSavedWorkout.value) {
-//                            viewModel.deleteWorkout(workoutsInfoUiState)
-//                            Log.e("WorkoutFragment", "onViewCreated: recycleview is false")
-//                            false
-//                        } else {
-//                            val savedWorkout = workoutsInfoUiState.copy(isSaved = true)
-//                            viewModel.addUserWorkout(savedWorkout)
-//                            Log.e("WorkoutFragment", "onViewCreated: recycleview is true")
-//                            true
-//                        }
-//                    } catch (e: Exception) {
-//                    }
-//                }
                 if (!checkIsSavedWorkout(workoutsInfoUiState)) {
-                    // val newItem = workoutsInfoUiState.copy(isSaved = true)
                     listOfSavedWorkouts.add(workoutsInfoUiState)
                     viewModel.addUserWorkout(listOfSavedWorkouts)
                     true
                 } else {
-                    // val newItem = workoutsInfoUiState.copy(isSaved = true)
                     listOfSavedWorkouts.remove(workoutsInfoUiState)
                     viewModel.deleteWorkout(listOfSavedWorkouts)
                     false
                 }
             }
         }
+        handleLayout()
         // reloadListOfSavedWorkouts from Firestore 
         reloadListOfSavedWorkouts()
+    }
+
+    private fun handleLayout() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.listWorkoutsUiState.collect {
+                    when (it.loadingState) {
+                        LoadingStatus.FAILURE -> {
+                            showErrorLayout()
+                        }
+                        LoadingStatus.LOADING -> {
+                            showLoadingLayout()
+                        }
+                        LoadingStatus.SUCCESS -> {
+                            shoeSuccessLayout()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun shoeSuccessLayout() {
+        binding?.apply {
+            error.visibility = View.GONE
+            success.visibility = View.VISIBLE
+            loading.visibility = View.GONE
+        }
+    }
+
+    private fun showLoadingLayout() {
+        binding?.apply {
+            error.visibility = View.GONE
+            success.visibility = View.GONE
+            loading.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showErrorLayout() {
+        binding?.apply {
+            error.visibility = View.VISIBLE
+            success.visibility = View.GONE
+            loading.visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {
