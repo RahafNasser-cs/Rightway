@@ -113,6 +113,9 @@
         <action
             android:id="@+id/action_viewPagerFragment2_to_sendEmailFragment"
             app:destination="@id/sendEmailFragment" />
+        <action
+            android:id="@+id/action_viewPagerFragment2_to_showWorkoutsByEquipmentFragment"
+            app:destination="@id/showWorkoutsByEquipmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/workoutDetailsFragment2"
@@ -152,15 +155,6 @@
             app:destination="@id/registrationFragment" />
     </fragment>
     <fragment
-        android:id="@+id/workoutsFragment2"
-        android:name="com.rahafcs.co.rightway.ui.WorkoutsFragment"
-        android:label="fragment_workouts"
-        tools:layout="@layout/fragment_workouts" >
-        <action
-            android:id="@+id/action_workoutsFragment2_to_workoutDetailsFragment2"
-            app:destination="@id/workoutDetailsFragment2" />
-    </fragment>
-    <fragment
         android:id="@+id/sendEmailFragment"
         android:name="com.rahafcs.co.rightway.SendEmailFragment"
         android:label="fragment_send_email"
@@ -168,5 +162,17 @@
         <argument
             android:name="coachEmail"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/showWorkoutsByEquipmentFragment"
+        android:name="com.rahafcs.co.rightway.ShowWorkoutsByEquipmentFragment"
+        android:label="fragment_show_workouts_by_equipment"
+        tools:layout="@layout/fragment_show_workouts_by_equipment" >
+        <argument
+            android:name="equipment"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_showWorkoutsByEquipmentFragment_to_workoutDetailsFragment2"
+            app:destination="@id/workoutDetailsFragment2" />
     </fragment>
 </navigation>

@@ -28,7 +28,7 @@ class ViewPagerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentViewPagerBinding.inflate(inflater, container, false)
@@ -37,6 +37,7 @@ class ViewPagerFragment : Fragment() {
             requireActivity().supportFragmentManager,
             lifecycle
         )
+        binding?.viewPager?.isUserInputEnabled = false // to disable swiping
         binding?.viewPager?.adapter = adapter
 
         TabLayoutMediator(binding?.tabLayout!!, binding?.viewPager!!) { tab, position ->
@@ -57,7 +58,7 @@ class ViewPagerFragment : Fragment() {
     }
 
     private fun goToInfoSettings() {
-         findNavController().navigate(R.id.action_viewPagerFragment2_to_userInfoSettingsFragment2)
+        findNavController().navigate(R.id.action_viewPagerFragment2_to_userInfoSettingsFragment2)
     }
 
     private fun getFragmentList(): ArrayList<Fragment> = arrayListOf(

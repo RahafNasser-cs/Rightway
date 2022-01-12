@@ -4,11 +4,16 @@ import com.rahafcs.co.rightway.data.source.WorkoutDataSource
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 
 class DefaultWorkoutsRepository(
-    private val workoutRemoteDataSource: WorkoutDataSource
+    private val workoutRemoteDataSource: WorkoutDataSource,
 ) : WorkoutsRepository {
-    suspend fun getAllWorkouts(): List<Workout> = workoutRemoteDataSource.getAllWorkoutsFromApi()
+    override suspend fun getAllWorkouts(): List<Workout> =
+        workoutRemoteDataSource.getAllWorkoutsFromApi()
+
     override suspend fun getAllWorkouts(forceUpdate: Boolean): Result<List<WorkoutsInfoUiState>> {
         TODO("Not yet implemented")
         // workoutsLocalDataSource.getAllWorkouts()
     }
+
+    override suspend fun getWorkoutsByEquipment(equipment: String): List<Workout> =
+        workoutRemoteDataSource.getWorkoutsByEquipmentFromApi(equipment)
 }

@@ -17,8 +17,8 @@ class CoachViewModel : ViewModel() {
     }
 
     private fun getCoachList(): List<CoachInfoUiState> = listOf(
-        CoachInfoUiState("Rahaf", "coach five years","trainer1@gmail.com", "050000000", "100-200"),
-        CoachInfoUiState("Rahaf", "coach five years", "trainer2@gmail.com","050000000", "100-200"),
-        CoachInfoUiState("Rahaf", "coach five years", "trainer3@gmail.com","050000000", "100-200")
+        CoachInfoUiState("Rahaf", "coach five years", "trainer1@gmail.com", "050000000", "100-300"),
+        CoachInfoUiState("Nasser", "coach four years", "trainer2@gmail.com", "050000000", "100-200"),
+        CoachInfoUiState("Noura", "coach two years", "trainer3@gmail.com", "050000000", "100-200")
     )
 }

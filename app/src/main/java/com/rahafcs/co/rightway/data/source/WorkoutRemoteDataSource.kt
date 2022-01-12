@@ -43,6 +43,10 @@ class WorkoutRemoteDataSource(
         api.getAllWorkout()
     }
 
+    override suspend fun getWorkoutsByEquipmentFromApi(equipment: String): List<Workout> = withContext(ioDispatcher){
+        api.getWorkoutsByEquipment(equipment)
+    }
+
     // get workouts from Firestore if exit, if not exit get from api
     override suspend fun getAllWorkoutsFromFirestore(): List<WorkoutsInfoUiState> {
         var list = listOf<WorkoutsInfoUiState>()

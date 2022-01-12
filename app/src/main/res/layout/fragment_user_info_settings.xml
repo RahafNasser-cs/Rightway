@@ -24,7 +24,7 @@
             android:src="@drawable/logout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="14dp"
+            android:layout_margin="12dp"
             android:id="@+id/logout_img"/>
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="30dp"
@@ -35,6 +35,14 @@
             app:layout_constraintBottom_toBottomOf="@id/logout_img"
             android:layout_marginStart="12dp"
             android:id="@+id/home_img"/>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:id="@+id/edit_img"
+            android:src="@drawable/edit_filled"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="12dp"/>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="80dp"

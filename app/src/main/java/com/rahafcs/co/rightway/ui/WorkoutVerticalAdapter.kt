@@ -9,7 +9,6 @@ import com.rahafcs.co.rightway.databinding.OuterItemBinding
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
-import kotlinx.coroutines.Job
 
 class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boolean) :
 
@@ -21,7 +20,7 @@ class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boo
         fun bind(item: WorkoutsUiState) {
             binding.muscleName.text =
                 item.workoutTypeUiState.bodyPart.capitalizeFormatIfFirstLatterSmall()
-            val adapter = WorkoutHorizontalAdapter { workoutsInfoUiState ->
+            val adapter = WorkoutHorizontalAdapter("WorkoutFragment") { workoutsInfoUiState ->
                 itemClickListener(workoutsInfoUiState)
             }
             binding.innerRecyclerview.adapter = adapter
@@ -41,14 +40,14 @@ class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boo
     companion object VerticalDiffCallback : DiffUtil.ItemCallback<WorkoutsUiState>() {
         override fun areItemsTheSame(
             oldItem: WorkoutsUiState,
-            newItem: WorkoutsUiState
+            newItem: WorkoutsUiState,
         ): Boolean {
             return oldItem.workoutTypeUiState.bodyPart == newItem.workoutTypeUiState.bodyPart
         }
 
         override fun areContentsTheSame(
             oldItem: WorkoutsUiState,
-            newItem: WorkoutsUiState
+            newItem: WorkoutsUiState,
         ): Boolean {
             return oldItem.workoutTypeUiState.bodyPart == newItem.workoutTypeUiState.bodyPart
         }
