@@ -3,6 +3,7 @@ package com.rahafcs.co.rightway.ui.settings
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,7 @@ class ActivityFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentActivityBinding.inflate(inflater, container, false)
@@ -86,7 +87,12 @@ class ActivityFragment : Fragment() {
 
     private fun saveUserInfo() {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        Log.e(
+            "TAG",
+            "saveUserInfo: ${sharedPreferences.getBoolean(SignUpFragment.SIGN_UP, false)}",
+        )
         if (sharedPreferences.getBoolean(SignUpFragment.SIGN_UP, false)) {
+            Log.e("TAG", "saveUserInfo: in if")
             viewModel.userInfo(getUserInfo())
             val editor = sharedPreferences.edit()
             editor.putBoolean(SignUpFragment.SIGN_UP, false)

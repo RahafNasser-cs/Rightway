@@ -17,7 +17,8 @@
             android:src="@drawable/arrow_back"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
             android:id="@+id/back_arrow"/>
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"

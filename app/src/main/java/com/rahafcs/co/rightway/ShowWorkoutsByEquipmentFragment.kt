@@ -1,7 +1,6 @@
 package com.rahafcs.co.rightway
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +13,11 @@ import androidx.navigation.fragment.navArgs
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentShowWorkoutsByEquipmentBinding
 import com.rahafcs.co.rightway.ui.WorkoutHorizontalAdapter
-import com.rahafcs.co.rightway.ui.WorkoutsFragment.Companion.listOfSavedWorkouts
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.state.BrowsWorkoutUiState
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.upToTop
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ShowWorkoutsByEquipmentFragment : Fragment() {
@@ -50,19 +47,20 @@ class ShowWorkoutsByEquipmentFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             val adapter = WorkoutHorizontalAdapter("") { workoutsInfoUiState ->
-                if (!checkIsSavedWorkout(workoutsInfoUiState)) {
-                    listOfSavedWorkouts.add(workoutsInfoUiState)
-                    viewModel.addUserWorkout(listOfSavedWorkouts)
+                if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
+                    // listOfSavedWorkouts.add(workoutsInfoUiState)
+                    // viewModel.addUserWorkout(listOfSavedWorkouts)
+                    viewModel.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
                     true
                 } else {
-                    listOfSavedWorkouts.remove(workoutsInfoUiState)
-                    viewModel.deleteWorkout(listOfSavedWorkouts)
+                    // listOfSavedWorkouts.remove(workoutsInfoUiState)
+                    // viewModel.deleteWorkout(listOfSavedWorkouts)
+                    viewModel.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
                     false
                 }
             }
             workoutsViewModel = viewModel
             workoutRecyclerview.adapter = adapter
-            // adapter.submitList(viewModel.listOfWorkoutByEquipment.value)
             backArrow.setOnClickListener { this@ShowWorkoutsByEquipmentFragment.upToTop() }
         }
         loadingState()
@@ -75,26 +73,13 @@ class ShowWorkoutsByEquipmentFragment : Fragment() {
                 viewModel.browsWorkoutUiState.collect { browsWorkoutUiState ->
                     when (browsWorkoutUiState.loadingState) {
                         LoadingStatus.FAILURE -> {
-                            binding?.apply {
-                                loading.visibility = View.GONE
-                                error.visibility = View.VISIBLE
-                                errorMsg.text = browsWorkoutUiState.userMsg
-                                success.visibility = View.GONE
-                            }
+                            showErrorLayout(browsWorkoutUiState)
                         }
                         LoadingStatus.SUCCESS -> {
-                            binding?.apply {
-                                loading.visibility = View.GONE
-                                error.visibility = View.GONE
-                                success.visibility = View.VISIBLE
-                            }
+                            showSuccessLayout()
                         }
                         LoadingStatus.LOADING -> {
-                            binding?.apply {
-                                loading.visibility = View.VISIBLE
-                                error.visibility = View.GONE
-                                success.visibility = View.GONE
-                            }
+                            showLoadingLayout()
                         }
                     }
                 }
@@ -102,18 +87,29 @@ class ShowWorkoutsByEquipmentFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun showLoadingLayout() {
+        binding?.apply {
+            loading.visibility = View.VISIBLE
+            error.visibility = View.GONE
+            success.visibility = View.GONE
+        }
     }
 
-    private fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {
-        Log.e(
-            "WorkoutFragment",
-            "checkIsSavedWorkout: ${
-            listOfSavedWorkouts.contains(workoutsInfoUiState)
-            }",
-        )
-        return listOfSavedWorkouts.contains(workoutsInfoUiState)
+    private fun showSuccessLayout() {
+        binding?.apply {
+            loading.visibility = View.GONE
+            error.visibility = View.GONE
+            success.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showErrorLayout(browsWorkoutUiState: BrowsWorkoutUiState) {
+        binding?.apply {
+            loading.visibility = View.GONE
+            error.visibility = View.VISIBLE
+            errorMsg.text = browsWorkoutUiState.userMsg
+            success.visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {

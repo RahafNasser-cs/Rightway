@@ -16,22 +16,54 @@ class UserRemoteDataSource {
     private val db = FirebaseFirestore.getInstance()
     private val TAG = "UserRemoteDataSource"
     private val user = FirebaseAuth.getInstance().currentUser
-    val id = FirebaseAuth.getInstance().currentUser
+    private lateinit var listOfSavedWorkouts: MutableList<WorkoutsInfoUiState>
+
+    init {
+        reloadListOfSavedWorkoutsFromFirestore()
+    }
 
     fun saveUserInfo(userInfo: User) {
-        user?.let {
-            db.collection("users").document(it.uid).set(userInfo)
+        FirebaseAuth.getInstance().currentUser?.let { FirebaseUsar ->
+            db.collection("users").document(FirebaseUsar.uid).set(userInfo)
                 .addOnSuccessListener {
+                    Log.d(TAG, "saveUserInfo: $it")
                     Log.d(TAG, "saveUserInfo: $userInfo")
-                    Log.e(TAG, "saveUserInfo: user id ${user.uid}", )
+                    Log.d(TAG, "saveUserInfo: ${FirebaseUsar.email}")
+                    Log.e(TAG, "saveUserInfo: user id ${FirebaseUsar.uid}")
                 }
                 .addOnFailureListener { }
         }
     }
 
+    fun addListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) {
+        listOfSavedWorkouts.add(workoutsInfoUiState)
+        Log.e(TAG, "addListOfSavedWorkoutsLocal: $listOfSavedWorkouts")
+        updateListOfSavedWorkouts()
+    }
+
+    fun removeListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) {
+        if (listOfSavedWorkouts.isNotEmpty()) {
+            listOfSavedWorkouts.remove(workoutsInfoUiState)
+            Log.e(TAG, "removeListOfSavedWorkoutsLocal: : $listOfSavedWorkouts")
+            updateListOfSavedWorkouts()
+        }
+    }
+
+    fun updateListOfSavedWorkouts() {
+        FirebaseAuth.getInstance().currentUser?.let {
+            db.collection("users").document(it.uid).update("savedWorkouts", listOfSavedWorkouts)
+                .addOnSuccessListener {
+                    Log.e(TAG, "addUserWorkout: $listOfSavedWorkouts")
+                }
+        }
+    }
+
+    fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+        listOfSavedWorkouts.contains(workoutsInfoUiState)
+
     // add workout to list of saved workouts
     fun addUserWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) {
-        user?.let {
+        FirebaseAuth.getInstance().currentUser?.let {
             db.collection("users").document(it.uid).update("savedWorkouts", listOfSavedWorkouts)
                 .addOnSuccessListener {
                     Log.e(TAG, "addUserWorkout: $listOfSavedWorkouts")
@@ -41,7 +73,7 @@ class UserRemoteDataSource {
 
     // delete workout from list of saved workouts
     fun deleteWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) {
-        user?.let {
+        FirebaseAuth.getInstance().currentUser?.let {
             db.collection("users").document(it.uid).update("savedWorkouts", listOfSavedWorkouts)
                 .addOnSuccessListener {
                     Log.e(TAG, "addUserWorkout: $listOfSavedWorkouts")
@@ -63,20 +95,21 @@ class UserRemoteDataSource {
     }
 
     // To return list of saved workouts
-    private suspend fun getOldWorkoutList(): List<WorkoutsInfoUiState> = withContext(Dispatchers.IO) {
-        var oldList = listOf<WorkoutsInfoUiState>()
-        db.collection("users").document(user?.uid!!).get().addOnCompleteListener { task ->
-            Log.e(
-                "",
-                "old saved workout ---> ${task.result.toObject(User::class.java)?.savedWorkouts ?: listOf()}"
-            )
-            oldList = task.result.toObject(User::class.java)?.savedWorkouts ?: listOf()
+    private suspend fun getOldWorkoutList(): List<WorkoutsInfoUiState> =
+        withContext(Dispatchers.IO) {
+            var oldList = listOf<WorkoutsInfoUiState>()
+            db.collection("users").document(user?.uid!!).get().addOnCompleteListener { task ->
+                Log.e(
+                    "",
+                    "old saved workout ---> ${task.result.toObject(User::class.java)?.savedWorkouts ?: listOf()}"
+                )
+                oldList = task.result.toObject(User::class.java)?.savedWorkouts ?: listOf()
+            }
+            oldList
         }
-        oldList
-    }
 
     suspend fun readUserInfo(): Flow<User> = callbackFlow {
-        user?.let {
+        FirebaseAuth.getInstance().currentUser?.let {
             db.collection("users").document(it.uid).addSnapshotListener { value, error ->
                 Log.d(TAG, "readUserInfo: name ${value?.get("name")}- $error")
                 Log.d(TAG, "readUserInfo: a ${value?.toObject(User::class.java)}")
@@ -85,23 +118,50 @@ class UserRemoteDataSource {
                     trySend(userInfo)
                 }
                 Log.d(TAG, "readUserInfo: $userInfo")
+                Log.e(TAG, "readUserInfo: uid --> ${it.uid}")
             }
         }
         awaitClose { cancel() }
     }
 
     suspend fun reloadListOfSavedWorkouts(): Flow<List<WorkoutsInfoUiState>> = callbackFlow {
-        user?.let {
+        FirebaseAuth.getInstance().currentUser?.let {
             db.collection("users").document(it.uid).addSnapshotListener { value, error ->
-                Log.e(TAG, "reloadListOfSavedWorkouts: ${value?.toObject(User::class.java)} - $error")
+                Log.e(
+                    TAG,
+                    "reloadListOfSavedWorkouts: ${value?.toObject(User::class.java)} - $error"
+                )
                 value?.apply {
                     val workoutsList = value.toObject(User::class.java)?.savedWorkouts
                     if (workoutsList != null) {
                         trySend(workoutsList)
+                        listOfSavedWorkouts = workoutsList.toMutableList()
+                        Log.e(TAG, "reloadListOfSavedWorkouts trysend: $workoutsList")
                     }
                 }
             }
         }
         awaitClose { cancel() }
+    }
+
+    private fun reloadListOfSavedWorkoutsFromFirestore() {
+        FirebaseAuth.getInstance().currentUser?.let {
+            db.collection("users").document(it.uid).addSnapshotListener { value, error ->
+                Log.e(
+                    TAG,
+                    "reloadListOfSavedWorkoutsFromFirestore: ${value?.toObject(User::class.java)} - $error"
+                )
+                value?.apply {
+                    val workoutsList = value.toObject(User::class.java)?.savedWorkouts
+                    if (workoutsList != null) {
+                        listOfSavedWorkouts = workoutsList.toMutableList()
+                        Log.e(
+                            TAG,
+                            "reloadListOfSavedWorkoutsFromFirestore workoutsList: $workoutsList"
+                        )
+                    }
+                }
+            }
+        }
     }
 }

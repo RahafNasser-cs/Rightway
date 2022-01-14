@@ -45,7 +45,7 @@ fun RecyclerView.bindVerticalRecyclerView(data: List<WorkoutsUiState?>?) {
 }
 
 @BindingAdapter("horizontalListItem")
-fun RecyclerView.bindHorizontalRecyclerView(data: List<WorkoutsInfoUiState?>?) {
+fun RecyclerView.bindHorizontalRecyclerView(data: List<WorkoutsInfoUiState>?) {
     val adapter = this.adapter as WorkoutHorizontalAdapter
     adapter.submitList(data)
 }

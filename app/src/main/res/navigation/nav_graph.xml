@@ -116,6 +116,9 @@
         <action
             android:id="@+id/action_viewPagerFragment2_to_showWorkoutsByEquipmentFragment"
             app:destination="@id/showWorkoutsByEquipmentFragment" />
+        <action
+            android:id="@+id/action_viewPagerFragment2_to_showSavedWorkoutsFragment"
+            app:destination="@id/showSavedWorkoutsFragment" />
     </fragment>
     <fragment
         android:id="@+id/workoutDetailsFragment2"
@@ -173,6 +176,15 @@
             app:argType="string" />
         <action
             android:id="@+id/action_showWorkoutsByEquipmentFragment_to_workoutDetailsFragment2"
+            app:destination="@id/workoutDetailsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/showSavedWorkoutsFragment"
+        android:name="com.rahafcs.co.rightway.ShowSavedWorkoutsFragment"
+        android:label="fragment_show_saved_workouts"
+        tools:layout="@layout/fragment_show_saved_workouts" >
+        <action
+            android:id="@+id/action_showSavedWorkoutsFragment_to_workoutDetailsFragment2"
             app:destination="@id/workoutDetailsFragment2" />
     </fragment>
 </navigation>

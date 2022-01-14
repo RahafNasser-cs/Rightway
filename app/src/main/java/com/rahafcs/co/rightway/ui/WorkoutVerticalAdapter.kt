@@ -1,5 +1,6 @@
 package com.rahafcs.co.rightway.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -17,6 +18,7 @@ class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boo
     ) {
     inner class WorkoutViewHolder(private val binding: OuterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("NotifyDataSetChanged")
         fun bind(item: WorkoutsUiState) {
             binding.muscleName.text =
                 item.workoutTypeUiState.bodyPart.capitalizeFormatIfFirstLatterSmall()
@@ -24,6 +26,7 @@ class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boo
                 itemClickListener(workoutsInfoUiState)
             }
             binding.innerRecyclerview.adapter = adapter
+            adapter.notifyDataSetChanged()
             adapter.submitList(item.workoutsInfoUiState)
         }
     }

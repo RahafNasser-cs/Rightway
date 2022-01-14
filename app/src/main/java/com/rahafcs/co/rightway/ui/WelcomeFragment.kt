@@ -17,7 +17,7 @@ class WelcomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentWelcomeBinding.inflate(inflater, container, false)
@@ -43,6 +43,7 @@ class WelcomeFragment : Fragment() {
         val userName = sharedPreferences.getString(FIRST_NAME, "").toString()
         return "Welcome $userName, you're in!"
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null

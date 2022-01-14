@@ -1,5 +1,7 @@
 package com.rahafcs.co.rightway.ui
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -7,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.ShowSavedWorkoutsFragmentDirections
 import com.rahafcs.co.rightway.ShowWorkoutsByEquipmentFragmentDirections
 import com.rahafcs.co.rightway.ViewPagerFragmentDirections
 import com.rahafcs.co.rightway.databinding.NestedItemBinding
@@ -24,6 +27,7 @@ class WorkoutHorizontalAdapter(
 
     inner class WorkoutViewHolder(private val binding: NestedItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("NotifyDataSetChanged")
         fun bind(item: WorkoutsInfoUiState) {
             binding.bodyTargetTextview.text = item.name
             binding.workoutGif.findUrlGlide(item.gifUrl)
@@ -31,6 +35,12 @@ class WorkoutHorizontalAdapter(
                 if (flag == "WorkoutFragment") {
                     val action =
                         ViewPagerFragmentDirections.actionViewPagerFragment2ToWorkoutDetailsFragment2(
+                            item
+                        )
+                    binding.root.findNavController().navigate(action)
+                } else if (flag == "SavedWorkouts") {
+                    val action =
+                        ShowSavedWorkoutsFragmentDirections.actionShowSavedWorkoutsFragmentToWorkoutDetailsFragment2(
                             item
                         )
                     binding.root.findNavController().navigate(action)
@@ -54,8 +64,10 @@ class WorkoutHorizontalAdapter(
             }
         }
 
-        private fun isSaved(workoutsInfoUiState: WorkoutsInfoUiState) =
-            listOfSavedWorkouts.contains(workoutsInfoUiState)
+        private fun isSaved(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {
+            Log.e("WorkoutHorizontalAdapter", "isSaved: $listOfSavedWorkouts")
+            return listOfSavedWorkouts.contains(workoutsInfoUiState)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutViewHolder {
@@ -80,6 +92,14 @@ class WorkoutHorizontalAdapter(
             newItem: WorkoutsInfoUiState,
         ): Boolean {
             return oldItem.name == oldItem.name || oldItem.equipment == oldItem.equipment || oldItem.gifUrl == oldItem.gifUrl || oldItem.target == oldItem.target
+        }
+    }
+
+    override fun submitList(list: List<WorkoutsInfoUiState>?) {
+        if (list != null) {
+            super.submitList(ArrayList(list))
+        } else {
+            super.submitList(null)
         }
     }
 }

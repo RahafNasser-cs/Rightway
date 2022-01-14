@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 class UserRepository(
     private val userRemoteDataSource: UserRemoteDataSource,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
     fun addUserInfo(userInfo: User) = userRemoteDataSource.saveUserInfo(userInfo)
@@ -18,6 +18,15 @@ class UserRepository(
 
     fun deleteWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) =
         userRemoteDataSource.deleteWorkout(listOfSavedWorkouts)
+
+    fun addListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRemoteDataSource.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
+
+    fun removeListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRemoteDataSource.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
+
+    fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRemoteDataSource.checkIsSavedWorkout(workoutsInfoUiState)
 
     suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
         userRemoteDataSource.isSavedWorkout(workoutsInfoUiState)

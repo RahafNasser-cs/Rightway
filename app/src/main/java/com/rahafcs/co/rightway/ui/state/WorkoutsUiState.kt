@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 data class WorkoutsUiState(
     val workoutTypeUiState: WorkoutTypeUiState = WorkoutTypeUiState(),
-    val workoutsInfoUiState: List<WorkoutsInfoUiState> = listOf()
+    val workoutsInfoUiState: List<WorkoutsInfoUiState> = listOf(),
 )
 
 data class WorkoutTypeUiState(val bodyPart: String = "")
@@ -20,14 +20,14 @@ data class WorkoutsInfoUiState(
     val equipment: String = "",
     val target: String = "",
     val bodyPart: String = "",
-    val isSaved: Boolean = false
+    val isSaved: Boolean = false,
 ) : Parcelable
 
 data class ListWorkoutsUiState(
     val workUiState: List<WorkoutsUiState> = listOf(),
     val loadingState: LoadingStatus = LoadingStatus.LOADING,
     val userMsg: String = "",
-    val isSigned: Boolean = false
+    val isSigned: Boolean = false,
 )
 
 data class CoachInfoUiState(
@@ -35,11 +35,11 @@ data class CoachInfoUiState(
     val experience: String = "",
     val email: String = "",
     val phoneNumber: String = "",
-    val price: String = ""
+    val price: String = "",
 )
 
 data class BrowsWorkoutUiState(
     val workoutsUiState: WorkoutsUiState = WorkoutsUiState(),
     val loadingState: LoadingStatus = LoadingStatus.SUCCESS,
-    val userMsg: String = ""
+    val userMsg: String = "",
 )
