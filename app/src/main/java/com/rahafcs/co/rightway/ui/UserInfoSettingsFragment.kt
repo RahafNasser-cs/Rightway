@@ -15,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
-import com.google.android.gms.auth.api.Auth
 import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.User
@@ -25,7 +24,6 @@ import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class UserInfoSettingsFragment : Fragment() {
@@ -229,40 +227,45 @@ class UserInfoSettingsFragment : Fragment() {
         viewModel.userInfo(userInfo)
     }
 
-    private fun getUpdatedUserInfo(oldUserInfo: User): User {
-        val firstName = binding?.userNameEditText?.text.toString()
-        val height =
-            if (binding?.cmOption?.isChecked!!) "${binding?.userHeightEditText?.text?.toString()} cm"
-            else "${binding?.userHeightEditText?.text} ft"
-        val weight =
-            if (binding?.kgOption?.isChecked!!) "${binding?.userWeightEditText?.text} kg"
-            else "${binding?.userWeightEditText?.text} lb"
-        val age = binding?.userAgeEditText?.text.toString()
-        val gender = if (binding?.femaleOption?.isChecked!!) "Female" else "Male"
-        val activityLevel = when (binding?.activityOptions?.checkedRadioButtonId) {
-            R.id.option_0 -> requireContext().getString(R.string.option_0)
-            R.id.option_1 -> requireContext().getString(R.string.option_1)
-            R.id.option_2 -> requireContext().getString(R.string.option_2)
-            else -> requireContext().getString(R.string.option_3)
-        }
-        val subscriptionStatus =
-            if (binding?.traineeOption?.isChecked!!) requireContext().getString(R.string.trainee) else requireContext().getString(
-                R.string.trainer
-            )
-        return oldUserInfo.copy(
-            firstName = firstName,
-            subscriptionStatus = subscriptionStatus,
-            height = height,
-            weight = weight,
-            age = age,
-            gender = gender,
-            activity = activityLevel
+    private fun getUpdatedUserInfo(oldUserInfo: User) =
+        oldUserInfo.copy(
+            firstName = getFirstName(),
+            subscriptionStatus = getSubscriptionStatus(),
+            height = getHeight(),
+            weight = getWeight(),
+            age = getAge(),
+            gender = getGender(),
+            activity = getActivityLevel()
         )
+
+    private fun getSubscriptionStatus() =
+        if (binding?.traineeOption?.isChecked!!) requireContext().getString(R.string.trainee)
+        else requireContext().getString(R.string.trainer)
+
+    private fun getActivityLevel() = when (binding?.activityOptions?.checkedRadioButtonId) {
+        R.id.option_0 -> requireContext().getString(R.string.option_0)
+        R.id.option_1 -> requireContext().getString(R.string.option_1)
+        R.id.option_2 -> requireContext().getString(R.string.option_2)
+        else -> requireContext().getString(R.string.option_3)
     }
 
-    private fun goToHomePage() {
+    private fun getGender() = if (binding?.femaleOption?.isChecked!!) "Female" else "Male"
+
+    private fun getAge() = binding?.userAgeEditText?.text.toString()
+
+    private fun getWeight() =
+        if (binding?.kgOption?.isChecked!!) "${binding?.userWeightEditText?.text} kg"
+        else "${binding?.userWeightEditText?.text} lb"
+
+    private fun getHeight() =
+        if (binding?.cmOption?.isChecked!!) "${binding?.userHeightEditText?.text?.toString()} cm"
+        else "${binding?.userHeightEditText?.text} ft"
+
+    private fun getFirstName() =
+        binding?.userNameEditText?.text.toString()
+
+    private fun goToHomePage() =
         findNavController().navigate(R.id.action_userInfoSettingsFragment2_to_viewPagerFragment2)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.rahafcs.co.rightway.databinding.FragmentShowSavedWorkoutsBinding
 import com.rahafcs.co.rightway.ui.WorkoutHorizontalAdapter
-import com.rahafcs.co.rightway.ui.WorkoutsFragment.Companion.listOfSavedWorkouts
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.upToTop
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
@@ -42,13 +40,11 @@ class ShowSavedWorkoutsFragment : Fragment() {
         viewModel.setListSavedWorkout()
         binding.apply {
             adapter = WorkoutHorizontalAdapter("SavedWorkouts") { workoutsInfoUiState ->
-                if (!checkIsSavedWorkout(workoutsInfoUiState)) {
-                    listOfSavedWorkouts.add(workoutsInfoUiState)
-                    viewModel.addUserWorkout(listOfSavedWorkouts)
+                if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
+                    viewModel.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
                     true
                 } else {
-                    listOfSavedWorkouts.remove(workoutsInfoUiState)
-                    viewModel.deleteWorkout(listOfSavedWorkouts)
+                    viewModel.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
                     false
                 }
             }
@@ -65,17 +61,22 @@ class ShowSavedWorkoutsFragment : Fragment() {
         viewModel.listSavedWorkout.observe(viewLifecycleOwner, {
             adapter.submitList(it)
             if (it.isEmpty()) {
-                binding.noSavedWorkout.visibility = View.VISIBLE
-                binding.savedWorkout.visibility = View.GONE
+                showLayoutDumbbellAnimation()
             } else {
-                binding.noSavedWorkout.visibility = View.GONE
-                binding.savedWorkout.visibility = View.VISIBLE
+                showLayoutOfSavedWorkouts()
             }
         })
     }
 
-    private fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-        listOfSavedWorkouts.contains(workoutsInfoUiState)
+    private fun showLayoutOfSavedWorkouts() {
+        binding.noSavedWorkout.visibility = View.GONE
+        binding.savedWorkout.visibility = View.VISIBLE
+    }
+
+    private fun showLayoutDumbbellAnimation() {
+        binding.noSavedWorkout.visibility = View.VISIBLE
+        binding.savedWorkout.visibility = View.GONE
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

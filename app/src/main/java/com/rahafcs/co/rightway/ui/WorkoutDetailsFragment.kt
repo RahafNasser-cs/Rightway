@@ -28,6 +28,7 @@ class WorkoutDetailsFragment : Fragment() {
     var numberOfSecondsResume = 0
     var secondsRemaining = 0
     lateinit var countDownTimer: CountDownTimer
+
     init {
         createCountDownTimer(0)
     }
@@ -43,7 +44,7 @@ class WorkoutDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentWorkoutDetailsBinding.inflate(inflater, container, false)
         return binding?.root

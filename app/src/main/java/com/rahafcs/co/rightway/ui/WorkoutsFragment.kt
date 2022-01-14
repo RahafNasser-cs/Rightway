@@ -45,13 +45,11 @@ class WorkoutsFragment : Fragment() {
             workoutsFragment = this@WorkoutsFragment
             workoutViewModel = viewModel
             titleRecyclerview.adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
-                if (!checkIsSavedWorkout(workoutsInfoUiState)) {
-                    listOfSavedWorkouts.add(workoutsInfoUiState)
-                    viewModel.addUserWorkout(listOfSavedWorkouts)
+                if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
+                    viewModel.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
                     true
                 } else {
-                    listOfSavedWorkouts.remove(workoutsInfoUiState)
-                    viewModel.deleteWorkout(listOfSavedWorkouts)
+                    viewModel.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
                     false
                 }
             }
@@ -109,9 +107,6 @@ class WorkoutsFragment : Fragment() {
         super.onDestroyView()
         binding = null
     }
-
-    private fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-        listOfSavedWorkouts.contains(workoutsInfoUiState)
 
     private fun reloadListOfSavedWorkouts() {
         lifecycleScope.launch {

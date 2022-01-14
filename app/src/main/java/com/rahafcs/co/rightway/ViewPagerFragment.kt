@@ -35,7 +35,7 @@ class ViewPagerFragment : Fragment() {
         _binding = FragmentViewPagerBinding.inflate(inflater, container, false)
         val adapter = ViewPagerAdapter(
             getFragmentList(),
-            requireActivity().supportFragmentManager,
+            childFragmentManager, // to avoid IllegalStateException
             lifecycle
         )
         binding.viewPager.isUserInputEnabled = false // to disable swiping

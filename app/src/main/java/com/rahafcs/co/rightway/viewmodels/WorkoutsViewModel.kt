@@ -147,6 +147,15 @@ class WorkoutsViewModel(
     suspend fun reloadListOfSavedWorkouts(): Flow<List<WorkoutsInfoUiState>> =
         userRepository.reloadListOfSavedWorkouts()
 
+    fun addListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRepository.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
+
+    fun removeListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRepository.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
+
+    fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+        userRepository.checkIsSavedWorkout(workoutsInfoUiState)
+
 //    suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
 //        userRepository.isSavedWorkout(workoutsInfoUiState)
 

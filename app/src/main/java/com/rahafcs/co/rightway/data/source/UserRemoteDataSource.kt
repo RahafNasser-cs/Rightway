@@ -16,17 +16,14 @@ class UserRemoteDataSource {
     private val db = FirebaseFirestore.getInstance()
     private val TAG = "UserRemoteDataSource"
     private val user = FirebaseAuth.getInstance().currentUser
-    val id = FirebaseAuth.getInstance().currentUser
+    private lateinit var listOfSavedWorkouts: MutableList<WorkoutsInfoUiState>
+
+    init {
+        reloadListOfSavedWorkoutsFromFirestore()
+    }
 
     fun saveUserInfo(userInfo: User) {
-        Log.e(
-            TAG,
-            "saveUserInfo: FirebaseUsar.uid outside --- ${FirebaseAuth.getInstance().currentUser?.uid}"
-        )
         FirebaseAuth.getInstance().currentUser?.let { FirebaseUsar ->
-
-            Log.e(TAG, "saveUserInfo: FirebaseUsar.uid ${FirebaseUsar.uid}")
-            Log.e(TAG, "saveUserInfo: id?.uid ${id?.uid}")
             db.collection("users").document(FirebaseUsar.uid).set(userInfo)
                 .addOnSuccessListener {
                     Log.d(TAG, "saveUserInfo: $it")
@@ -37,6 +34,32 @@ class UserRemoteDataSource {
                 .addOnFailureListener { }
         }
     }
+
+    fun addListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) {
+        listOfSavedWorkouts.add(workoutsInfoUiState)
+        Log.e(TAG, "addListOfSavedWorkoutsLocal: $listOfSavedWorkouts")
+        updateListOfSavedWorkouts()
+    }
+
+    fun removeListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) {
+        if (listOfSavedWorkouts.isNotEmpty()) {
+            listOfSavedWorkouts.remove(workoutsInfoUiState)
+            Log.e(TAG, "removeListOfSavedWorkoutsLocal: : $listOfSavedWorkouts")
+            updateListOfSavedWorkouts()
+        }
+    }
+
+    fun updateListOfSavedWorkouts() {
+        FirebaseAuth.getInstance().currentUser?.let {
+            db.collection("users").document(it.uid).update("savedWorkouts", listOfSavedWorkouts)
+                .addOnSuccessListener {
+                    Log.e(TAG, "addUserWorkout: $listOfSavedWorkouts")
+                }
+        }
+    }
+
+    fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
+        listOfSavedWorkouts.contains(workoutsInfoUiState)
 
     // add workout to list of saved workouts
     fun addUserWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) {
@@ -95,7 +118,7 @@ class UserRemoteDataSource {
                     trySend(userInfo)
                 }
                 Log.d(TAG, "readUserInfo: $userInfo")
-                Log.e(TAG, "readUserInfo: uid --> ${user?.uid}")
+                Log.e(TAG, "readUserInfo: uid --> ${it.uid}")
             }
         }
         awaitClose { cancel() }
@@ -112,11 +135,33 @@ class UserRemoteDataSource {
                     val workoutsList = value.toObject(User::class.java)?.savedWorkouts
                     if (workoutsList != null) {
                         trySend(workoutsList)
+                        listOfSavedWorkouts = workoutsList.toMutableList()
                         Log.e(TAG, "reloadListOfSavedWorkouts trysend: $workoutsList")
                     }
                 }
             }
         }
         awaitClose { cancel() }
+    }
+
+    private fun reloadListOfSavedWorkoutsFromFirestore() {
+        FirebaseAuth.getInstance().currentUser?.let {
+            db.collection("users").document(it.uid).addSnapshotListener { value, error ->
+                Log.e(
+                    TAG,
+                    "reloadListOfSavedWorkoutsFromFirestore: ${value?.toObject(User::class.java)} - $error"
+                )
+                value?.apply {
+                    val workoutsList = value.toObject(User::class.java)?.savedWorkouts
+                    if (workoutsList != null) {
+                        listOfSavedWorkouts = workoutsList.toMutableList()
+                        Log.e(
+                            TAG,
+                            "reloadListOfSavedWorkoutsFromFirestore workoutsList: $workoutsList"
+                        )
+                    }
+                }
+            }
+        }
     }
 }

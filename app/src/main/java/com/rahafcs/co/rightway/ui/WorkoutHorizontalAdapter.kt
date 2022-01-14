@@ -1,6 +1,7 @@
 package com.rahafcs.co.rightway.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -61,11 +62,12 @@ class WorkoutHorizontalAdapter(
                     binding.bookmark.setImageResource(R.drawable.bookmark)
                 }
             }
-            //notifyDataSetChanged()
         }
 
-        private fun isSaved(workoutsInfoUiState: WorkoutsInfoUiState) =
-            listOfSavedWorkouts.contains(workoutsInfoUiState)
+        private fun isSaved(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {
+            Log.e("WorkoutHorizontalAdapter", "isSaved: $listOfSavedWorkouts")
+            return listOfSavedWorkouts.contains(workoutsInfoUiState)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutViewHolder {
