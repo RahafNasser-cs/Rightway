@@ -8,10 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.rahafcs.co.rightway.databinding.FragmentCoachesBinding
 import com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel
+import com.rahafcs.co.rightway.utility.ServiceLocator
+import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 
 class CoachesFragment : Fragment() {
     private var binding: FragmentCoachesBinding? = null
-    private val viewModel: CoachViewModel by activityViewModels()
+    private val viewModel: CoachViewModel by activityViewModels() {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +35,6 @@ class CoachesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            coachesFragment = this@CoachesFragment
             coachViewModel = viewModel
             recyclerview.adapter = CoachAdapter()
         }

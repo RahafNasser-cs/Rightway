@@ -307,7 +307,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/user_age_input_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="280dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/age_textview"
@@ -316,7 +316,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/user_age_edit_text"
-                    android:layout_width="280dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:text="@{userInfoViewModel.userInfo.age}" />

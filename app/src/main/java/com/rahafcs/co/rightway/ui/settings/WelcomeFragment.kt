@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentWelcomeBinding
 import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.FIRST_NAME
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.SUPERSCRIPTION
 
 class WelcomeFragment : Fragment() {
     private var binding: FragmentWelcomeBinding? = null
@@ -30,7 +31,13 @@ class WelcomeFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             welcomeTextview.text = getWelcomeStatement()
-            getStartedBtn.setOnClickListener { goToUserInfoPage() }
+            getStartedBtn.setOnClickListener {
+                if (getUserSubscriptionStatus() == requireContext().getString(R.string.trainee)) {
+                    goToUserInfoPage()
+                } else {
+                    goToCoachInfoPage()
+                }
+            }
         }
     }
 
@@ -38,11 +45,19 @@ class WelcomeFragment : Fragment() {
         findNavController().navigate(R.id.action_welcomeFragment_to_userInfoFragment)
     }
 
+    private fun goToCoachInfoPage() {
+        findNavController().navigate(R.id.action_welcomeFragment_to_coachInfoFragment)
+    }
+
     private fun getWelcomeStatement(): String {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         val userName = sharedPreferences.getString(FIRST_NAME, "").toString()
         return "Welcome $userName, you're in!"
     }
+
+    private fun getUserSubscriptionStatus() =
+        activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+            .getString(SUPERSCRIPTION, "")!!
 
     override fun onDestroyView() {
         super.onDestroyView()

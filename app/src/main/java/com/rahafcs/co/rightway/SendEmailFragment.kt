@@ -29,13 +29,15 @@ class SendEmailFragment : Fragment() {
     private val viewModel by activityViewModels<SignUpViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository()
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
         )
     }
     private val emailViewModel by activityViewModels<EmailViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository()
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
         )
     }
     private val args: SendEmailFragmentArgs by navArgs()
@@ -101,7 +103,8 @@ class SendEmailFragment : Fragment() {
 
         binding?.messageEditText?.setText(preMessage)
     }
-    private fun showPreSubject(){
+
+    private fun showPreSubject() {
         val preSubject = "Hello, I would like to subscribe with you!"
         binding?.subjectEditText?.setText(preSubject)
     }

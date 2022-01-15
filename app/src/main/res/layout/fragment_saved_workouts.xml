@@ -34,6 +34,7 @@
             android:layout_height="40dp"
             android:id="@+id/alarm_img"
             android:src="@drawable/alarm"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="16dp"
@@ -46,7 +47,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/no_saved_workout">
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="200dp"
@@ -72,7 +73,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
             android:id="@+id/saved_workout"
-            android:visibility="visible"
+            android:visibility="gone"
             >
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="wrap_content"

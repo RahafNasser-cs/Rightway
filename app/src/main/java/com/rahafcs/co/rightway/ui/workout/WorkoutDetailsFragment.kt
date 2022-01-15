@@ -37,7 +37,8 @@ class WorkoutDetailsFragment : Fragment() {
     private val viewModel: WorkoutsViewModel by activityViewModels<WorkoutsViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository()
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
         )
     }
 

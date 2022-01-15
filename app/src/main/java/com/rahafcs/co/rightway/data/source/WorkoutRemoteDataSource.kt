@@ -14,8 +14,8 @@ class WorkoutRemoteDataSource(
     private val api: WorkoutApiService,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : WorkoutDataSource {
-    val TAG = WorkoutRemoteDataSource::class.java.name
-    val db = FirebaseFirestore.getInstance()
+    private val TAG = WorkoutRemoteDataSource::class.java.name
+    private val db = FirebaseFirestore.getInstance()
 
     override suspend fun getAllWorkouts(isRefresh: Boolean): List<WorkoutsInfoUiState> {
         if (isRefresh) {

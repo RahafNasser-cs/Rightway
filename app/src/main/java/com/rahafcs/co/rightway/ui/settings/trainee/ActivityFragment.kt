@@ -29,7 +29,8 @@ class ActivityFragment : Fragment() {
     val viewModel: SignUpViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository()
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
         )
     }
 

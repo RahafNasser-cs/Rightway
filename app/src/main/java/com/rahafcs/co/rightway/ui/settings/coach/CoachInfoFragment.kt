@@ -6,13 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.data.Coach
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoBinding
 import com.rahafcs.co.rightway.ui.auth.SignUpFragment
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.FIRST_NAME
+import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
+import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 
 class CoachInfoFragment : Fragment() {
     private var _binding: FragmentCoachInfoBinding? = null
     val binding: FragmentCoachInfoBinding get() = _binding!!
+    private val viewModel: CoachViewModel by activityViewModels {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +51,12 @@ class CoachInfoFragment : Fragment() {
         }
     }
 
-    private fun addToSharedPreference(email: String, experience: String, phone: String, priceRange: String) {
+    private fun addToSharedPreference(
+        email: String,
+        experience: String,
+        phone: String,
+        priceRange: String,
+    ) {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         sharedPreferences.edit().apply {
             putString(SignUpFragment.COACH_EMAIL, email)
@@ -49,21 +68,21 @@ class CoachInfoFragment : Fragment() {
     }
 
     private fun goToHomePage() {
-        TODO("Not yet implemented")
+        findNavController().navigate(R.id.action_coachInfoFragment_to_viewPagerFragment2)
     }
 
     private fun checkInputValidation(): Boolean {
         return if (!experienceValidation()) {
-            requireContext().toast("")
+            requireContext().toast("Enter a experience")
             false
         } else if (!phoneValidation()) {
-            requireContext().toast("")
+            requireContext().toast("Enter a phone number")
             false
         } else if (!priceValidation()) {
-            requireContext().toast("")
+            requireContext().toast("Enter a range price")
             false
         } else if (!emailValidation()) {
-            requireContext().toast("")
+            requireContext().toast("Enter a valid Email")
             false
         } else {
             true
@@ -73,8 +92,10 @@ class CoachInfoFragment : Fragment() {
     private fun priceValidation(): Boolean {
         return binding.priceRangeEditText.text.toString().isNotEmpty()
     }
+
     private fun emailValidation(): Boolean {
-        return binding.emailEditText.text.toString().isNotEmpty()
+        val email = binding.emailEditText.text.toString()
+        return email.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     private fun phoneValidation(): Boolean {
@@ -96,13 +117,22 @@ class CoachInfoFragment : Fragment() {
     private fun getPriceRange(): String {
         return binding.priceRangeEditText.text.toString()
     }
+
     private fun getEmail(): String {
         return binding.emailEditText.text.toString()
     }
 
+    private fun getName() =
+        activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+            .getString(FIRST_NAME, "")!!
+
     private fun saveCoachInfo() {
-//        addToSharedPreference(getEmail(), getExperience(),)
+        // addToSharedPreference(getEmail(), getExperience(), getPhone(), getPriceRange())
+        viewModel.saveCoachInfo(getCoachInfo())
     }
+
+    private fun getCoachInfo() =
+        Coach(getName(), getExperience(), getEmail(), getPhone(), getPriceRange())
 
     override fun onDestroyView() {
         super.onDestroyView()

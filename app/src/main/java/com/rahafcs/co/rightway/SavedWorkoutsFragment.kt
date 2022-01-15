@@ -20,7 +20,8 @@ class SavedWorkoutsFragment : Fragment() {
     val viewModel by activityViewModels<WorkoutsViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository()
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
         )
     }
 
