@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.viewmodels
+package com.rahafcs.co.rightway.ui.settings.coach
 
 import androidx.lifecycle.ViewModel
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState

@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui.settings
+package com.rahafcs.co.rightway.ui.settings.trainee
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -14,9 +14,9 @@ import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentActivityBinding
-import com.rahafcs.co.rightway.ui.SignUpFragment
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.ACTIVITY_LEVEL
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.AGE
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.ACTIVITY_LEVEL
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.AGE
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
 import com.rahafcs.co.rightway.utility.upToTop

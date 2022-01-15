@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.workout
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -8,13 +8,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ShowSavedWorkoutsFragmentDirections
-import com.rahafcs.co.rightway.ShowWorkoutsByEquipmentFragmentDirections
-import com.rahafcs.co.rightway.ViewPagerFragmentDirections
+import com.rahafcs.co.rightway.*
 import com.rahafcs.co.rightway.databinding.NestedItemBinding
-import com.rahafcs.co.rightway.ui.WorkoutsFragment.Companion.listOfSavedWorkouts
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment.Companion.listOfSavedWorkouts
 import com.rahafcs.co.rightway.utility.ui.findUrlGlide
 
 class WorkoutHorizontalAdapter(
@@ -40,13 +37,13 @@ class WorkoutHorizontalAdapter(
                     binding.root.findNavController().navigate(action)
                 } else if (flag == "SavedWorkouts") {
                     val action =
-                        ShowSavedWorkoutsFragmentDirections.actionShowSavedWorkoutsFragmentToWorkoutDetailsFragment2(
+                        SavedWorkoutsFragmentDirections.actionSavedWorkoutsFragmentToWorkoutDetailsFragment2(
                             item
                         )
                     binding.root.findNavController().navigate(action)
                 } else {
                     val action =
-                        ShowWorkoutsByEquipmentFragmentDirections.actionShowWorkoutsByEquipmentFragmentToWorkoutDetailsFragment2(
+                        WorkoutsByEquipmentFragmentDirections.actionWorkoutsByEquipmentFragmentToWorkoutDetailsFragment2(
                             item
                         )
                     binding.root.findNavController().navigate(action)

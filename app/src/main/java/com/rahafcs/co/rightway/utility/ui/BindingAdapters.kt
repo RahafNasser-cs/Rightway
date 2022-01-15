@@ -10,9 +10,9 @@ import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.LoadingStatus
-import com.rahafcs.co.rightway.ui.CoachAdapter
-import com.rahafcs.co.rightway.ui.WorkoutHorizontalAdapter
-import com.rahafcs.co.rightway.ui.WorkoutVerticalAdapter
+import com.rahafcs.co.rightway.ui.coach.CoachAdapter
+import com.rahafcs.co.rightway.ui.workout.WorkoutHorizontalAdapter
+import com.rahafcs.co.rightway.ui.workout.WorkoutVerticalAdapter
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState

@@ -1,7 +1,6 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +9,22 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.rahafcs.co.rightway.data.LoadingStatus
-import com.rahafcs.co.rightway.databinding.FragmentWorkoutsBinding
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.databinding.FragmentWorkoutsByEquipmentBinding
+import com.rahafcs.co.rightway.ui.state.BrowsWorkoutUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutHorizontalAdapter
 import com.rahafcs.co.rightway.utility.ServiceLocator
+import com.rahafcs.co.rightway.utility.upToTop
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class WorkoutsFragment : Fragment() {
-    private var binding: FragmentWorkoutsBinding? = null
-    private val viewModel: WorkoutsViewModel by activityViewModels<WorkoutsViewModel> {
+class WorkoutsByEquipmentFragment : Fragment() {
+
+    private var binding: FragmentWorkoutsByEquipmentBinding? = null
+    private val args: WorkoutsByEquipmentFragmentArgs by navArgs()
+    private val viewModel by activityViewModels<WorkoutsViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
             ServiceLocator.provideUserRepository()
@@ -34,44 +37,49 @@ class WorkoutsFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentWorkoutsBinding.inflate(inflater, container, false)
+        binding = FragmentWorkoutsByEquipmentBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getWorkoutsByEquipment(args.equipment)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            workoutsFragment = this@WorkoutsFragment
-            workoutViewModel = viewModel
-            titleRecyclerview.adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
+            val adapter = WorkoutHorizontalAdapter("") { workoutsInfoUiState ->
                 if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
+                    // listOfSavedWorkouts.add(workoutsInfoUiState)
+                    // viewModel.addUserWorkout(listOfSavedWorkouts)
                     viewModel.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
                     true
                 } else {
+                    // listOfSavedWorkouts.remove(workoutsInfoUiState)
+                    // viewModel.deleteWorkout(listOfSavedWorkouts)
                     viewModel.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
                     false
                 }
             }
+            workoutsViewModel = viewModel
+            workoutRecyclerview.adapter = adapter
+            backArrow.setOnClickListener { this@WorkoutsByEquipmentFragment.upToTop() }
         }
-        handleLayout()
-        // reloadListOfSavedWorkouts from Firestore 
-        reloadListOfSavedWorkouts()
+        loadingState()
+        // adapter.submitList(viewModel.listOfWorkoutByEquipment.value) // I submit in xml
     }
 
-    private fun handleLayout() {
+    private fun loadingState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.listWorkoutsUiState.collect {
-                    when (it.loadingState) {
+                viewModel.browsWorkoutUiState.collect { browsWorkoutUiState ->
+                    when (browsWorkoutUiState.loadingState) {
                         LoadingStatus.FAILURE -> {
-                            showErrorLayout()
+                            showErrorLayout(browsWorkoutUiState)
+                        }
+                        LoadingStatus.SUCCESS -> {
+                            showSuccessLayout()
                         }
                         LoadingStatus.LOADING -> {
                             showLoadingLayout()
-                        }
-                        LoadingStatus.SUCCESS -> {
-                            shoeSuccessLayout()
                         }
                     }
                 }
@@ -79,47 +87,33 @@ class WorkoutsFragment : Fragment() {
         }
     }
 
-    private fun shoeSuccessLayout() {
-        binding?.apply {
-            error.visibility = View.GONE
-            success.visibility = View.VISIBLE
-            loading.visibility = View.GONE
-        }
-    }
-
     private fun showLoadingLayout() {
         binding?.apply {
+            loading.visibility = View.VISIBLE
             error.visibility = View.GONE
             success.visibility = View.GONE
-            loading.visibility = View.VISIBLE
         }
     }
 
-    private fun showErrorLayout() {
+    private fun showSuccessLayout() {
         binding?.apply {
-            error.visibility = View.VISIBLE
-            success.visibility = View.GONE
             loading.visibility = View.GONE
+            error.visibility = View.GONE
+            success.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showErrorLayout(browsWorkoutUiState: BrowsWorkoutUiState) {
+        binding?.apply {
+            loading.visibility = View.GONE
+            error.visibility = View.VISIBLE
+            errorMsg.text = browsWorkoutUiState.userMsg
+            success.visibility = View.GONE
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-    }
-
-    private fun reloadListOfSavedWorkouts() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.reloadListOfSavedWorkouts().collect {
-                    listOfSavedWorkouts = it.toMutableList()
-                    Log.e("WorkoutFragment", "reloadListOfSavedWorkouts: $listOfSavedWorkouts")
-                }
-            }
-        }
-    }
-
-    companion object {
-        var listOfSavedWorkouts = mutableListOf<WorkoutsInfoUiState>()
     }
 }

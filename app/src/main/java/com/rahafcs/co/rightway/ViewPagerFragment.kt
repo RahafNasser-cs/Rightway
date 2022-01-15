@@ -11,10 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.databinding.FragmentViewPagerBinding
-import com.rahafcs.co.rightway.ui.BrowsFragment
-import com.rahafcs.co.rightway.ui.CoachesFragment
-import com.rahafcs.co.rightway.ui.SignUpFragment
-import com.rahafcs.co.rightway.ui.WorkoutsFragment
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment
+import com.rahafcs.co.rightway.ui.brows.BrowsFragment
+import com.rahafcs.co.rightway.ui.coach.CoachesFragment
+import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
 import com.rahafcs.co.rightway.utility.toast
 
 class ViewPagerFragment : Fragment() {

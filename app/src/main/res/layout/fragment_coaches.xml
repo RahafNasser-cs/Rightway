@@ -2,15 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.CoachesFragment">
+    tools:context=".ui.coach.CoachesFragment">
 
     <data>
         <variable
             name="coachesFragment"
-            type="com.rahafcs.co.rightway.ui.CoachesFragment" />
+            type="com.rahafcs.co.rightway.ui.coach.CoachesFragment" />
         <variable
             name="coachViewModel"
-            type="com.rahafcs.co.rightway.viewmodels.CoachViewModel" />
+            type="com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel" />
     </data>
 
     <RelativeLayout

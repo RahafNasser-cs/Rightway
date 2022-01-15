@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway
+package com.rahafcs.co.rightway.ui.settings.trainee
 
 import android.content.Context
 import android.os.Bundle
@@ -8,45 +8,49 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentUserInfoBinding
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.AGE
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.GENDER
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.HEIGHT
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.WEIGHT
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.AGE
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.GENDER
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.HEIGHT
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.WEIGHT
 import com.rahafcs.co.rightway.utility.toast
 
 class UserInfoFragment : Fragment() {
 
-    private var binding: FragmentUserInfoBinding? = null
+    private var _binding: FragmentUserInfoBinding? = null
+    val binding: FragmentUserInfoBinding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?,
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentUserInfoBinding.inflate(inflater, container, false)
-        return binding?.root
+        _binding = FragmentUserInfoBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Profile"
-        binding?.nextBtn?.setOnClickListener {
+        binding.nextBtn.setOnClickListener {
             if (checkInputValidation()) {
+                saveUserInfo()
                 goToActivityPage()
             }
         }
     }
 
-    private fun saveUserInfo() {
-        val gender = if (binding?.femaleOption?.isChecked!!) "Female" else "Male"
-        val age = binding?.ageEditText?.text.toString()
-        val weight =
-            if (binding?.kgOption?.isChecked!!) "${binding?.weightEditText?.text} kg" else "${binding?.weightEditText?.text} lb"
-        val height =
-            if (binding?.cmOption?.isChecked!!) "${binding?.heightEditText?.text} cm" else "${binding?.weightEditText?.text} ft"
-        addToSharedPreference(gender, age, weight, height)
-    }
+    private fun saveUserInfo() =
+        addToSharedPreference(getGender(), getAge(), getWeight(), getHeight())
+
+    private fun getHeight() =
+        if (binding.cmOption.isChecked) "${binding.heightEditText.text} cm" else "${binding.weightEditText.text} ft"
+
+    private fun getWeight() =
+        if (binding.kgOption.isChecked) "${binding.weightEditText.text} kg" else "${binding.weightEditText.text} lb"
+
+    private fun getGender() = if (binding.femaleOption.isChecked) "Female" else "Male"
 
     private fun checkInputValidation(): Boolean {
         return if (!ageValidation()) {
@@ -59,7 +63,6 @@ class UserInfoFragment : Fragment() {
             requireContext().toast("Enter a height")
             false
         } else {
-            saveUserInfo()
             true
         }
     }
@@ -80,19 +83,21 @@ class UserInfoFragment : Fragment() {
     }
 
     private fun ageValidation(): Boolean {
-        return binding?.ageEditText?.text.toString().isNotEmpty()
+        return binding.ageEditText.text.toString().isNotEmpty()
     }
 
+    private fun getAge() = binding.ageEditText.text.toString()
+
     private fun weightValidation(): Boolean {
-        return binding?.weightEditText?.text.toString().isNotEmpty()
+        return binding.weightEditText.text.toString().isNotEmpty()
     }
 
     private fun heightValidation(): Boolean {
-        return binding?.heightEditText?.text.toString().isNotEmpty()
+        return binding.heightEditText.text.toString().isNotEmpty()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 }

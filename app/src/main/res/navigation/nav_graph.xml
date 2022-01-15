@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.rahafcs.co.rightway.ui.SignUpFragment"
+        android:name="com.rahafcs.co.rightway.ui.auth.SignUpFragment"
         tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_signUpFragment_to_signInFragment"
@@ -18,8 +18,8 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.rahafcs.co.rightway.ui.SignInFragment"
-        tools:layout="@layout/fragment_sign_in" >
+        android:name="com.rahafcs.co.rightway.ui.auth.SignInFragment"
+        tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/action_signInFragment_to_viewPagerFragment2"
             app:destination="@id/viewPagerFragment2" />
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.rahafcs.co.rightway.ui.RegistrationFragment"
+        android:name="com.rahafcs.co.rightway.ui.auth.RegistrationFragment"
         tools:layout="@layout/fragment_registration">
         <action
             android:id="@+id/action_welcomeFragment_to_signUpFragment"
@@ -43,50 +43,19 @@
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.rahafcs.co.rightway.ui.WelcomeFragment"
+        android:name="com.rahafcs.co.rightway.ui.settings.WelcomeFragment"
         android:label="fragment_welcome"
-        tools:layout="@layout/fragment_welcome" >
+        tools:layout="@layout/fragment_welcome">
         <action
             android:id="@+id/action_welcomeFragment_to_userInfoFragment"
             app:destination="@id/userInfoFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/genderFragment"
-        android:name="com.rahafcs.co.rightway.ui.settings.GenderFragment"
-        android:label="fragment_gender"
-        tools:layout="@layout/fragment_gender" >
-        <action
-            android:id="@+id/action_genderFragment_to_heightFragment"
-            app:destination="@id/heightFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/heightFragment"
-        android:name="com.rahafcs.co.rightway.ui.settings.HeightFragment"
-        android:label="fragment_height"
-        tools:layout="@layout/fragment_height" >
-        <action
-            android:id="@+id/action_heightFragment_to_weightFragment"
-            app:destination="@id/weightFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/weightFragment"
-        android:name="com.rahafcs.co.rightway.ui.settings.WeightFragment"
-        android:label="fragment_weight"
-        tools:layout="@layout/fragment_weight" >
-        <action
-            android:id="@+id/action_weightFragment_to_ageFragment"
-            app:destination="@id/ageFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/ageFragment"
-        android:name="com.rahafcs.co.rightway.ui.settings.AgeFragment"
-        android:label="fragment_age"
-        tools:layout="@layout/fragment_age" />
+
     <fragment
         android:id="@+id/activityFragment"
-        android:name="com.rahafcs.co.rightway.ui.settings.ActivityFragment"
+        android:name="com.rahafcs.co.rightway.ui.settings.trainee.ActivityFragment"
         android:label="fragment_activity"
-        tools:layout="@layout/fragment_activity" >
+        tools:layout="@layout/fragment_activity">
         <action
             android:id="@+id/action_activityFragment_to_viewPagerFragment2"
             app:destination="@id/viewPagerFragment2" />
@@ -103,7 +72,7 @@
         android:id="@+id/viewPagerFragment2"
         android:name="com.rahafcs.co.rightway.ViewPagerFragment"
         android:label="fragment_view_pager"
-        tools:layout="@layout/fragment_view_pager" >
+        tools:layout="@layout/fragment_view_pager">
         <action
             android:id="@+id/action_viewPagerFragment2_to_workoutDetailsFragment2"
             app:destination="@id/workoutDetailsFragment2" />
@@ -115,35 +84,34 @@
             app:destination="@id/sendEmailFragment" />
         <action
             android:id="@+id/action_viewPagerFragment2_to_showWorkoutsByEquipmentFragment"
-            app:destination="@id/showWorkoutsByEquipmentFragment" />
+            app:destination="@id/workoutsByEquipmentFragment" />
         <action
             android:id="@+id/action_viewPagerFragment2_to_showSavedWorkoutsFragment"
-            app:destination="@id/showSavedWorkoutsFragment" />
+            app:destination="@id/savedWorkoutsFragment" />
     </fragment>
     <fragment
         android:id="@+id/workoutDetailsFragment2"
-        android:name="com.rahafcs.co.rightway.ui.WorkoutDetailsFragment"
+        android:name="com.rahafcs.co.rightway.ui.workout.WorkoutDetailsFragment"
         android:label="fragment_workout_details"
-        tools:layout="@layout/fragment_workout_details"
-        >
+        tools:layout="@layout/fragment_workout_details">
         <argument
             android:name="workoutInfoUiState"
             app:argType="com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState" />
     </fragment>
     <fragment
         android:id="@+id/userInfoFragment"
-        android:name="com.rahafcs.co.rightway.UserInfoFragment"
+        android:name="com.rahafcs.co.rightway.ui.settings.trainee.UserInfoFragment"
         android:label="fragment_user_info"
-        tools:layout="@layout/fragment_user_info" >
+        tools:layout="@layout/fragment_user_info">
         <action
             android:id="@+id/action_userInfoFragment_to_activityFragment"
             app:destination="@id/activityFragment" />
     </fragment>
     <fragment
         android:id="@+id/userInfoSettingsFragment2"
-        android:name="com.rahafcs.co.rightway.ui.UserInfoSettingsFragment"
+        android:name="com.rahafcs.co.rightway.ui.settings.trainee.UserInfoSettingsFragment"
         android:label="fragment_user_info_settings"
-        tools:layout="@layout/fragment_user_info_settings" >
+        tools:layout="@layout/fragment_user_info_settings">
         <action
             android:id="@+id/action_userInfoSettingsFragment2_to_viewPagerFragment2"
             app:destination="@id/viewPagerFragment2" />
@@ -152,7 +120,7 @@
         android:id="@+id/splashFragment"
         android:name="com.rahafcs.co.rightway.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
@@ -161,30 +129,30 @@
         android:id="@+id/sendEmailFragment"
         android:name="com.rahafcs.co.rightway.SendEmailFragment"
         android:label="fragment_send_email"
-        tools:layout="@layout/fragment_send_email" >
+        tools:layout="@layout/fragment_send_email">
         <argument
             android:name="coachEmail"
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/showWorkoutsByEquipmentFragment"
-        android:name="com.rahafcs.co.rightway.ShowWorkoutsByEquipmentFragment"
+        android:id="@+id/workoutsByEquipmentFragment"
+        android:name="com.rahafcs.co.rightway.WorkoutsByEquipmentFragment"
         android:label="fragment_show_workouts_by_equipment"
-        tools:layout="@layout/fragment_show_workouts_by_equipment" >
+        tools:layout="@layout/fragment_workouts_by_equipment">
         <argument
             android:name="equipment"
             app:argType="string" />
         <action
-            android:id="@+id/action_showWorkoutsByEquipmentFragment_to_workoutDetailsFragment2"
+            android:id="@+id/action_workoutsByEquipmentFragment_to_workoutDetailsFragment2"
             app:destination="@id/workoutDetailsFragment2" />
     </fragment>
     <fragment
-        android:id="@+id/showSavedWorkoutsFragment"
-        android:name="com.rahafcs.co.rightway.ShowSavedWorkoutsFragment"
+        android:id="@+id/savedWorkoutsFragment"
+        android:name="com.rahafcs.co.rightway.SavedWorkoutsFragment"
         android:label="fragment_show_saved_workouts"
-        tools:layout="@layout/fragment_show_saved_workouts" >
+        tools:layout="@layout/fragment_saved_workouts">
         <action
-            android:id="@+id/action_showSavedWorkoutsFragment_to_workoutDetailsFragment2"
+            android:id="@+id/action_savedWorkoutsFragment_to_workoutDetailsFragment2"
             app:destination="@id/workoutDetailsFragment2" />
     </fragment>
 </navigation>

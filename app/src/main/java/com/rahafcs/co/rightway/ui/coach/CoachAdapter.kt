@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.coach
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -33,14 +33,14 @@ class CoachAdapter :
     companion object CoachDiffCallback : DiffUtil.ItemCallback<CoachInfoUiState>() {
         override fun areItemsTheSame(
             oldItem: CoachInfoUiState,
-            newItem: CoachInfoUiState
+            newItem: CoachInfoUiState,
         ): Boolean {
             return oldItem.name == newItem.name
         }
 
         override fun areContentsTheSame(
             oldItem: CoachInfoUiState,
-            newItem: CoachInfoUiState
+            newItem: CoachInfoUiState,
         ): Boolean {
             return oldItem.name == newItem.name && oldItem.experience == newItem.experience && oldItem.phoneNumber == newItem.phoneNumber
         }

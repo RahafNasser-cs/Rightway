@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.settings.trainee
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentUserInfoSettingsBinding
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.SIGN_IN
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.SIGN_IN
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
@@ -100,13 +100,14 @@ class UserInfoSettingsFragment : Fragment() {
     private fun signOut() {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         val editor = sharedPreferences.edit()
-        editor.putBoolean(SIGN_IN, false)
-        editor.apply()
+
         // requireContext().toast("${FirebaseAuth.getInstance().currentUser?.email}")
         Log.e("TAG", "signOut: before ${FirebaseAuth.getInstance().currentUser?.uid!!}")
         AuthUI.getInstance()
             .signOut(requireContext()).addOnSuccessListener {
                 FirebaseAuth.getInstance().signOut()
+                editor.putBoolean(SIGN_IN, false)
+                editor.apply()
                 findNavController().navigate(R.id.registrationFragment)
             }.addOnFailureListener {
             }

@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.coach
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.rahafcs.co.rightway.databinding.FragmentCoachesBinding
-import com.rahafcs.co.rightway.viewmodels.CoachViewModel
+import com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel
 
 class CoachesFragment : Fragment() {
     private var binding: FragmentCoachesBinding? = null
@@ -16,7 +16,7 @@ class CoachesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCoachesBinding.inflate(inflater, container, false)

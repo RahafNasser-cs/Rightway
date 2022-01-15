@@ -30,14 +30,6 @@ data class ListWorkoutsUiState(
     val isSigned: Boolean = false,
 )
 
-data class CoachInfoUiState(
-    val name: String = "",
-    val experience: String = "",
-    val email: String = "",
-    val phoneNumber: String = "",
-    val price: String = "",
-)
-
 data class BrowsWorkoutUiState(
     val workoutsUiState: WorkoutsUiState = WorkoutsUiState(),
     val loadingState: LoadingStatus = LoadingStatus.SUCCESS,

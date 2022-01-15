@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.auth
 
 import android.content.Context
 import android.content.Intent
@@ -39,7 +39,7 @@ class SignUpFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding?.root
@@ -75,7 +75,7 @@ class SignUpFragment : Fragment() {
         userId: String,
         firstName: String,
         lastName: String,
-        subscriptionStatus: String
+        subscriptionStatus: String,
     ) {
         sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         sharedPreferences.edit().apply {
@@ -94,7 +94,7 @@ class SignUpFragment : Fragment() {
         userId: String,
         firstName: String,
         lastName: String,
-        subscriptionStatus: SubscriptionStatus
+        subscriptionStatus: SubscriptionStatus,
     ) {
         // viewModel.userInfo(User(userId, firstName, lastName, subscriptionStatus))
     }
@@ -111,7 +111,7 @@ class SignUpFragment : Fragment() {
         firebaseUser?.let {
             getUserInfo(it.uid)
             goToWelcomePage()
-            Log.e("siginup", "signUpWithEmailAndPassword: uid ${firebaseUser.uid}", )
+            Log.e("siginup", "signUpWithEmailAndPassword: uid ${firebaseUser.uid}")
         }
         // save user info 
         // TODO
@@ -225,5 +225,8 @@ class SignUpFragment : Fragment() {
         const val SIGN_UP = "signUp"
         const val LAST_NAME = "lastName"
         const val COACH_EMAIL = "coachEmail"
+        const val COACH_PHONE = "coachPhone"
+        const val COACH_EXPERIENCE = "coachExperience"
+        const val COACH_PRICE_RANGE = "priceRange"
     }
 }

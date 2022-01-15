@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.workout
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.RegistrationFragment"
+    tools:context=".ui.auth.RegistrationFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
             name="registrationFragment"
-            type="com.rahafcs.co.rightway.ui.RegistrationFragment" />
+            type="com.rahafcs.co.rightway.ui.auth.RegistrationFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

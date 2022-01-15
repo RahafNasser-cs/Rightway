@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.auth
 
 import android.content.Context
 import android.content.Intent
@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
-import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.USERID
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.USERID
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
 
@@ -35,7 +35,7 @@ class SignInFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentSignInBinding.inflate(inflater, container, false)

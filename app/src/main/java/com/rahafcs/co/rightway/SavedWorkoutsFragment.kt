@@ -7,15 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.rahafcs.co.rightway.databinding.FragmentShowSavedWorkoutsBinding
-import com.rahafcs.co.rightway.ui.WorkoutHorizontalAdapter
+import com.rahafcs.co.rightway.databinding.FragmentSavedWorkoutsBinding
+import com.rahafcs.co.rightway.ui.workout.WorkoutHorizontalAdapter
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.upToTop
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
 
-class ShowSavedWorkoutsFragment : Fragment() {
-    private var _binding: FragmentShowSavedWorkoutsBinding? = null
+class SavedWorkoutsFragment : Fragment() {
+    private var _binding: FragmentSavedWorkoutsBinding? = null
     val binding get() = _binding!!
     val viewModel by activityViewModels<WorkoutsViewModel> {
         ViewModelFactory(
@@ -31,7 +31,7 @@ class ShowSavedWorkoutsFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentShowSavedWorkoutsBinding.inflate(inflater, container, false)
+        _binding = FragmentSavedWorkoutsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -52,7 +52,7 @@ class ShowSavedWorkoutsFragment : Fragment() {
             recyclerview.adapter = adapter
             adapter.submitList(viewModel.listSavedWorkout.value)
             Log.e("MainActiv", "onViewCreated: ${viewModel.listSavedWorkout.value}")
-            backArrow.setOnClickListener { this@ShowSavedWorkoutsFragment.upToTop() }
+            backArrow.setOnClickListener { this@SavedWorkoutsFragment.upToTop() }
         }
     }
 

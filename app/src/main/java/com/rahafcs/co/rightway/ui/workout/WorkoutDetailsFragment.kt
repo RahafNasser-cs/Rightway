@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui
+package com.rahafcs.co.rightway.ui.workout
 
 import android.content.Intent
 import android.os.Bundle
