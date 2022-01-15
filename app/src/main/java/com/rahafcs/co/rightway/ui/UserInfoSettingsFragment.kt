@@ -15,13 +15,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentUserInfoSettingsBinding
 import com.rahafcs.co.rightway.ui.SignUpFragment.Companion.SIGN_IN
 import com.rahafcs.co.rightway.utility.ServiceLocator
-import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import kotlinx.coroutines.launch
@@ -56,7 +56,9 @@ class UserInfoSettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            logoutImg.setOnClickListener { signOut() }
+            logoutImg.setOnClickListener {
+                signOutConfirmDialog()
+            }
             homeImg.setOnClickListener { goToHomePage() }
             editImg.setOnClickListener {
                 if (!isEditMode) {
@@ -69,6 +71,16 @@ class UserInfoSettingsFragment : Fragment() {
             }
         }
         readUserInfo()
+    }
+
+    private fun signOutConfirmDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Sign Out")
+            .setMessage("Are you sure you want to sign out?")
+            .setNegativeButton("Cancel") { _, _ -> }
+            .setPositiveButton("Sign out") { _, _ ->
+                signOut()
+            }.show()
     }
 
     private fun readUserInfo() {
@@ -90,7 +102,7 @@ class UserInfoSettingsFragment : Fragment() {
         val editor = sharedPreferences.edit()
         editor.putBoolean(SIGN_IN, false)
         editor.apply()
-        requireContext().toast("${FirebaseAuth.getInstance().currentUser?.email}")
+        // requireContext().toast("${FirebaseAuth.getInstance().currentUser?.email}")
         Log.e("TAG", "signOut: before ${FirebaseAuth.getInstance().currentUser?.uid!!}")
         AuthUI.getInstance()
             .signOut(requireContext()).addOnSuccessListener {
