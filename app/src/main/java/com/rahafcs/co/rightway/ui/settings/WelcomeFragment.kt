@@ -32,7 +32,7 @@ class WelcomeFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             welcomeTextview.text = getWelcomeStatement()
             getStartedBtn.setOnClickListener {
-                if (getUserSubscriptionStatus() == requireContext().getString(R.string.trainee)) {
+                if (getUserSubscriptionStatus().equals(requireContext().getString(R.string.trainee), true)) {
                     goToUserInfoPage()
                 } else {
                     goToCoachInfoPage()

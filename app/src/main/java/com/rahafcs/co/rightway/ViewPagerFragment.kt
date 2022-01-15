@@ -2,6 +2,7 @@ package com.rahafcs.co.rightway
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.rahafcs.co.rightway.databinding.FragmentViewPagerBinding
 import com.rahafcs.co.rightway.ui.auth.SignUpFragment
 import com.rahafcs.co.rightway.ui.brows.BrowsFragment
 import com.rahafcs.co.rightway.ui.coach.CoachesFragment
+import com.rahafcs.co.rightway.ui.coach.CoachesFragment.Companion.coachesEmail
 import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
 import com.rahafcs.co.rightway.utility.toast
 
@@ -54,13 +56,40 @@ class ViewPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.userInfo.setOnClickListener { goToInfoSettings() }
+        binding.userInfo.setOnClickListener {
+            Log.e(
+                "ViewPagerFragment",
+                "onViewCreated: ${getUserSubscriptionStatus() == requireContext().getString(R.string.trainee)}",
+            )
+            Log.e("ViewPagerFragment", "onViewCreated: ${getUserSubscriptionStatus()}")
+            Log.e(
+                "Viewpager",
+                "onViewCreated: ${FirebaseAuth.getInstance().currentUser?.email} --- list  $coachesEmail",
+            )
+            // goToUserInfoSettings()
+            if (coachesEmail.contains(FirebaseAuth.getInstance().currentUser?.email)) {
+                Log.e(
+                    "Viewpager",
+                    "onViewCreated: ${FirebaseAuth.getInstance().currentUser?.email}",
+                )
+                goToCoachInfoSettings()
+            } else {
+                goToUserInfoSettings()
+            }
+        }
         binding.savedWorkout.setOnClickListener { goToSavedWorkoutsPage() }
         // binding?.logout?.setOnClickListener { signOut() }
     }
 
-    private fun goToInfoSettings() =
+    private fun getUserSubscriptionStatus() =
+        activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+            .getString(SignUpFragment.FIRST_NAME, "")!!
+
+    private fun goToUserInfoSettings() =
         findNavController().navigate(R.id.action_viewPagerFragment2_to_userInfoSettingsFragment2)
+
+    private fun goToCoachInfoSettings() =
+        findNavController().navigate(R.id.action_viewPagerFragment2_to_coachInfoSettingsFragment)
 
     private fun goToSavedWorkoutsPage() =
         findNavController().navigate(R.id.action_viewPagerFragment2_to_showSavedWorkoutsFragment)

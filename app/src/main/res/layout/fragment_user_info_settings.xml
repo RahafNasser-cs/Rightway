@@ -153,7 +153,7 @@
                 app:layout_constraintTop_toBottomOf="@id/user_img" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/height_textview"
+                android:id="@+id/experience_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -171,9 +171,9 @@
                 android:layout_marginStart="8dp"
                 android:text="@{userInfoViewModel.userInfo.height}"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@id/height_textview"
-                app:layout_constraintStart_toEndOf="@id/height_textview"
-                app:layout_constraintTop_toTopOf="@id/height_textview" />
+                app:layout_constraintBottom_toBottomOf="@id/experience_textview"
+                app:layout_constraintStart_toEndOf="@id/experience_textview"
+                app:layout_constraintTop_toTopOf="@id/experience_textview" />
             <!--endregion -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/user_height_input_layout"
@@ -182,9 +182,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/height_textview"
-                app:layout_constraintStart_toEndOf="@id/height_textview"
-                app:layout_constraintTop_toTopOf="@id/height_textview">
+                app:layout_constraintBottom_toBottomOf="@id/experience_textview"
+                app:layout_constraintStart_toEndOf="@id/experience_textview"
+                app:layout_constraintTop_toTopOf="@id/experience_textview">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/user_height_edit_text"
@@ -226,8 +226,8 @@
                 android:text="@string/weight"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/height_textview"
-                app:layout_constraintTop_toBottomOf="@id/height_textview" />
+                app:layout_constraintStart_toStartOf="@id/experience_textview"
+                app:layout_constraintTop_toBottomOf="@id/experience_textview" />
             <!--region user_weight textview-->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/user_weight"

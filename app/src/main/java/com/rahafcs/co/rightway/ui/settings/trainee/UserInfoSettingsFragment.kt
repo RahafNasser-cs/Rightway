@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentUserInfoSettingsBinding
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment
 import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.SIGN_IN
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
@@ -253,8 +254,19 @@ class UserInfoSettingsFragment : Fragment() {
         )
 
     private fun getSubscriptionStatus() =
-        if (binding?.traineeOption?.isChecked!!) requireContext().getString(R.string.trainee)
-        else requireContext().getString(R.string.trainer)
+        if (binding?.traineeOption?.isChecked!!) {
+            updateSharedPreference(requireContext().getString(R.string.trainee))
+            requireContext().getString(R.string.trainee)
+        } else {
+            updateSharedPreference(requireContext().getString(R.string.trainer))
+            requireContext().getString(R.string.trainer)
+        }
+
+    private fun updateSharedPreference(subscriptionStatus: String) {
+        activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!.edit().putString(
+            SignUpFragment.SUPERSCRIPTION, subscriptionStatus
+        ).apply()
+    }
 
     private fun getActivityLevel() = when (binding?.activityOptions?.checkedRadioButtonId) {
         R.id.option_0 -> requireContext().getString(R.string.option_0)

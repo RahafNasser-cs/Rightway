@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -21,8 +22,11 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.SubscriptionStatus
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
+import com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel
+import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
+import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 
 const val REQUEST_CODE_SIGNING = 0
 
@@ -30,6 +34,14 @@ class SignUpFragment : Fragment() {
     private var binding: FragmentSignUpBinding? = null
     lateinit var sharedPreferences: SharedPreferences
     // private val viewModel: SignUpViewModel by viewModels()
+
+    private val viewModel: CoachViewModel by activityViewModels() {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +77,9 @@ class SignUpFragment : Fragment() {
         val subscriptionStatus = if (binding?.trainee?.isChecked == true) {
             SubscriptionStatus.TRAINEE.toString()
         } else {
+            // firstName = ("Coach $firstName")
+            viewModel.addListOfCoachesEmail(FirebaseAuth.getInstance().currentUser?.email!!.toString())
+            // coachesEmail.add(FirebaseAuth.getInstance().currentUser?.email!!)
             SubscriptionStatus.TRAINER.toString()
         }
         // createUserInfo(userId, firstName, lastName, subscriptionStatus)

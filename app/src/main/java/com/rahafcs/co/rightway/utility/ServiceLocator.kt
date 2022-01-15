@@ -22,7 +22,7 @@ object ServiceLocator {
 
     fun provideUserRepository(): UserRepository = UserRepository(provideUserRemoteDataSource())
 
-    fun provideCoachRemoteDataSource(): CoachRemoteDataSource = CoachRemoteDataSource()
+    private fun provideCoachRemoteDataSource(): CoachRemoteDataSource = CoachRemoteDataSource()
 
     fun provideCoachRepository(): CoachRepository = CoachRepository(provideCoachRemoteDataSource())
 //
