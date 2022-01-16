@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
 import com.rahafcs.co.rightway.data.LoadingStatus
+import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.data.UserRepository
 import com.rahafcs.co.rightway.ui.state.*
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
@@ -36,6 +37,14 @@ class WorkoutsViewModel(
     // To show saved workout
     private val _listSavedWorkout = MutableLiveData<List<WorkoutsInfoUiState>>()
     val listSavedWorkout: MutableLiveData<List<WorkoutsInfoUiState>> get() = _listSavedWorkout
+
+    // To define user status --> trainer or trainee
+    private var _userStatus = MutableStateFlow("")
+    val userStatus: MutableStateFlow<String> get() = _userStatus
+
+    // To test
+    private var _traineeList = MutableStateFlow(listOf<User>())
+    val traineeList: MutableStateFlow<List<User>> get() = _traineeList
 
     init {
         // TODO() remove the comment from getAllWorkouts(), because number of request in api
@@ -155,6 +164,15 @@ class WorkoutsViewModel(
 
     fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
         userRepository.checkIsSavedWorkout(workoutsInfoUiState)
+
+    fun getUserStatus(): Flow<String> = userRepository.getUserStatus()
+    fun getTrainer() {
+        viewModelScope.launch {
+            userRepository.getTrainer().collect {
+                Log.e("WVM", "getTrainer: list of users $it", )
+            }
+        }
+    }
 
 //    suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
 //        userRepository.isSavedWorkout(workoutsInfoUiState)

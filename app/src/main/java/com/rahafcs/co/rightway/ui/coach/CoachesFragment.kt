@@ -13,13 +13,12 @@ import com.rahafcs.co.rightway.databinding.FragmentCoachesBinding
 import com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class CoachesFragment : Fragment() {
     private var _binding: FragmentCoachesBinding? = null
     val binding: FragmentCoachesBinding get() = _binding!!
-    private val viewModel: CoachViewModel by activityViewModels() {
+    private val viewModel: CoachViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
             ServiceLocator.provideUserRepository(),
@@ -45,6 +44,11 @@ class CoachesFragment : Fragment() {
             recyclerview.adapter = CoachAdapter()
         }
         viewModel.setCoachesList()
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+//                coachesEmail = viewModel.coachesEmail.value.toMutableList()
+//            }
+//        }
         reloadListOfCoachesEmail()
     }
 
@@ -62,7 +66,7 @@ class CoachesFragment : Fragment() {
         _binding = null
     }
 
-    fun reloadListOfCoachesEmail() {
+    private fun reloadListOfCoachesEmail() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.reloadCoachEmailList().collect {

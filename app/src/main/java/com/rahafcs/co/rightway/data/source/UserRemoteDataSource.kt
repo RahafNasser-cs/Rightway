@@ -49,7 +49,7 @@ class UserRemoteDataSource {
         }
     }
 
-    fun updateListOfSavedWorkouts() {
+    private fun updateListOfSavedWorkouts() {
         FirebaseAuth.getInstance().currentUser?.let {
             db.collection("users").document(it.uid).update("savedWorkouts", listOfSavedWorkouts)
                 .addOnSuccessListener {
@@ -163,5 +163,38 @@ class UserRemoteDataSource {
                 }
             }
         }
+    }
+
+    suspend fun getTrainer(): Flow<List<User>> = callbackFlow {
+        Log.e(TAG, "getTrainer: inter")
+        db.collection("users").whereEqualTo("subscriptionStatus", "Trainee").get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.e(TAG, "getTrainer: a value ${it.result.documents}")
+                    var listOfTrainee = mutableListOf<User>()
+                    it.result?.let {
+                        for (trainee in it.documents) {
+                            listOfTrainee.add(trainee.toObject(User::class.java)!!)
+                        }
+                        trySend(listOfTrainee)
+                    }
+                }
+            }
+        awaitClose { cancel() }
+    }
+
+    fun getUserStatus(): Flow<String> = callbackFlow {
+        db.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid!!)
+            .addSnapshotListener { value, error ->
+                Log.e(TAG, "getUserStatus: a value $value -- error $error")
+                value?.let { it ->
+                    val userStatus = it.toObject(User::class.java)?.subscriptionStatus
+                    userStatus?.let { userStatus ->
+                        Log.e(TAG, "getUserStatus: $userStatus")
+                        trySend(userStatus)
+                    }
+                }
+            }
+        awaitClose { cancel() }
     }
 }

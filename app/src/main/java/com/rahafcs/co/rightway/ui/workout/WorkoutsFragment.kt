@@ -16,6 +16,7 @@ import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class WorkoutsFragment : Fragment() {
@@ -101,6 +102,28 @@ class WorkoutsFragment : Fragment() {
             success.visibility = View.GONE
             loading.visibility = View.GONE
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.listSavedWorkout.observe(viewLifecycleOwner, {
+            val adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
+                if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
+                    viewModel.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
+                    true
+                } else {
+                    viewModel.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
+                    false
+                }
+            }
+            binding?.titleRecyclerview?.adapter = adapter
+            lifecycleScope.launch {
+                viewModel.listWorkoutsUiState.collect {
+                    adapter.submitList(it.workUiState)
+                }
+            }
+        })
+        Log.e("TAG", "onResume: i am here")
     }
 
     override fun onDestroyView() {

@@ -4,14 +4,30 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.data.UserRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
     private var _status = MutableLiveData<LoadingStatus>()
     val status: LiveData<LoadingStatus> get() = _status
+
+    // To define user status --> trainer or trainee
+    private var _userStatus = MutableStateFlow("")
+    val userStatus: MutableStateFlow<String> get() = _userStatus
+
+    fun getUserStatus() {
+        viewModelScope.launch {
+            userRepository.getUserStatus().collect {
+                _userStatus.update { it }
+            }
+        }
+    }
 
 //    private var _userInfo = MutableStateFlow(User())
 //    val userInfo: MutableStateFlow<User> = _userInfo

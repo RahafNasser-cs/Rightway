@@ -11,6 +11,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -22,11 +25,13 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.SubscriptionStatus
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
+import com.rahafcs.co.rightway.ui.coach.CoachesFragment
 import com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
+import kotlinx.coroutines.launch
 
 const val REQUEST_CODE_SIGNING = 0
 
@@ -66,6 +71,7 @@ class SignUpFragment : Fragment() {
             signUpWithGoogleBtn.setOnClickListener { signUpWithGoogle() }
             backArrow.setOnClickListener { this@SignUpFragment.upToTop() }
         }
+        reloadListOfCoachesEmail()
     }
 
     private fun getUserInfo(userId: String) {
@@ -79,11 +85,25 @@ class SignUpFragment : Fragment() {
         } else {
             // firstName = ("Coach $firstName")
             viewModel.addListOfCoachesEmail(FirebaseAuth.getInstance().currentUser?.email!!.toString())
+            Log.e(
+                "SignUpFragment",
+                "getUserInfo: add email ${FirebaseAuth.getInstance().currentUser?.email!!}",
+            )
             // coachesEmail.add(FirebaseAuth.getInstance().currentUser?.email!!)
             SubscriptionStatus.TRAINER.toString()
         }
         // createUserInfo(userId, firstName, lastName, subscriptionStatus)
         addToSharedPreference(userId, firstName, lastName, subscriptionStatus)
+    }
+
+    private fun reloadListOfCoachesEmail() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.reloadCoachEmailList().collect {
+                    CoachesFragment.coachesEmail = it.toMutableList()
+                }
+            }
+        }
     }
 
     private fun addToSharedPreference(

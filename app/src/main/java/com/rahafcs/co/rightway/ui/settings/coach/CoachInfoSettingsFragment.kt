@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoSettingsBinding
 import com.rahafcs.co.rightway.ui.auth.SignUpFragment
-import com.rahafcs.co.rightway.ui.coach.CoachesFragment.Companion.coachesEmail
+import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 
@@ -29,6 +29,7 @@ class CoachInfoSettingsFragment : Fragment() {
             ServiceLocator.provideCoachRepository()
         )
     }
+    var isEditMode = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,9 +48,125 @@ class CoachInfoSettingsFragment : Fragment() {
             coachViewModel = viewModel
             homeImg.setOnClickListener { goToHomePage() }
             logoutImg.setOnClickListener { signOutConfirmDialog() }
+            editImg.setOnClickListener {
+                if (!isEditMode) {
+                    isEditMode = true
+                    it.visibility = View.GONE
+                    binding.closeImg.visibility = View.VISIBLE
+                    hideUserInfoTextView()
+                    showEditUserInfo(viewModel.coachInfoUiState.value!!)
+                }
+            }
         }
-        if (coachesEmail.contains(FirebaseAuth.getInstance().currentUser?.email)) {
-            viewModel.readCoachInfo(true)
+//        if (coachesEmail.contains(FirebaseAuth.getInstance().currentUser?.email)) {
+//            viewModel.readCoachInfo(true)
+//        }
+    }
+
+    private fun showEditUserInfo(coachInfo: CoachInfoUiState) {
+        makeEditTextVisible()
+        binding.apply {
+            representUserInfoIntoEditText(coachInfo)
+            closeImg.setOnClickListener {
+                if (isEditMode) {
+                    isEditMode = false
+                    it.visibility = View.GONE
+                    binding.editImg.visibility = View.VISIBLE
+                    hideEditUserInfo()
+                    showUserInfoTextView()
+                }
+            }
+            saveBtn.setOnClickListener {
+                if (isEditMode) {
+                    isEditMode = false
+                    binding.closeImg.visibility = View.GONE
+                    binding.editImg.visibility = View.VISIBLE
+                    saveUserInfo(getUpdatedCoachInfo(coachInfo))
+                    hideEditUserInfo()
+                    showUserInfoTextView()
+                }
+            }
+        }
+    }
+
+    private fun saveUserInfo(updatedCoachInfo: CoachInfoUiState) {
+        viewModel.saveCoachInfo(updatedCoachInfo)
+    }
+
+    private fun getUpdatedCoachInfo(oldCoachInfo: CoachInfoUiState) =
+        oldCoachInfo.copy(
+            name = getCoachName(),
+            experience = getCoachExperience(),
+            email = getCoachEmail(),
+            phoneNumber = getCoachPhone(),
+            price = getCoachRangePrice()
+        )
+
+    fun createCoach(newCoachInfo: CoachInfoUiState) =
+        CoachInfoUiState(
+            newCoachInfo.name,
+            newCoachInfo.experience,
+            newCoachInfo.email,
+            newCoachInfo.phoneNumber,
+            newCoachInfo.price,
+            newCoachInfo.savedWorkouts
+        )
+
+    private fun getCoachName() = binding.coachNameEditText.text.toString()
+    private fun getCoachEmail() = binding.emailEditText.text.toString()
+    private fun getCoachExperience() = binding.experienceEditText.text.toString()
+    private fun getCoachPhone() = binding.phoneEditText.text.toString()
+    private fun getCoachRangePrice() = binding.rangePriceEditText.text.toString()
+
+    private fun showUserInfoTextView() {
+        binding.apply {
+            coachNameTextview.visibility = View.VISIBLE
+            coachExperience.visibility = View.VISIBLE
+            coachEmail.visibility = View.VISIBLE
+            coachPhone.visibility = View.VISIBLE
+            coachRangePrice.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideEditUserInfo() {
+        binding.apply {
+            coachNameInputLayout.visibility = View.GONE
+            emailInputLayout.visibility = View.GONE
+            experienceInputLayout.visibility = View.GONE
+            phoneInputLayout.visibility = View.GONE
+            rangePriceInputLayout.visibility = View.GONE
+            saveBtn.visibility = View.GONE
+        }
+    }
+
+    private fun representUserInfoIntoEditText(coachInfo: CoachInfoUiState) {
+        binding.apply {
+            coachNameEditText.setText(coachInfo.name)
+            emailEditText.setText(coachInfo.email)
+            experienceEditText.setText(coachInfo.experience)
+            phoneEditText.setText(coachInfo.phoneNumber)
+            rangePriceEditText.setText(coachInfo.price)
+        }
+    }
+
+    private fun makeEditTextVisible() {
+        binding.apply {
+            coachNameInputLayout.visibility = View.VISIBLE
+            emailInputLayout.visibility = View.VISIBLE
+            experienceInputLayout.visibility = View.VISIBLE
+            phoneInputLayout.visibility = View.VISIBLE
+            rangePriceInputLayout.visibility = View.VISIBLE
+            saveBtn.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideUserInfoTextView() {
+        binding.apply {
+            coachNameTextview.visibility = View.GONE
+            coachExperience.visibility = View.GONE
+            coachEmail.visibility = View.GONE
+            coachPhone.visibility = View.GONE
+            coachRangePrice.visibility = View.GONE
         }
     }
 

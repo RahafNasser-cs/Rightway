@@ -8,6 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
@@ -16,12 +20,33 @@ import com.rahafcs.co.rightway.ui.auth.SignUpFragment
 import com.rahafcs.co.rightway.ui.brows.BrowsFragment
 import com.rahafcs.co.rightway.ui.coach.CoachesFragment
 import com.rahafcs.co.rightway.ui.coach.CoachesFragment.Companion.coachesEmail
+import com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel
 import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
-import com.rahafcs.co.rightway.utility.toast
+import com.rahafcs.co.rightway.utility.ServiceLocator
+import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
+import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class ViewPagerFragment : Fragment() {
     private var _binding: FragmentViewPagerBinding? = null
     val binding get() = _binding!!
+    private val viewModel: CoachViewModel by activityViewModels {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
+        )
+    }
+
+    private val workoutsViewModel: WorkoutsViewModel by activityViewModels {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
+        )
+    }
+    var userStatuse = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +81,10 @@ class ViewPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        workoutsViewModel.getUserStatus()
+        workoutsViewModel.getTrainer()
+        reloadListOfCoachesEmail()
+        getUserStatus()
         binding.userInfo.setOnClickListener {
             Log.e(
                 "ViewPagerFragment",
@@ -66,8 +95,10 @@ class ViewPagerFragment : Fragment() {
                 "Viewpager",
                 "onViewCreated: ${FirebaseAuth.getInstance().currentUser?.email} --- list  $coachesEmail",
             )
+
             // goToUserInfoSettings()
-            if (coachesEmail.contains(FirebaseAuth.getInstance().currentUser?.email)) {
+            // coachesEmail.contains(FirebaseAuth.getInstance().currentUser?.email)
+            if (userStatuse.equals(requireContext().getString(R.string.trainer), true)) {
                 Log.e(
                     "Viewpager",
                     "onViewCreated: ${FirebaseAuth.getInstance().currentUser?.email}",
@@ -100,14 +131,25 @@ class ViewPagerFragment : Fragment() {
         CoachesFragment()
     )
 
-    private fun signOut() {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(SignUpFragment.SIGN_IN, false)
-        editor.apply()
-        requireContext().toast("${FirebaseAuth.getInstance().currentUser?.email}")
-        FirebaseAuth.getInstance().signOut()
-        findNavController().navigate(R.id.registrationFragment)
+    private fun reloadListOfCoachesEmail() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.reloadCoachEmailList().collect {
+                    coachesEmail = it.toMutableList()
+                }
+            }
+        }
+    }
+
+    private fun getUserStatus() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                workoutsViewModel.getUserStatus().collect {
+                    Log.e("ViewPagerFragment", "getUserStatus: $it ")
+                    userStatuse = it
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

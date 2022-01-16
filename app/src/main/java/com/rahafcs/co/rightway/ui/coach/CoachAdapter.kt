@@ -47,7 +47,7 @@ class CoachAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoachViewHolder {
-        return CoachViewHolder(CoachItemBinding.inflate(LayoutInflater.from(parent.context)))
+        return CoachViewHolder(CoachItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun onBindViewHolder(holder: CoachViewHolder, position: Int) {

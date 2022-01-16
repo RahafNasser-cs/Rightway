@@ -35,4 +35,6 @@ class UserRepository(
         userRemoteDataSource.reloadListOfSavedWorkouts()
 
     suspend fun readUserInfo(): Flow<User> = userRemoteDataSource.readUserInfo()
+    fun getUserStatus(): Flow<String> = userRemoteDataSource.getUserStatus()
+    suspend fun getTrainer(): Flow<List<User>> = userRemoteDataSource.getTrainer()
 }

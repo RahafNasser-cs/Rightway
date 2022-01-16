@@ -6,4 +6,5 @@ data class CoachInfoUiState(
     val email: String = "",
     val phoneNumber: String = "",
     val price: String = "",
+    val savedWorkouts: List<WorkoutsInfoUiState> = listOf()
 )

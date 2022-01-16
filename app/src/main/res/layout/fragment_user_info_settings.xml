@@ -313,7 +313,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/age_textview"
                 app:layout_constraintStart_toStartOf="@id/user_weight_input_layout"
                 app:layout_constraintTop_toTopOf="@id/age_textview">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/user_age_edit_text"
                     android:layout_width="100dp"

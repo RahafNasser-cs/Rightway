@@ -9,18 +9,31 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.data.Coach
+import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoBinding
 import com.rahafcs.co.rightway.ui.auth.SignUpFragment
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.COACH_EMAIL
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.COACH_EXPERIENCE
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.COACH_PHONE
+import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.COACH_PRICE_RANGE
 import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.FIRST_NAME
 import com.rahafcs.co.rightway.utility.ServiceLocator
+import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
 import com.rahafcs.co.rightway.utility.toast
+import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 
 class CoachInfoFragment : Fragment() {
     private var _binding: FragmentCoachInfoBinding? = null
     val binding: FragmentCoachInfoBinding get() = _binding!!
     private val viewModel: CoachViewModel by activityViewModels {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideUserRepository(),
+            ServiceLocator.provideCoachRepository()
+        )
+    }
+    val signUpViewModel: SignUpViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
             ServiceLocator.provideUserRepository(),
@@ -127,12 +140,26 @@ class CoachInfoFragment : Fragment() {
             .getString(FIRST_NAME, "")!!
 
     private fun saveCoachInfo() {
-        // addToSharedPreference(getEmail(), getExperience(), getPhone(), getPriceRange())
+        addToSharedPreference(getEmail(), getExperience(), getPhone(), getPriceRange())
         viewModel.saveCoachInfo(getCoachInfo())
+//        signUpViewModel.userInfo(getCoachInfo())
     }
 
-    private fun getCoachInfo() =
-        Coach(getName(), getExperience(), getEmail(), getPhone(), getPriceRange())
+    private fun getCoachInfo(): User {
+        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        return User(
+            firstName = sharedPreferences.getString(FIRST_NAME, "")!!,
+            lastName = sharedPreferences.getString(SignUpFragment.LAST_NAME, "")!!,
+            subscriptionStatus = sharedPreferences.getString(SignUpFragment.SUPERSCRIPTION, "")!!
+                .capitalizeFormatIfFirstLatterCapital(),
+            experience = sharedPreferences.getString(COACH_EXPERIENCE, "")!!,
+            email = sharedPreferences.getString(COACH_EMAIL, "")!!,
+            price = sharedPreferences.getString(COACH_PRICE_RANGE, "")!!,
+            phoneNumber = sharedPreferences.getString(COACH_PHONE, "")!!
+        )
+    }
+//    private fun getCoachInfo() =
+//        Coach(getName(), getExperience(), getEmail(), getPhone(), getPriceRange())
 
     override fun onDestroyView() {
         super.onDestroyView()
