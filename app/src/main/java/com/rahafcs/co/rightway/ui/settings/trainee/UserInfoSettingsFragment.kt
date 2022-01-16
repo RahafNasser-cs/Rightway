@@ -161,7 +161,7 @@ class UserInfoSettingsFragment : Fragment() {
             activityOptions.visibility = View.VISIBLE
             genderOption.visibility = View.VISIBLE
             userNameInputLayout.visibility = View.VISIBLE
-            userSubscriptionStatusOptions.visibility = View.VISIBLE
+            // userSubscriptionStatusOptions.visibility = View.VISIBLE
             heightOption.visibility = View.VISIBLE
             weightOption.visibility = View.VISIBLE
             saveBtn.visibility = View.VISIBLE
@@ -184,10 +184,10 @@ class UserInfoSettingsFragment : Fragment() {
                 requireContext().getString(R.string.option_2) -> option2.isChecked = true
                 else -> option3.isChecked = true
             }
-            when (userInfo.subscriptionStatus) {
-                requireContext().getString(R.string.trainee) -> traineeOption.isChecked = true
-                else -> trainerOption.isChecked = true
-            }
+//            when (userInfo.subscriptionStatus) {
+//                requireContext().getString(R.string.trainee) -> traineeOption.isChecked = true
+//                else -> trainerOption.isChecked = true
+//            }
             when (userInfo.height.substring(userInfo.height.length - 2, userInfo.height.length)) {
                 "cm" -> cmOption.isChecked = true
                 else -> ftOption.isChecked = true
@@ -207,7 +207,7 @@ class UserInfoSettingsFragment : Fragment() {
             activityOptions.visibility = View.GONE
             genderOption.visibility = View.GONE
             userNameInputLayout.visibility = View.GONE
-            userSubscriptionStatusOptions.visibility = View.GONE
+            // userSubscriptionStatusOptions.visibility = View.GONE
             heightOption.visibility = View.GONE
             weightOption.visibility = View.GONE
             saveBtn.visibility = View.GONE
@@ -222,7 +222,7 @@ class UserInfoSettingsFragment : Fragment() {
             userActivityLeve.visibility = View.GONE
             userGender.visibility = View.GONE
             userNameTextview.visibility = View.GONE
-            subscriptionStatus.visibility = View.GONE
+            // subscriptionStatus.visibility = View.GONE
         }
     }
 
@@ -245,7 +245,7 @@ class UserInfoSettingsFragment : Fragment() {
     private fun getUpdatedUserInfo(oldUserInfo: User) =
         oldUserInfo.copy(
             firstName = getFirstName(),
-            subscriptionStatus = getSubscriptionStatus(),
+            // subscriptionStatus = getSubscriptionStatus(),
             height = getHeight(),
             weight = getWeight(),
             age = getAge(),

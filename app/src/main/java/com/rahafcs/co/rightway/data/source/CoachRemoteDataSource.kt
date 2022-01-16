@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.rahafcs.co.rightway.data.Coach
+import com.rahafcs.co.rightway.data.CoachEmail
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +15,11 @@ const val TAG = "CoachRemoteDataSource"
 class CoachRemoteDataSource {
     private val db = FirebaseFirestore.getInstance()
     private val collection = "coach"
-    private lateinit var listOfCoachesEmail: MutableList<String>
+    private var listOfCoachesEmail = mutableListOf<String>()
+
+    init {
+        reloadCoachEmailList()
+    }
 
     fun addListOfCoachesEmail(email: String) {
         listOfCoachesEmail.add(email)
@@ -35,7 +40,7 @@ class CoachRemoteDataSource {
 
     fun updateListOfCoachesEmail() {
         FirebaseAuth.getInstance().currentUser?.let {
-            db.collection("coachesEmail").add(listOfCoachesEmail)
+            db.collection("coaches").document("email").set(CoachEmail(listOfCoachesEmail))
                 .addOnSuccessListener {
                     Log.e(TAG, "updateListOfCoachesEmail: $listOfCoachesEmail")
                 }
@@ -43,12 +48,14 @@ class CoachRemoteDataSource {
     }
 
     fun reloadCoachEmailList(): Flow<List<String>> = callbackFlow {
-        db.collection("coachesEmail").addSnapshotListener { value, error ->
-            val listOfEmail = mutableListOf<String>()
-            for (email in value?.documents!!) {
-                listOfEmail.add(email.toString())
+        db.collection("coaches").document("email").addSnapshotListener { value, error ->
+            val listOfEmail = value?.toObject(CoachEmail::class.java)!!
+
+            if (listOfEmail.coachesEmail.isNotEmpty()) {
+                trySend(listOfEmail.coachesEmail)
+            } else {
+                trySend(mutableListOf<String>())
             }
-            trySend(listOfEmail)
         }
         awaitClose { close() }
     }

@@ -10,3 +10,7 @@ data class Coach(
     val price: String = "",
     val savedWorkouts: List<WorkoutsInfoUiState> = listOf()
 )
+
+data class CoachEmail(
+    val coachesEmail: List<String> = listOf()
+)
