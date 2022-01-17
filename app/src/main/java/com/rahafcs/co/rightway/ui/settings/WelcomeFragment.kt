@@ -10,8 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentWelcomeBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.FIRST_NAME
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.SUPERSCRIPTION
+import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
+import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
+
 
 class WelcomeFragment : Fragment() {
     private var binding: FragmentWelcomeBinding? = null

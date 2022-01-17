@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentUserInfoBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.AGE
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.GENDER
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.HEIGHT
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.WEIGHT
+import com.rahafcs.co.rightway.utility.Constant.AGE
+import com.rahafcs.co.rightway.utility.Constant.GENDER
+import com.rahafcs.co.rightway.utility.Constant.HEIGHT
+import com.rahafcs.co.rightway.utility.Constant.WEIGHT
 import com.rahafcs.co.rightway.utility.toast
 
 class UserInfoFragment : Fragment() {

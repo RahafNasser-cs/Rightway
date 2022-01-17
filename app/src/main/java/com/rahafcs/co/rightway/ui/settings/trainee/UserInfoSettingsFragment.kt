@@ -20,8 +20,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentUserInfoSettingsBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.SIGN_IN
+import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
+import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
@@ -264,7 +264,7 @@ class UserInfoSettingsFragment : Fragment() {
 
     private fun updateSharedPreference(subscriptionStatus: String) {
         activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!.edit().putString(
-            SignUpFragment.SUPERSCRIPTION, subscriptionStatus
+            SUPERSCRIPTION, subscriptionStatus
         ).apply()
     }
 

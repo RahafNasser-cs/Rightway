@@ -81,7 +81,7 @@ class UserRemoteDataSource {
         }
     }
 
-    // to check if original match saved workout list 
+    // to check if original match saved workout list
     suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {
         val savedWorkoutList = getOldWorkoutList().toMutableList()
         savedWorkoutList.forEach {
@@ -163,24 +163,6 @@ class UserRemoteDataSource {
                 }
             }
         }
-    }
-
-    suspend fun getTrainer(): Flow<List<User>> = callbackFlow {
-        Log.e(TAG, "getTrainer: inter")
-        db.collection("users").whereEqualTo("subscriptionStatus", "Trainee").get()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Log.e(TAG, "getTrainer: a value ${it.result.documents}")
-                    var listOfTrainee = mutableListOf<User>()
-                    it.result?.let {
-                        for (trainee in it.documents) {
-                            listOfTrainee.add(trainee.toObject(User::class.java)!!)
-                        }
-                        trySend(listOfTrainee)
-                    }
-                }
-            }
-        awaitClose { cancel() }
     }
 
     fun getUserStatus(): Flow<String> = callbackFlow {

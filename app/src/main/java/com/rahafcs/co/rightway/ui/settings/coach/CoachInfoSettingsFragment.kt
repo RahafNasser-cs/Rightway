@@ -14,8 +14,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoSettingsBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
+import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
+import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 
@@ -190,7 +191,7 @@ class CoachInfoSettingsFragment : Fragment() {
         AuthUI.getInstance()
             .signOut(requireContext()).addOnSuccessListener {
                 FirebaseAuth.getInstance().signOut()
-                editor.putBoolean(SignUpFragment.SIGN_IN, false)
+                editor.putBoolean(SIGN_IN, false)
                 editor.apply()
                 findNavController().navigate(R.id.registrationFragment)
             }.addOnFailureListener {
@@ -199,7 +200,7 @@ class CoachInfoSettingsFragment : Fragment() {
 
     private fun getUserSubscriptionStatus() =
         activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-            .getString(SignUpFragment.FIRST_NAME, "")!!
+            .getString(FIRST_NAME, "")!!
 
     override fun onDestroyView() {
         super.onDestroyView()

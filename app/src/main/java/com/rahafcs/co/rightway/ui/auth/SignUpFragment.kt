@@ -10,10 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -25,28 +21,20 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.SubscriptionStatus
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
-import com.rahafcs.co.rightway.ui.coach.CoachesFragment
-import com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel
-import com.rahafcs.co.rightway.utility.ServiceLocator
+import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
+import com.rahafcs.co.rightway.utility.Constant.LAST_NAME
+import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
+import com.rahafcs.co.rightway.utility.Constant.SIGN_UP
+import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
+import com.rahafcs.co.rightway.utility.Constant.USERID
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import kotlinx.coroutines.launch
 
 const val REQUEST_CODE_SIGNING = 0
 
 class SignUpFragment : Fragment() {
     private var binding: FragmentSignUpBinding? = null
     lateinit var sharedPreferences: SharedPreferences
-    // private val viewModel: SignUpViewModel by viewModels()
-
-    private val viewModel: CoachViewModel by activityViewModels() {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
-        )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +59,6 @@ class SignUpFragment : Fragment() {
             signUpWithGoogleBtn.setOnClickListener { signUpWithGoogle() }
             backArrow.setOnClickListener { this@SignUpFragment.upToTop() }
         }
-        reloadListOfCoachesEmail()
     }
 
     private fun getUserInfo(userId: String) {
@@ -83,27 +70,14 @@ class SignUpFragment : Fragment() {
         val subscriptionStatus = if (binding?.trainee?.isChecked == true) {
             SubscriptionStatus.TRAINEE.toString()
         } else {
-            // firstName = ("Coach $firstName")
-            viewModel.addListOfCoachesEmail(FirebaseAuth.getInstance().currentUser?.email!!.toString())
             Log.e(
                 "SignUpFragment",
                 "getUserInfo: add email ${FirebaseAuth.getInstance().currentUser?.email!!}",
             )
-            // coachesEmail.add(FirebaseAuth.getInstance().currentUser?.email!!)
             SubscriptionStatus.TRAINER.toString()
         }
         // createUserInfo(userId, firstName, lastName, subscriptionStatus)
         addToSharedPreference(userId, firstName, lastName, subscriptionStatus)
-    }
-
-    private fun reloadListOfCoachesEmail() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.reloadCoachEmailList().collect {
-                    CoachesFragment.coachesEmail = it.toMutableList()
-                }
-            }
-        }
     }
 
     private fun addToSharedPreference(
@@ -125,31 +99,17 @@ class SignUpFragment : Fragment() {
         Log.e("SiginUp", "addToSharedPreference: userId $userId  firstName $firstName")
     }
 
-    private fun createUserInfo(
-        userId: String,
-        firstName: String,
-        lastName: String,
-        subscriptionStatus: SubscriptionStatus,
-    ) {
-        // viewModel.userInfo(User(userId, firstName, lastName, subscriptionStatus))
-    }
-
-    fun goToSignInPage() {
-//        requireContext().toast("sign in page")
+    private fun goToSignInPage() {
         findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
-        // TODO
     }
 
     private fun signUpWithEmailAndPassword(task: Task<AuthResult>) {
         val firebaseUser = task.result?.user
-//        requireContext().toast("hello ${firebaseUser?.email}")
         firebaseUser?.let {
             getUserInfo(it.uid)
             goToWelcomePage()
             Log.e("siginup", "signUpWithEmailAndPassword: uid ${firebaseUser.uid}")
         }
-        // save user info 
-        // TODO
     }
 
     private fun goToWelcomePage() {
@@ -180,7 +140,6 @@ class SignUpFragment : Fragment() {
         val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credentials).addOnCompleteListener {
             if (it.isSuccessful) {
-                // requireContext().toast("hello ${it.result?.user?.email}")
                 getUserInfo(it.result.user?.uid!!)
                 goToWelcomePage()
             }
@@ -195,11 +154,9 @@ class SignUpFragment : Fragment() {
             binding?.passwordEditText?.text.toString()
         ).addOnCompleteListener {
             if (it.isSuccessful) {
-                // viewModel.setRegistrationStatus(RegistrationStatus.LOADING)
                 signUpWithEmailAndPassword(it)
             }
         }.addOnFailureListener {
-            // viewModel.setRegistrationStatus(RegistrationStatus.FAILURE)
             requireContext().toast("${it.message}")
             binding?.signUpWithEmailPasswordBtn?.isEnabled = true
         }
@@ -215,7 +172,6 @@ class SignUpFragment : Fragment() {
         } else if (!isValidPassword()) {
             requireContext().toast("Enter a password")
         } else {
-            // viewModel.setRegistrationStatus(RegistrationStatus.LOADING)
             binding?.signUpWithEmailPasswordBtn?.isEnabled = false
             register()
         }
@@ -245,23 +201,5 @@ class SignUpFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-    }
-
-    companion object {
-        const val USERID = "userId"
-        const val FIRST_NAME = "firstName"
-        const val SUPERSCRIPTION = "SubscriptionStatus"
-        const val GENDER = "gender"
-        const val HEIGHT = "height"
-        const val WEIGHT = "weight"
-        const val AGE = "age"
-        const val SIGN_IN = "signIn"
-        const val ACTIVITY_LEVEL = "activityLevel"
-        const val SIGN_UP = "signUp"
-        const val LAST_NAME = "lastName"
-        const val COACH_EMAIL = "coachEmail"
-        const val COACH_PHONE = "coachPhone"
-        const val COACH_EXPERIENCE = "coachExperience"
-        const val COACH_PRICE_RANGE = "priceRange"
     }
 }

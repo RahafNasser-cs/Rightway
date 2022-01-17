@@ -3,7 +3,6 @@ package com.rahafcs.co.rightway.data.source
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.rahafcs.co.rightway.data.Coach
 import com.rahafcs.co.rightway.data.CoachEmail
 import com.rahafcs.co.rightway.data.User
 import kotlinx.coroutines.cancel
@@ -16,16 +15,16 @@ const val TAG = "CoachRemoteDataSource"
 class CoachRemoteDataSource {
     private val db = FirebaseFirestore.getInstance()
     private val collection = "coach"
-    private var listOfCoachesEmail = mutableListOf<String>()
+    // private var listOfCoachesEmail = mutableListOf<String>()
 
     init {
-        reloadListOfCoachesEmailFromFirestore()
+        // reloadListOfCoachesEmailFromFirestore()
     }
 
     fun addListOfCoachesEmail(email: String) {
-        listOfCoachesEmail.add(email)
-        Log.e(TAG, "addListOfCoachesEmail: $listOfCoachesEmail")
-        updateListOfCoachesEmail()
+        // listOfCoachesEmail.add(email)
+        // Log.e(TAG, "addListOfCoachesEmail: $listOfCoachesEmail")
+        // updateListOfCoachesEmail()
     }
 
     private fun reloadCoachEmailListTest() {
@@ -33,65 +32,68 @@ class CoachRemoteDataSource {
             val listOfEmail = value?.toObject(CoachEmail::class.java)!!
 
             if (listOfEmail.coachesEmail.isNotEmpty()) {
-                listOfCoachesEmail = listOfEmail.coachesEmail.toMutableList()
+                //  listOfCoachesEmail = listOfEmail.coachesEmail.toMutableList()
             }
         }
     }
 
     fun removeListOfCoachesEmail(email: String) {
-        if (listOfCoachesEmail.isNotEmpty()) {
-            listOfCoachesEmail.remove(email)
-            Log.e(TAG, "removeListOfCoachesEmail: $listOfCoachesEmail")
-        }
-        updateListOfCoachesEmail()
+//        if (listOfCoachesEmail.isNotEmpty()) {
+//            // listOfCoachesEmail.remove(email)
+//            Log.e(TAG, "removeListOfCoachesEmail: $listOfCoachesEmail")
+//        }
+        // updateListOfCoachesEmail()
     }
 
-    fun checkIsCoach(email: String) =
-        listOfCoachesEmail.contains(email)
+//    fun checkIsCoach(email: String) =
+//        listOfCoachesEmail.contains(email)
 
-    private fun updateListOfCoachesEmail() {
-        // update("coachesEmail", listOfCoachesEmail)
-        db.collection("coaches").document("email").set(CoachEmail(listOfCoachesEmail))
-            .addOnSuccessListener {
-                Log.e(TAG, "updateListOfCoachesEmail: $listOfCoachesEmail")
-            }.addOnFailureListener {
-                Log.e(
-                    TAG,
-                    "updateListOfCoachesEmail: addOnFailureListener"
-                )
-            }
-    }
+//    private fun updateListOfCoachesEmail() {
+//        // update("coachesEmail", listOfCoachesEmail)
+//        db.collection("coaches").document("email").set(CoachEmail(listOfCoachesEmail))
+//            .addOnSuccessListener {
+//                Log.e(TAG, "updateListOfCoachesEmail: $listOfCoachesEmail")
+//            }.addOnFailureListener {
+//                Log.e(
+//                    TAG,
+//                    "updateListOfCoachesEmail: addOnFailureListener"
+//                )
+//            }
+//    }
 
+    // not use
     private fun reloadListOfCoachesEmailFromFirestore() {
         db.collection("coaches").document("email").addSnapshotListener { value, error ->
             value?.apply {
                 val coachEmail = value.toObject(CoachEmail::class.java)
                 coachEmail?.apply {
                     Log.e(TAG, "reloadListOfSavedWorkoutsFromFirestore: coachEmail --> $coachEmail")
-                    listOfCoachesEmail = coachEmail.coachesEmail.toMutableList()
-                    Log.e(
-                        TAG,
-                        "reloadListOfSavedWorkoutsFromFirestore: listOfCoachesEmail--> $listOfCoachesEmail"
-                    )
+                    // listOfCoachesEmail = coachEmail.coachesEmail.toMutableList()
+//                    Log.e(
+//                        TAG,
+//                        "reloadListOfSavedWorkoutsFromFirestore: listOfCoachesEmail--> $listOfCoachesEmail"
+//                    )
                 }
             }
         }
     }
 
-    suspend fun reloadCoachEmailList(): Flow<List<String>> = callbackFlow {
-        db.collection("coaches").document("email").addSnapshotListener { value, error ->
-            Log.e(TAG, "reloadCoachEmailList: value $value -- error $error")
-            value?.let {
-                val listOfEmail = value.toObject(CoachEmail::class.java)
-                listOfEmail?.let {
-                    trySend(listOfEmail.coachesEmail)
-                }
-            }
-            // trySend(listOf<String>())
-        }
-        awaitClose { close() }
-    }
+    // not use
+//    suspend fun reloadCoachEmailList(): Flow<List<String>> = callbackFlow {
+//        db.collection("coaches").document("email").addSnapshotListener { value, error ->
+//            Log.e(TAG, "reloadCoachEmailList: value $value -- error $error")
+//            value?.let {
+//                val listOfEmail = value.toObject(CoachEmail::class.java)
+//                listOfEmail?.let {
+//                    trySend(listOfEmail.coachesEmail)
+//                }
+//            }
+//            // trySend(listOf<String>())
+//        }
+//        awaitClose { close() }
+//    }
 
+    // not use
 //    fun saveCoachInfo(coach: Coach) {
 //        db.collection(collection)
 //            .document(FirebaseAuth.getInstance().currentUser?.uid!!)
@@ -113,22 +115,22 @@ class CoachRemoteDataSource {
     }
 
     // not use
-    fun readCoachesInfo(): Flow<List<Coach>> = callbackFlow {
-        db.collection(collection).get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                val coachesList = mutableListOf<Coach>()
-                for (coach in it.result.documents) {
-                    coachesList.add(coach.toObject(Coach::class.java)!!)
-                }
-                Log.e(TAG, "readCoachesInfo: addOnCompleteListener $coachesList")
-                trySend(coachesList.toList())
-            }
-        }.addOnFailureListener {
-            trySend(mutableListOf())
-            Log.e(TAG, "readCoachesInfo: in addOnFailureListener")
-        }
-        awaitClose { cancel() }
-    }
+//    fun readCoachesInfo(): Flow<List<Coach>> = callbackFlow {
+//        db.collection(collection).get().addOnCompleteListener {
+//            if (it.isSuccessful) {
+//                val coachesList = mutableListOf<Coach>()
+//                for (coach in it.result.documents) {
+//                    coachesList.add(coach.toObject(Coach::class.java)!!)
+//                }
+//                Log.e(TAG, "readCoachesInfo: addOnCompleteListener $coachesList")
+//                trySend(coachesList.toList())
+//            }
+//        }.addOnFailureListener {
+//            trySend(mutableListOf())
+//            Log.e(TAG, "readCoachesInfo: in addOnFailureListener")
+//        }
+//        awaitClose { cancel() }
+//    }
 
 //    fun readCoachInfo(): Flow<Coach> = callbackFlow {
 //        db.collection(collection).document(FirebaseAuth.getInstance().currentUser?.uid!!)
@@ -144,7 +146,7 @@ class CoachRemoteDataSource {
 //        awaitClose { cancel() }
 //    }
 
-    suspend fun getTrainer(): Flow<List<User>> = callbackFlow {
+    suspend fun getCoachList(): Flow<List<User>> = callbackFlow {
         Log.e(TAG, "getTrainer: inter")
         db.collection("users").whereEqualTo("subscriptionStatus", "Trainer").get()
             .addOnCompleteListener {

@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.CoachRepository
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -23,58 +21,22 @@ class CoachViewModel(private val coachRepository: CoachRepository) : ViewModel()
     private var _coachInfoUiState = MutableLiveData(CoachInfoUiState())
     val coachInfoUiState: MutableLiveData<CoachInfoUiState> get() = _coachInfoUiState
 
-    private var _coachesEmail = MutableStateFlow(listOf<String>())
-    // val coachesEmail: MutableStateFlow<List<String>> get() = _coachesEmail
-
     init {
         setCoachesList()
-        readCoachInfo(true)
-        // Log.e("CoachViewModel", "init: ${_coachesEmail.value}")
-    }
-
-    fun readCoachInfo(isCoach: Boolean) {
-        if (isCoach) {
-            getCoachInfo()
-        }
+        getCoachInfo()
     }
 
     fun setCoachesList() {
-        // getCoachesInfo()
-        getTrainer()
+        getCoachList()
     }
 
     fun saveCoachInfo(coach: User) {
         coachRepository.saveCoachInfo(coach)
     }
 
-    fun addListOfCoachesEmail(email: String) = coachRepository.addListOfCoachesEmail(email)
-    fun removeListOfCoachesEmail(email: String) = coachRepository.removeListOfCoachesEmail(email)
-    fun checkIsCoach(email: String) = coachRepository.checkIsCoach(email)
-
-    //    fun reloadCoachEmailList(): Flow<List<String>> = coachRepository.reloadCoachEmailList()
-    suspend fun reloadCoachEmailList(): Flow<List<String>> = coachRepository.reloadCoachEmailList()
-
-    private fun getCoachesInfo() {
+    private fun getCoachList() {
         viewModelScope.launch {
-            coachRepository.readCoachesInfo().collect { it ->
-                val result = it.map {
-                    CoachInfoUiState(
-                        name = it.name,
-                        experience = it.experience,
-                        email = it.email,
-                        phoneNumber = it.phoneNumber,
-                        price = it.price
-                    )
-                }
-                Log.e("CoachViewModel", "getCoachesInfo: $result")
-                _coachList.value = result
-            }
-        }
-    }
-
-    private fun getTrainer() {
-        viewModelScope.launch {
-            coachRepository.getTrainer().collect {
+            coachRepository.getCoachList().collect {
                 val result = it.map {
                     CoachInfoUiState(
                         name = it.firstName,
@@ -114,6 +76,7 @@ class CoachViewModel(private val coachRepository: CoachRepository) : ViewModel()
                     phoneNumber = it.phoneNumber,
                     price = it.price
                 )
+                Log.e("CoachViewModel", "getCoachInfo: $result")
                 _coachInfoUiState.value = result
             }
         }

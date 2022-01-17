@@ -16,28 +16,18 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.databinding.FragmentViewPagerBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment
 import com.rahafcs.co.rightway.ui.brows.BrowsFragment
 import com.rahafcs.co.rightway.ui.coach.CoachesFragment
-import com.rahafcs.co.rightway.ui.coach.CoachesFragment.Companion.coachesEmail
-import com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel
 import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
+import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ViewPagerFragment : Fragment() {
     private var _binding: FragmentViewPagerBinding? = null
     val binding get() = _binding!!
-    private val viewModel: CoachViewModel by activityViewModels {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
-        )
-    }
 
     private val workoutsViewModel: WorkoutsViewModel by activityViewModels {
         ViewModelFactory(
@@ -46,7 +36,7 @@ class ViewPagerFragment : Fragment() {
             ServiceLocator.provideCoachRepository()
         )
     }
-    var userStatuse = ""
+    private var userStatus = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,9 +71,7 @@ class ViewPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        workoutsViewModel.getUserStatus()
-        workoutsViewModel.getTrainer()
-        reloadListOfCoachesEmail()
+        workoutsViewModel.getUserStatus() // to get user status trainer or trainee
         getUserStatus()
         binding.userInfo.setOnClickListener {
             Log.e(
@@ -91,14 +79,7 @@ class ViewPagerFragment : Fragment() {
                 "onViewCreated: ${getUserSubscriptionStatus() == requireContext().getString(R.string.trainee)}",
             )
             Log.e("ViewPagerFragment", "onViewCreated: ${getUserSubscriptionStatus()}")
-            Log.e(
-                "Viewpager",
-                "onViewCreated: ${FirebaseAuth.getInstance().currentUser?.email} --- list  $coachesEmail",
-            )
-
-            // goToUserInfoSettings()
-            // coachesEmail.contains(FirebaseAuth.getInstance().currentUser?.email)
-            if (userStatuse.equals(requireContext().getString(R.string.trainer), true)) {
+            if (userStatus.equals(requireContext().getString(R.string.trainer), true)) {
                 Log.e(
                     "Viewpager",
                     "onViewCreated: ${FirebaseAuth.getInstance().currentUser?.email}",
@@ -109,12 +90,11 @@ class ViewPagerFragment : Fragment() {
             }
         }
         binding.savedWorkout.setOnClickListener { goToSavedWorkoutsPage() }
-        // binding?.logout?.setOnClickListener { signOut() }
     }
 
     private fun getUserSubscriptionStatus() =
         activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-            .getString(SignUpFragment.FIRST_NAME, "")!!
+            .getString(FIRST_NAME, "")!!
 
     private fun goToUserInfoSettings() =
         findNavController().navigate(R.id.action_viewPagerFragment2_to_userInfoSettingsFragment2)
@@ -131,22 +111,12 @@ class ViewPagerFragment : Fragment() {
         CoachesFragment()
     )
 
-    private fun reloadListOfCoachesEmail() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.reloadCoachEmailList().collect {
-                    coachesEmail = it.toMutableList()
-                }
-            }
-        }
-    }
-
     private fun getUserStatus() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 workoutsViewModel.getUserStatus().collect {
                     Log.e("ViewPagerFragment", "getUserStatus: $it ")
-                    userStatuse = it
+                    userStatus = it
                 }
             }
         }

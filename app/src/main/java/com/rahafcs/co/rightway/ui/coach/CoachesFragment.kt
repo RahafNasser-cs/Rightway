@@ -6,14 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.rahafcs.co.rightway.databinding.FragmentCoachesBinding
 import com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import kotlinx.coroutines.launch
 
 class CoachesFragment : Fragment() {
     private var _binding: FragmentCoachesBinding? = null
@@ -44,12 +40,6 @@ class CoachesFragment : Fragment() {
             recyclerview.adapter = CoachAdapter()
         }
         viewModel.setCoachesList()
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-//                coachesEmail = viewModel.coachesEmail.value.toMutableList()
-//            }
-//        }
-        reloadListOfCoachesEmail()
     }
 
     override fun onResume() {
@@ -64,19 +54,5 @@ class CoachesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun reloadListOfCoachesEmail() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.reloadCoachEmailList().collect {
-                    coachesEmail = it.toMutableList()
-                }
-            }
-        }
-    }
-
-    companion object {
-        var coachesEmail = mutableListOf<String>()
     }
 }

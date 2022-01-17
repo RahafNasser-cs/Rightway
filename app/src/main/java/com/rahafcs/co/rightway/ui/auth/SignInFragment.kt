@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.USERID
+import com.rahafcs.co.rightway.utility.Constant.USERID
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
 

@@ -23,9 +23,6 @@ class WorkoutsViewModel(
     private val _listWorkoutsUiState = MutableStateFlow(ListWorkoutsUiState())
     val listWorkoutsUiState: MutableStateFlow<ListWorkoutsUiState> = _listWorkoutsUiState
 
-    private val _isSavedWorkout = MutableStateFlow(false)
-    val isSavedWorkout: MutableStateFlow<Boolean> = _isSavedWorkout
-
     // TODO() set _workoutsInfoUiState a value to show in WorkoutFragment
     private val _workoutsInfoUiState = MutableStateFlow(WorkoutsInfoUiState())
     val workoutsInfoUiState: MutableStateFlow<WorkoutsInfoUiState> = _workoutsInfoUiState
@@ -147,12 +144,6 @@ class WorkoutsViewModel(
         }
     }
 
-    fun addUserWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) =
-        userRepository.addUserWorkout(listOfSavedWorkouts)
-
-    fun deleteWorkout(listOfSavedWorkouts: List<WorkoutsInfoUiState>) =
-        userRepository.deleteWorkout(listOfSavedWorkouts)
-
     suspend fun reloadListOfSavedWorkouts(): Flow<List<WorkoutsInfoUiState>> =
         userRepository.reloadListOfSavedWorkouts()
 
@@ -166,27 +157,6 @@ class WorkoutsViewModel(
         userRepository.checkIsSavedWorkout(workoutsInfoUiState)
 
     fun getUserStatus(): Flow<String> = userRepository.getUserStatus()
-    fun getTrainer() {
-        viewModelScope.launch {
-            userRepository.getTrainer().collect {
-                Log.e("WVM", "getTrainer: list of users $it", )
-            }
-        }
-    }
-
-//    suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-//        userRepository.isSavedWorkout(workoutsInfoUiState)
-
-    suspend fun isSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) {
-        viewModelScope.launch {
-            try {
-                val isSaved = userRepository.isSavedWorkout(workoutsInfoUiState)
-                _isSavedWorkout.update { isSaved }
-            } catch (e: java.lang.Exception) {
-                Log.e("workoutVM", "isSavedWorkout: a error $e")
-            }
-        }
-    }
 
     // to test Firestore
     private fun getWorkoutsInfoUiState(): WorkoutsInfoUiState {

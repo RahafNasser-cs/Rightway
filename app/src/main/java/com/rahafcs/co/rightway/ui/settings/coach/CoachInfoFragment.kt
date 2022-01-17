@@ -11,12 +11,13 @@ import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.COACH_EMAIL
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.COACH_EXPERIENCE
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.COACH_PHONE
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.COACH_PRICE_RANGE
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.FIRST_NAME
+import com.rahafcs.co.rightway.utility.Constant.COACH_EMAIL
+import com.rahafcs.co.rightway.utility.Constant.COACH_EXPERIENCE
+import com.rahafcs.co.rightway.utility.Constant.COACH_PHONE
+import com.rahafcs.co.rightway.utility.Constant.COACH_PRICE_RANGE
+import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
+import com.rahafcs.co.rightway.utility.Constant.LAST_NAME
+import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
 import com.rahafcs.co.rightway.utility.toast
@@ -72,10 +73,10 @@ class CoachInfoFragment : Fragment() {
     ) {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         sharedPreferences.edit().apply {
-            putString(SignUpFragment.COACH_EMAIL, email)
-            putString(SignUpFragment.COACH_EXPERIENCE, experience)
-            putString(SignUpFragment.COACH_PHONE, phone)
-            putString(SignUpFragment.COACH_PRICE_RANGE, priceRange)
+            putString(COACH_EMAIL, email)
+            putString(COACH_EXPERIENCE, experience)
+            putString(COACH_PHONE, phone)
+            putString(COACH_PRICE_RANGE, priceRange)
             apply()
         }
     }
@@ -149,8 +150,8 @@ class CoachInfoFragment : Fragment() {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         return User(
             firstName = sharedPreferences.getString(FIRST_NAME, "")!!,
-            lastName = sharedPreferences.getString(SignUpFragment.LAST_NAME, "")!!,
-            subscriptionStatus = sharedPreferences.getString(SignUpFragment.SUPERSCRIPTION, "")!!
+            lastName = sharedPreferences.getString(LAST_NAME, "")!!,
+            subscriptionStatus = sharedPreferences.getString(SUPERSCRIPTION, "")!!
                 .capitalizeFormatIfFirstLatterCapital(),
             experience = sharedPreferences.getString(COACH_EXPERIENCE, "")!!,
             email = sharedPreferences.getString(COACH_EMAIL, "")!!,

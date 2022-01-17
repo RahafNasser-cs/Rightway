@@ -14,9 +14,15 @@ import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentActivityBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.ACTIVITY_LEVEL
-import com.rahafcs.co.rightway.ui.auth.SignUpFragment.Companion.AGE
+import com.rahafcs.co.rightway.utility.Constant.ACTIVITY_LEVEL
+import com.rahafcs.co.rightway.utility.Constant.AGE
+import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
+import com.rahafcs.co.rightway.utility.Constant.GENDER
+import com.rahafcs.co.rightway.utility.Constant.HEIGHT
+import com.rahafcs.co.rightway.utility.Constant.LAST_NAME
+import com.rahafcs.co.rightway.utility.Constant.SIGN_UP
+import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
+import com.rahafcs.co.rightway.utility.Constant.WEIGHT
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
 import com.rahafcs.co.rightway.utility.upToTop
@@ -90,13 +96,13 @@ class ActivityFragment : Fragment() {
         val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         Log.e(
             "TAG",
-            "saveUserInfo: ${sharedPreferences.getBoolean(SignUpFragment.SIGN_UP, false)}",
+            "saveUserInfo: ${sharedPreferences.getBoolean(SIGN_UP, false)}",
         )
-        if (sharedPreferences.getBoolean(SignUpFragment.SIGN_UP, false)) {
+        if (sharedPreferences.getBoolean(SIGN_UP, false)) {
             Log.e("TAG", "saveUserInfo: in if")
             viewModel.userInfo(getUserInfo())
             val editor = sharedPreferences.edit()
-            editor.putBoolean(SignUpFragment.SIGN_UP, false)
+            editor.putBoolean(SIGN_UP, false)
             editor.apply()
         }
     }
@@ -104,13 +110,13 @@ class ActivityFragment : Fragment() {
     private fun getUserInfo(): User {
         sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         return User(
-            firstName = sharedPreferences.getString(SignUpFragment.FIRST_NAME, "")!!,
-            lastName = sharedPreferences.getString(SignUpFragment.LAST_NAME, "")!!,
-            subscriptionStatus = sharedPreferences.getString(SignUpFragment.SUPERSCRIPTION, "")!!
+            firstName = sharedPreferences.getString(FIRST_NAME, "")!!,
+            lastName = sharedPreferences.getString(LAST_NAME, "")!!,
+            subscriptionStatus = sharedPreferences.getString(SUPERSCRIPTION, "")!!
                 .capitalizeFormatIfFirstLatterCapital(),
-            weight = sharedPreferences.getString(SignUpFragment.WEIGHT, "")!!,
-            height = sharedPreferences.getString(SignUpFragment.HEIGHT, "")!!,
-            gender = sharedPreferences.getString(SignUpFragment.GENDER, "")!!,
+            weight = sharedPreferences.getString(WEIGHT, "")!!,
+            height = sharedPreferences.getString(HEIGHT, "")!!,
+            gender = sharedPreferences.getString(GENDER, "")!!,
             activity = sharedPreferences.getString(ACTIVITY_LEVEL, "")!!,
             age = sharedPreferences.getString(AGE, "")!!
         )
