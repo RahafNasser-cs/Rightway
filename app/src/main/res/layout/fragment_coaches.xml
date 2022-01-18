@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.CoachesFragment">
+
+    <data>
+        <variable
+            name="coachesFragment"
+            type="com.rahafcs.co.rightway.ui.CoachesFragment" />
+        <variable
+            name="coachViewModel"
+            type="com.rahafcs.co.rightway.viewmodels.CoachViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            app:coachListItem="@{coachViewModel.coachList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/coach_item" />
+
+
+    </RelativeLayout>
+
+
+
+</layout>

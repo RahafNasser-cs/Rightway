@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "427576789394",
+    "project_id": "rightway-1020c",
+    "storage_bucket": "rightway-1020c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427576789394:android:c179ac0a452092710a994b",
+        "android_client_info": {
+          "package_name": "com.rahafcs.co.rightway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427576789394-l8eru4c6t1g0tj6o0njtq0vsv7osh9mv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rahafcs.co.rightway",
+            "certificate_hash": "0d3302947b52cb6c92ad40fc1334b86469e98a1c"
+          }
+        },
+        {
+          "client_id": "427576789394-pvo1dmgfpqgo7691c565su79am2ro57a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rahafcs.co.rightway",
+            "certificate_hash": "1c6289e5b2caf649d664f50d538f126c8d5784b7"
+          }
+        },
+        {
+          "client_id": "427576789394-3botmelcdrunvn14h1dptpibd8n3r7kj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtOH7nO7YtJ86QZYY33SzZqK4gWH_X72Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427576789394-3botmelcdrunvn14h1dptpibd8n3r7kj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
