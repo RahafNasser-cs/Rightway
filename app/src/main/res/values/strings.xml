@@ -15,6 +15,9 @@
     <string name="password">Password</string>
     <string name="trainer">Trainer</string>
     <string name="trainee">Trainee</string>
+    <string name="Workouts">Workouts</string>
+    <string name="Brows">Brows</string>
+    <string name="Coaches">Coaches</string>
     <string name="sign_up">Sign up</string>
     <string name="already_registered">Already registered?</string>
     <string name="sign_in">Sign in</string>
@@ -28,6 +31,7 @@
     <string name="activity_level">Activity:</string>
     <string name="sign_out">Sign out</string>
     <string name="back_to_home">Back to Home</string>
+    <string name="errorMessage">Something went wrong\nWe\'er having issues loading this page.\nTry again!</string>
 
 
     <string name="formatted_time">%02d:%02d</string>

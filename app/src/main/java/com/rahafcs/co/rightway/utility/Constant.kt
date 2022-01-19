@@ -16,4 +16,6 @@ object Constant {
     const val COACH_PHONE = "coachPhone"
     const val COACH_EXPERIENCE = "coachExperience"
     const val COACH_PRICE_RANGE = "priceRange"
+    const val ERROR_MESSAGE = "errorMessage"
+    const val RAPID_KEY = "ccb06bc4c0mshb7a29f7814116c6p14a25ajsn3cfb231e6ceb"
 }

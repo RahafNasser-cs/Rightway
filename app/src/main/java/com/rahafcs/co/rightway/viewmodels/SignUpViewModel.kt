@@ -23,7 +23,7 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
 
     fun getUserStatus() {
         viewModelScope.launch {
-            userRepository.getUserStatus().collect {
+            userRepository.getUserType().collect {
                 _userStatus.update { it }
             }
         }

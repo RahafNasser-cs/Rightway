@@ -11,10 +11,8 @@ data class WorkoutsUiState(
 
 data class WorkoutTypeUiState(val bodyPart: String = "")
 
-// @Entity(tableName = "WorkoutsInfo")
 @Parcelize
 data class WorkoutsInfoUiState(
-    // @PrimaryKey(autoGenerate = true)val id: Int = 0,
     val gifUrl: String = "",
     val name: String = "",
     val equipment: String = "",

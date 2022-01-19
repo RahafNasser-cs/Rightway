@@ -1,7 +1,6 @@
 package com.rahafcs.co.rightway.ui.workout
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,8 +55,6 @@ class WorkoutsFragment : Fragment() {
             }
         }
         handleLayout()
-        // reloadListOfSavedWorkouts from Firestore 
-        reloadListOfSavedWorkouts()
     }
 
     private fun handleLayout() {
@@ -106,6 +103,7 @@ class WorkoutsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.setListSavedWorkout()
         viewModel.listSavedWorkout.observe(viewLifecycleOwner, {
             val adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
                 if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
@@ -123,23 +121,11 @@ class WorkoutsFragment : Fragment() {
                 }
             }
         })
-        Log.e("TAG", "onResume: i am here")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-    }
-
-    private fun reloadListOfSavedWorkouts() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.reloadListOfSavedWorkouts().collect {
-                    listOfSavedWorkouts = it.toMutableList()
-                    Log.e("WorkoutFragment", "reloadListOfSavedWorkouts: $listOfSavedWorkouts")
-                }
-            }
-        }
     }
 
     companion object {

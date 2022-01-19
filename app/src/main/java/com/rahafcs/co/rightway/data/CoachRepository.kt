@@ -10,4 +10,6 @@ class CoachRepository(private val coachRemoteDataSource: CoachRemoteDataSource) 
     suspend fun readCoachInfo(): Flow<User> = coachRemoteDataSource.readCoachInfo()
 
     suspend fun getCoachList(): Flow<List<User>> = coachRemoteDataSource.getCoachList()
+
+    fun getUserType(): Flow<String> = coachRemoteDataSource.getUserType()
 }

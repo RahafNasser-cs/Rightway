@@ -2,6 +2,7 @@ package com.rahafcs.co.rightway.utility.ui
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,11 +12,12 @@ import com.bumptech.glide.Glide
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.ui.coach.CoachAdapter
-import com.rahafcs.co.rightway.ui.workout.WorkoutHorizontalAdapter
-import com.rahafcs.co.rightway.ui.workout.WorkoutVerticalAdapter
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutHorizontalAdapter
+import com.rahafcs.co.rightway.ui.workout.WorkoutVerticalAdapter
+import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
 import pl.droidsonroids.gif.GifImageView
 
 @BindingAdapter("registrationStatus")
@@ -88,5 +90,12 @@ fun ImageView.findUrlGlide(imgUrl: String?) {
             .placeholder(R.drawable.loading_animation)
             .error(R.drawable.broken_image)
             .into(this)
+    }
+}
+
+@BindingAdapter("getStringFromResources")
+fun TextView.getStringFromResources(messageKey: String) {
+    when (messageKey) {
+        ERROR_MESSAGE -> this.text = this.context.getString(R.string.errorMessage)
     }
 }

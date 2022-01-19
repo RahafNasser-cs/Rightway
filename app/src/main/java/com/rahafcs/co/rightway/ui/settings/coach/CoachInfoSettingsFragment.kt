@@ -44,6 +44,7 @@ class CoachInfoSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getCoachInfo()
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             coachViewModel = viewModel
@@ -55,7 +56,7 @@ class CoachInfoSettingsFragment : Fragment() {
                     it.visibility = View.GONE
                     binding.closeImg.visibility = View.VISIBLE
                     hideUserInfoTextView()
-                    showEditUserInfo(viewModel.coachInfoUiState.value!!)
+                    showEditUserInfo(viewModel.coachInfoUiState.value)
                 }
             }
         }

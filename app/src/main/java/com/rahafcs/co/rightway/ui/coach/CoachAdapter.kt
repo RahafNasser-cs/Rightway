@@ -6,14 +6,15 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewPagerFragmentDirections
 import com.rahafcs.co.rightway.databinding.CoachItemBinding
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 
-class CoachAdapter :
+class CoachAdapter(val userType: String) :
     ListAdapter<CoachInfoUiState, CoachAdapter.CoachViewHolder>(CoachDiffCallback) {
 
-    class CoachViewHolder(private val binding: CoachItemBinding) :
+    inner class CoachViewHolder(private val binding: CoachItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CoachInfoUiState) {
             binding.coachNameTextview.text = item.name
@@ -22,12 +23,17 @@ class CoachAdapter :
             binding.coachEmail.text = item.email
             binding.coachPrice.text = item.price
             binding.emailImg.setOnClickListener {
-                val action =
-                    ViewPagerFragmentDirections.actionViewPagerFragment2ToSendEmailFragment(item.email)
-                binding.root.findNavController()
-                    .navigate(action)
+                if (!trainer()) {
+                    val action =
+                        ViewPagerFragmentDirections.actionViewPagerFragment2ToSendEmailFragment(item.email)
+                    binding.root.findNavController()
+                        .navigate(action)
+                }
             }
         }
+
+        private fun trainer() =
+            userType.equals(binding.root.context.getString(R.string.trainer), true)
     }
 
     companion object CoachDiffCallback : DiffUtil.ItemCallback<CoachInfoUiState>() {
@@ -47,7 +53,13 @@ class CoachAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoachViewHolder {
-        return CoachViewHolder(CoachItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return CoachViewHolder(
+            CoachItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: CoachViewHolder, position: Int) {

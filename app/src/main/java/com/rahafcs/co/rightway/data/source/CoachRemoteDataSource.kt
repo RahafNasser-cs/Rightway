@@ -179,4 +179,19 @@ class CoachRemoteDataSource {
         }
         awaitClose { cancel() }
     }
+
+    fun getUserType(): Flow<String> = callbackFlow {
+        db.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid!!)
+            .addSnapshotListener { value, error ->
+                Log.e(TAG, "getUserStatus: a value $value -- error $error")
+                value?.let { it ->
+                    val userStatus = it.toObject(User::class.java)?.subscriptionStatus
+                    userStatus?.let { userType ->
+                        Log.e(TAG, "getUserStatus: $userType")
+                        trySend(userType)
+                    }
+                }
+            }
+        awaitClose { cancel() }
+    }
 }

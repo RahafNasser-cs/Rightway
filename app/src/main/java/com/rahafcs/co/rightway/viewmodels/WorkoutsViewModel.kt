@@ -1,15 +1,14 @@
 package com.rahafcs.co.rightway.viewmodels
 
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
 import com.rahafcs.co.rightway.data.LoadingStatus
-import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.data.UserRepository
 import com.rahafcs.co.rightway.ui.state.*
+import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -39,14 +38,8 @@ class WorkoutsViewModel(
     private var _userStatus = MutableStateFlow("")
     val userStatus: MutableStateFlow<String> get() = _userStatus
 
-    // To test
-    private var _traineeList = MutableStateFlow(listOf<User>())
-    val traineeList: MutableStateFlow<List<User>> get() = _traineeList
-
     init {
-        // TODO() remove the comment from getAllWorkouts(), because number of request in api
         getAllWorkouts()
-        // setWorkoutsInfoUiState(getWorkoutsInfoUiState())
     }
 
     fun setListSavedWorkout() {
@@ -59,7 +52,6 @@ class WorkoutsViewModel(
 
     fun setWorkoutsInfoUiState(workout: WorkoutsInfoUiState) {
         _workoutsInfoUiState.value = workout
-        Log.d("TAG", "setWorkoutsInfoUiState: $workout")
     }
 
     fun getWorkoutsByEquipment(equipment: String) {
@@ -90,23 +82,17 @@ class WorkoutsViewModel(
                     )
                 }
             } catch (e: Exception) {
-                Log.e("WorkoutsViewModel", "getWorkoutsByEquipment: $e")
                 _browsWorkoutUiState.update {
                     it.copy(
                         loadingState = LoadingStatus.FAILURE,
-                        userMsg = "Error try again!"
+                        userMsg = ERROR_MESSAGE
                     )
                 }
-                Log.e(
-                    "TAG",
-                    "getWorkoutsByEquipment: ${_browsWorkoutUiState.value.loadingState}",
-                )
             }
         }
     }
 
     private fun getAllWorkouts() {
-        Log.d("TAG", "getAllWorkouts: First fun")
         viewModelScope.launch {
             try {
                 _listWorkoutsUiState.update { it.copy(loadingState = LoadingStatus.LOADING) }
@@ -128,16 +114,14 @@ class WorkoutsViewModel(
                     )
                 }
 
-                Log.d("TAG", "getAllWorkouts: $workoutsUiState")
                 _listWorkoutsUiState.update {
                     it.copy(workUiState = workoutsUiState, loadingState = LoadingStatus.SUCCESS)
                 }
             } catch (e: Exception) {
-                Log.d(tag, "getAllWorkouts: error $e")
                 _listWorkoutsUiState.update {
                     it.copy(
                         loadingState = LoadingStatus.FAILURE,
-                        userMsg = "Error tray again!"
+                        userMsg = ERROR_MESSAGE
                     )
                 }
             }
@@ -156,18 +140,7 @@ class WorkoutsViewModel(
     fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
         userRepository.checkIsSavedWorkout(workoutsInfoUiState)
 
-    fun getUserStatus(): Flow<String> = userRepository.getUserStatus()
-
-    // to test Firestore
-    private fun getWorkoutsInfoUiState(): WorkoutsInfoUiState {
-        return WorkoutsInfoUiState(
-            "http://d205bpvrqc9yn1.cloudfront.net/0003.gif",
-            "air bike".capitalizeFormatIfFirstLatterSmall(),
-            "body weight",
-            "abs",
-            "waist".capitalizeFormatIfFirstLatterSmall()
-        )
-    }
+    fun getUserType(): Flow<String> = userRepository.getUserType()
 
     fun shareMessage(): String {
         return "Hi! I'm training now\nLook at my workout\n ${

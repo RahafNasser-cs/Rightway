@@ -1,25 +1,28 @@
 package com.rahafcs.co.rightway.ui.settings.coach
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.CoachRepository
+import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
+import com.rahafcs.co.rightway.ui.state.ListCoachInfoUiState
+import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class CoachViewModel(private val coachRepository: CoachRepository) : ViewModel() {
-    private var _coachList = MutableLiveData(listOf<CoachInfoUiState>())
-    val coachList: MutableLiveData<List<CoachInfoUiState>> get() = _coachList
+
+    private var _coachList = MutableStateFlow(ListCoachInfoUiState())
+    val coachList: MutableStateFlow<ListCoachInfoUiState> get() = _coachList
 
     private var _coachInfo = MutableStateFlow(User())
-    val coachInfo: MutableStateFlow<User> get() = _coachInfo
 
-    private var _coachInfoUiState = MutableLiveData(CoachInfoUiState())
-    val coachInfoUiState: MutableLiveData<CoachInfoUiState> get() = _coachInfoUiState
+    private var _coachInfoUiState = MutableStateFlow(CoachInfoUiState())
+    val coachInfoUiState: MutableStateFlow<CoachInfoUiState> get() = _coachInfoUiState
 
     init {
         setCoachesList()
@@ -36,18 +39,32 @@ class CoachViewModel(private val coachRepository: CoachRepository) : ViewModel()
 
     private fun getCoachList() {
         viewModelScope.launch {
-            coachRepository.getCoachList().collect {
-                val result = it.map {
-                    CoachInfoUiState(
-                        name = it.firstName,
-                        experience = it.experience,
-                        email = it.email,
-                        phoneNumber = it.phoneNumber,
-                        price = it.price
+            try {
+                _coachList.update { it.copy(loadingState = LoadingStatus.LOADING) }
+                coachRepository.getCoachList().collect {
+                    val result = it.map {
+                        CoachInfoUiState(
+                            name = it.firstName,
+                            experience = it.experience,
+                            email = it.email,
+                            phoneNumber = it.phoneNumber,
+                            price = it.price
+                        )
+                    }
+                    _coachList.update {
+                        it.copy(
+                            coachInfoUiState = result,
+                            loadingState = LoadingStatus.SUCCESS
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                _coachList.update {
+                    it.copy(
+                        loadingState = LoadingStatus.FAILURE,
+                        userMsg = ERROR_MESSAGE
                     )
                 }
-                Log.e("CoachViewModel", "getTrainer: $result")
-                _coachList.value = result
             }
         }
     }
@@ -65,7 +82,7 @@ class CoachViewModel(private val coachRepository: CoachRepository) : ViewModel()
         saveCoachInfo(_coachInfo.value)
     }
 
-    private fun getCoachInfo() {
+    fun getCoachInfo() {
         viewModelScope.launch {
             coachRepository.readCoachInfo().collect {
                 _coachInfo.value = it
@@ -76,9 +93,10 @@ class CoachViewModel(private val coachRepository: CoachRepository) : ViewModel()
                     phoneNumber = it.phoneNumber,
                     price = it.price
                 )
-                Log.e("CoachViewModel", "getCoachInfo: $result")
-                _coachInfoUiState.value = result
+                _coachInfoUiState.update { result }
             }
         }
     }
+
+    fun getUserType(): Flow<String> = coachRepository.getUserType()
 }

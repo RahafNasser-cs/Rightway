@@ -1,8 +1,6 @@
 package com.rahafcs.co.rightway
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.databinding.FragmentViewPagerBinding
 import com.rahafcs.co.rightway.ui.brows.BrowsFragment
 import com.rahafcs.co.rightway.ui.coach.CoachesFragment
 import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
-import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
 import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
@@ -36,7 +32,7 @@ class ViewPagerFragment : Fragment() {
             ServiceLocator.provideCoachRepository()
         )
     }
-    private var userStatus = ""
+    private var userType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +56,9 @@ class ViewPagerFragment : Fragment() {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = "Workouts"
-                1 -> tab.text = "Brows"
-                2 -> tab.text = "Coaches"
+                0 -> tab.text = requireContext().getString(R.string.Workouts)
+                1 -> tab.text = requireContext().getString(R.string.Brows)
+                2 -> tab.text = requireContext().getString(R.string.Coaches)
             }
         }.attach()
 
@@ -71,19 +67,11 @@ class ViewPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        workoutsViewModel.getUserStatus() // to get user status trainer or trainee
-        getUserStatus()
+        workoutsViewModel.getUserType() // to get user type--> trainer or trainee
+        getUserType()
+        reloadListOfSavedWorkouts()
         binding.userInfo.setOnClickListener {
-            Log.e(
-                "ViewPagerFragment",
-                "onViewCreated: ${getUserSubscriptionStatus() == requireContext().getString(R.string.trainee)}",
-            )
-            Log.e("ViewPagerFragment", "onViewCreated: ${getUserSubscriptionStatus()}")
-            if (userStatus.equals(requireContext().getString(R.string.trainer), true)) {
-                Log.e(
-                    "Viewpager",
-                    "onViewCreated: ${FirebaseAuth.getInstance().currentUser?.email}",
-                )
+            if (userType.equals(requireContext().getString(R.string.trainer), true)) {
                 goToCoachInfoSettings()
             } else {
                 goToUserInfoSettings()
@@ -91,10 +79,6 @@ class ViewPagerFragment : Fragment() {
         }
         binding.savedWorkout.setOnClickListener { goToSavedWorkoutsPage() }
     }
-
-    private fun getUserSubscriptionStatus() =
-        activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-            .getString(FIRST_NAME, "")!!
 
     private fun goToUserInfoSettings() =
         findNavController().navigate(R.id.action_viewPagerFragment2_to_userInfoSettingsFragment2)
@@ -111,12 +95,21 @@ class ViewPagerFragment : Fragment() {
         CoachesFragment()
     )
 
-    private fun getUserStatus() {
+    private fun getUserType() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                workoutsViewModel.getUserStatus().collect {
-                    Log.e("ViewPagerFragment", "getUserStatus: $it ")
-                    userStatus = it
+                workoutsViewModel.getUserType().collect {
+                    userType = it
+                }
+            }
+        }
+    }
+
+    private fun reloadListOfSavedWorkouts() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                workoutsViewModel.reloadListOfSavedWorkouts().collect {
+                    WorkoutsFragment.listOfSavedWorkouts = it.toMutableList()
                 }
             }
         }

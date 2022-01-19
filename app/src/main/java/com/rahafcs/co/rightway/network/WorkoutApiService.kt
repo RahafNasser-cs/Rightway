@@ -1,6 +1,7 @@
 package com.rahafcs.co.rightway.network
 
 import com.rahafcs.co.rightway.data.Workout
+import com.rahafcs.co.rightway.utility.Constant.RAPID_KEY
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -10,7 +11,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 private const val BASE_URL = "https://exercisedb.p.rapidapi.com"
 
@@ -23,35 +23,6 @@ private fun loggingInterceptor(): HttpLoggingInterceptor {
 }
 
 val okHttpClient = OkHttpClient.Builder().addInterceptor(loggingInterceptor()).build()
-// val client = OkHttpClient()
-//    .networkInterceptors()
-//    .add(
-//        Interceptor {
-//            it.proceed(
-//                it.request()
-//                    .newBuilder()
-//                    .addHeader("x-rapidapi-host", "exercisedb.p.rapidapi.com")
-//                    .addHeader("x-rapidapi-key", "ccb06bc4c0mshb7a29f7814116c6p14a25ajsn3cfb231e6ceb")
-//                    .build()
-//            )
-//        }
-//    )
-
-// val request = Request.Builder()
-//    .url("https://exercisedb.p.rapidapi.com/exercises")
-//    .get()
-//    .addHeader("x-rapidapi-host", "exercisedb.p.rapidapi.com")
-//    .addHeader("x-rapidapi-key", "ccb06bc4c0mshb7a29f7814116c6p14a25ajsn3cfb231e6ceb")
-//    .build()
-
-// val client = OkHttpClient()
-//
-// val request = Request.Builder()
-//    .addHeader("x-rapidapi-host", "exercisedb.p.rapidapi.com")
-//    .addHeader("x-rapidapi-key", "ccb06bc4c0mshb7a29f7814116c6p14a25ajsn3cfb231e6ceb")
-//    .build()
-//
-// val response = client.newCall(request).execute()
 
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
@@ -63,17 +34,17 @@ interface WorkoutApiService {
 
     @Headers(
         "x-rapidapi-host: exercisedb.p.rapidapi.com",
-        "x-rapidapi-key: ccb06bc4c0mshb7a29f7814116c6p14a25ajsn3cfb231e6ceb"
+        "x-rapidapi-key: $RAPID_KEY"
     )
     @GET("/exercises")
     suspend fun getAllWorkout(): List<Workout>
 
     @Headers(
         "x-rapidapi-host: exercisedb.p.rapidapi.com",
-        "x-rapidapi-key: ccb06bc4c0mshb7a29f7814116c6p14a25ajsn3cfb231e6ceb"
+        "x-rapidapi-key: $RAPID_KEY"
     )
     @GET("/exercises/equipment/{equipment}")
-    suspend fun getWorkoutsByEquipment(@Path("equipment")equipment: String): List<Workout>
+    suspend fun getWorkoutsByEquipment(@Path("equipment") equipment: String): List<Workout>
 }
 
 object WorkoutApi {
