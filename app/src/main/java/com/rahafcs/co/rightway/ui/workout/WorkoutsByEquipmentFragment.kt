@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway
+package com.rahafcs.co.rightway.ui.workout
 
 import android.os.Bundle
 import android.util.Log
@@ -11,15 +11,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutsByEquipmentBinding
 import com.rahafcs.co.rightway.ui.state.BrowsWorkoutUiState
-import com.rahafcs.co.rightway.ui.workout.WorkoutHorizontalAdapter
-import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.upToTop
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
 import kotlinx.coroutines.launch
 
 class WorkoutsByEquipmentFragment : Fragment() {
@@ -29,8 +26,7 @@ class WorkoutsByEquipmentFragment : Fragment() {
     private val viewModel by activityViewModels<WorkoutsViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
 

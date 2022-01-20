@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui.settings.coach
+package com.rahafcs.co.rightway.ui.coach
 
 import android.content.Context
 import android.os.Bundle
@@ -21,8 +21,8 @@ import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
 import com.rahafcs.co.rightway.utility.toast
-import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
+import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
+import com.rahafcs.co.rightway.ViewModelFactory
 
 class CoachInfoFragment : Fragment() {
     private var _binding: FragmentCoachInfoBinding? = null
@@ -30,15 +30,13 @@ class CoachInfoFragment : Fragment() {
     private val viewModel: CoachViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
     val signUpViewModel: SignUpViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
 

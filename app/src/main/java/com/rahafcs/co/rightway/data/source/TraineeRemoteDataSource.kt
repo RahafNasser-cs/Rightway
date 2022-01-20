@@ -9,11 +9,11 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-// Implementation of a user(trainer "coach" or trainee) data source as db in Firestore.
+// // Implementation of a trainee data source as db in Firestore.
 
-class UserRemoteDataSource : UserDataSource {
+class TraineeRemoteDataSource : UserDataSource {
     private val db = FirebaseFirestore.getInstance()
-    private val TAG = "UserRemoteDataSource"
+    private val TAG = "TraineeRemoteDataSource"
     private val collection = "users"
     private lateinit var listOfSavedWorkouts: MutableList<WorkoutsInfoUiState>
 
@@ -21,40 +21,13 @@ class UserRemoteDataSource : UserDataSource {
         reloadListOfSavedWorkoutsToUpdateLocalList()
     }
 
-    // To save user info
-    override fun saveUserInfo(user: User) {
+    // To save trainee info
+    override fun saveUserInfo(userInfo: User) {
         FirebaseAuth.getInstance().currentUser?.let { firebaseUser ->
-            db.collection(collection).document(firebaseUser.uid).set(user)
+            db.collection(collection).document(firebaseUser.uid).set(userInfo)
                 .addOnSuccessListener {}
                 .addOnFailureListener {}
         }
-    }
-
-    // To get user info
-    override suspend fun readUserInfo(): Flow<User> = callbackFlow {
-        FirebaseAuth.getInstance().currentUser?.let {
-            db.collection(collection).document(it.uid).addSnapshotListener { value, error ->
-                val userInfo = value?.toObject(User::class.java)
-                userInfo?.let {
-                    trySend(userInfo)
-                }
-            }
-        }
-        awaitClose { cancel() }
-    }
-
-    // To get user type --> Trainer "Coach" or Trainee
-    override fun getUserType(): Flow<String> = callbackFlow {
-        db.collection(collection).document(FirebaseAuth.getInstance().currentUser?.uid!!)
-            .addSnapshotListener { value, error ->
-                value?.let { it ->
-                    val userStatus = it.toObject(User::class.java)?.subscriptionStatus
-                    userStatus?.let { userType ->
-                        trySend(userType)
-                    }
-                }
-            }
-        awaitClose { cancel() }
     }
 
     // To add a new workout to local list of saved workouts
@@ -84,6 +57,19 @@ class UserRemoteDataSource : UserDataSource {
     override fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
         listOfSavedWorkouts.contains(workoutsInfoUiState)
 
+    // To get trainee info 
+    override suspend fun readUserInfo(): Flow<User> = callbackFlow {
+        FirebaseAuth.getInstance().currentUser?.let {
+            db.collection(collection).document(it.uid).addSnapshotListener { value, error ->
+                val userInfo = value?.toObject(User::class.java)
+                userInfo?.let {
+                    trySend(userInfo)
+                }
+            }
+        }
+        awaitClose { cancel() }
+    }
+
     // To get list of saved workout from Firestore
     override suspend fun reloadListOfSavedWorkouts(): Flow<List<WorkoutsInfoUiState>> =
         callbackFlow {
@@ -101,21 +87,8 @@ class UserRemoteDataSource : UserDataSource {
             awaitClose { cancel() }
         }
 
-    // To get list of coaches from Firestore
-    override suspend fun getCoachList(): Flow<List<User>> = callbackFlow {
-        db.collection(collection).whereEqualTo("subscriptionStatus", "Trainer").get()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val listOfTrainee = mutableListOf<User>()
-                    it.result?.let {
-                        for (trainee in it.documents) {
-                            listOfTrainee.add(trainee.toObject(User::class.java)!!)
-                        }
-                        trySend(listOfTrainee)
-                    }
-                }
-            }
-        awaitClose { cancel() }
+    override suspend fun getCoachList(): Flow<List<User>> {
+        TODO("Not yet implemented")
     }
 
     // To update local list of saved workouts --> listOfSavedWorkouts
@@ -130,5 +103,19 @@ class UserRemoteDataSource : UserDataSource {
                 }
             }
         }
+    }
+
+    // To get user type --> Trainer "Coach" or Trainee
+    override fun getUserType(): Flow<String> = callbackFlow {
+        db.collection(collection).document(FirebaseAuth.getInstance().currentUser?.uid!!)
+            .addSnapshotListener { value, error ->
+                value?.let { it ->
+                    val userStatus = it.toObject(User::class.java)?.subscriptionStatus
+                    userStatus?.let { userType ->
+                        trySend(userType)
+                    }
+                }
+            }
+        awaitClose { cancel() }
     }
 }

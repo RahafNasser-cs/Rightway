@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway
+package com.rahafcs.co.rightway.ui.workout
 
 import android.os.Bundle
 import android.util.Log
@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSavedWorkoutsBinding
-import com.rahafcs.co.rightway.ui.workout.WorkoutHorizontalAdapter
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.upToTop
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
 
 class SavedWorkoutsFragment : Fragment() {
     private var _binding: FragmentSavedWorkoutsBinding? = null
@@ -20,8 +18,7 @@ class SavedWorkoutsFragment : Fragment() {
     val viewModel by activityViewModels<WorkoutsViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
 

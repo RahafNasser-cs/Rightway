@@ -13,18 +13,15 @@ import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutsBinding
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ServiceLocator
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
-import kotlinx.coroutines.flow.collect
+import com.rahafcs.co.rightway.ViewModelFactory
 import kotlinx.coroutines.launch
 
 class WorkoutsFragment : Fragment() {
     private var binding: FragmentWorkoutsBinding? = null
-    private val viewModel: WorkoutsViewModel by activityViewModels<WorkoutsViewModel> {
+    private val viewModel: WorkoutsViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
 

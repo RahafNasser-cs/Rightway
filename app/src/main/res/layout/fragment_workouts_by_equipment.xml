@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".WorkoutsByEquipmentFragment">
+    tools:context=".ui.workout.WorkoutsByEquipmentFragment">
 
     <data>
         <variable
             name="workoutsViewModel"
-            type="com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel" />
+            type="com.rahafcs.co.rightway.ui.workout.WorkoutsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

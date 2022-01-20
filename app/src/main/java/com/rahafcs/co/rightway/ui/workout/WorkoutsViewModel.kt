@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.viewmodels
+package com.rahafcs.co.rightway.ui.workout
 
 import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
 import com.rahafcs.co.rightway.data.LoadingStatus
-import com.rahafcs.co.rightway.data.UserRepository
+import com.rahafcs.co.rightway.data.DefaultUserRepository
 import com.rahafcs.co.rightway.ui.state.*
 import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
@@ -15,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class WorkoutsViewModel(
     private val workoutRepository: DefaultWorkoutsRepository,
-    private val userRepository: UserRepository,
+//    private val traineeRepository: TraineeRepository,
+    private val userRepository: DefaultUserRepository,
 ) : ViewModel() {
     private val tag = WorkoutsViewModel::class.java.name
 

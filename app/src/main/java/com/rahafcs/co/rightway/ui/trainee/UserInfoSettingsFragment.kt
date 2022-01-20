@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui.settings.trainee
+package com.rahafcs.co.rightway.ui.trainee
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -23,8 +23,8 @@ import com.rahafcs.co.rightway.databinding.FragmentUserInfoSettingsBinding
 import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
 import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
 import com.rahafcs.co.rightway.utility.ServiceLocator
-import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
+import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
+import com.rahafcs.co.rightway.ViewModelFactory
 import kotlinx.coroutines.launch
 
 class UserInfoSettingsFragment : Fragment() {
@@ -34,8 +34,7 @@ class UserInfoSettingsFragment : Fragment() {
     val viewModel: SignUpViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
 

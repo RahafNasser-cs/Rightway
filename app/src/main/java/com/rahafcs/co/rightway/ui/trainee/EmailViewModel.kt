@@ -1,14 +1,14 @@
-package com.rahafcs.co.rightway.viewmodels
+package com.rahafcs.co.rightway.ui.trainee
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.User
-import com.rahafcs.co.rightway.data.UserRepository
+import com.rahafcs.co.rightway.data.DefaultUserRepository
 import kotlinx.coroutines.launch
 
-class EmailViewModel(private val userRepository: UserRepository) : ViewModel() {
+class EmailViewModel(private val userRepository: DefaultUserRepository) : ViewModel() {
     private var _preMessage = MutableLiveData<String>()
     val preMessage: MutableLiveData<String> get() = _preMessage
 

@@ -1,30 +1,32 @@
 package com.rahafcs.co.rightway.data
 
-import com.rahafcs.co.rightway.data.source.UserRemoteDataSource
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 
-class UserRepository(
-    private val userRemoteDataSource: UserRemoteDataSource,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
-) {
+// Interface to the data layer.
 
-    fun addUserInfo(userInfo: User) = userRemoteDataSource.saveUserInfo(userInfo)
+interface UserRepository {
+    // To save user info.
+    fun saveUserInfo(user: User)
 
-    fun addListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) =
-        userRemoteDataSource.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
+    // To get user info. 
+    suspend fun readUserInfo(): Flow<User>
 
-    fun removeListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) =
-        userRemoteDataSource.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
+    // To get user type --> Trainer "Coach" or Trainee.
+    fun getUserType(): Flow<String>
 
-    fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
-        userRemoteDataSource.checkIsSavedWorkout(workoutsInfoUiState)
+    // To add a new workout to local list of saved workouts.
+    fun addListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState)
 
-    suspend fun reloadListOfSavedWorkouts(): Flow<List<WorkoutsInfoUiState>> =
-        userRemoteDataSource.reloadListOfSavedWorkouts()
+    // To remove workout from local list of saved workouts.
+    fun removeListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState)
 
-    suspend fun readUserInfo(): Flow<User> = userRemoteDataSource.readUserInfo()
-    fun getUserType(): Flow<String> = userRemoteDataSource.getUserType()
+    // Check if workoutsInfoUiState is exit in list of saved workouts.
+    fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean
+
+    // To get list of saved workout from Firestore.
+    suspend fun reloadListOfSavedWorkouts(): Flow<List<WorkoutsInfoUiState>>
+
+    // To get list of coaches.
+    suspend fun getCoachList(): Flow<List<User>>
 }

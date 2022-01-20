@@ -12,20 +12,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentCoachesBinding
-import com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel
 import com.rahafcs.co.rightway.utility.ServiceLocator
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import kotlinx.coroutines.flow.collect
+import com.rahafcs.co.rightway.ViewModelFactory
 import kotlinx.coroutines.launch
 
 class CoachesFragment : Fragment() {
     private var _binding: FragmentCoachesBinding? = null
-    val binding: FragmentCoachesBinding get() = _binding!!
     private val viewModel: CoachViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
     private var userType = ""
@@ -34,16 +30,16 @@ class CoachesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentCoachesBinding.inflate(inflater, container, false)
-        return binding.root
+        return _binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUserType()
-        binding.apply {
+        _binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             coachViewModel = viewModel
             recyclerview.adapter = CoachAdapter(userType)
@@ -57,7 +53,7 @@ class CoachesFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.coachList.collect {
                 val adapter = CoachAdapter(userType)
-                binding.recyclerview.adapter = adapter
+                _binding?.recyclerview?.adapter = adapter
                 adapter.submitList(it.coachInfoUiState)
             }
         }
@@ -95,7 +91,7 @@ class CoachesFragment : Fragment() {
     }
 
     private fun shoeSuccessLayout() {
-        binding.apply {
+        _binding?.apply {
             error.visibility = View.GONE
             success.visibility = View.VISIBLE
             loading.visibility = View.GONE
@@ -103,7 +99,7 @@ class CoachesFragment : Fragment() {
     }
 
     private fun showLoadingLayout() {
-        binding.apply {
+        _binding?.apply {
             error.visibility = View.GONE
             success.visibility = View.GONE
             loading.visibility = View.VISIBLE
@@ -111,7 +107,7 @@ class CoachesFragment : Fragment() {
     }
 
     private fun showErrorLayout() {
-        binding.apply {
+        _binding?.apply {
             error.visibility = View.VISIBLE
             success.visibility = View.GONE
             loading.visibility = View.GONE

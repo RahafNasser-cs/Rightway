@@ -1,7 +1,7 @@
 package com.rahafcs.co.rightway.network
 
 import com.rahafcs.co.rightway.data.Workout
-import com.rahafcs.co.rightway.utility.Constant.RAPID_KEY
+import com.rahafcs.co.rightway.utility.Constant.RAPID_API_KEY
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -34,14 +34,14 @@ interface WorkoutApiService {
 
     @Headers(
         "x-rapidapi-host: exercisedb.p.rapidapi.com",
-        "x-rapidapi-key: $RAPID_KEY"
+        "x-rapidapi-key: $RAPID_API_KEY"
     )
     @GET("/exercises")
     suspend fun getAllWorkout(): List<Workout>
 
     @Headers(
         "x-rapidapi-host: exercisedb.p.rapidapi.com",
-        "x-rapidapi-key: $RAPID_KEY"
+        "x-rapidapi-key: $RAPID_API_KEY"
     )
     @GET("/exercises/equipment/{equipment}")
     suspend fun getWorkoutsByEquipment(@Path("equipment") equipment: String): List<Workout>

@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui.settings
+package com.rahafcs.co.rightway.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -13,27 +13,32 @@ import com.rahafcs.co.rightway.databinding.FragmentWelcomeBinding
 import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
 import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
 
-
 class WelcomeFragment : Fragment() {
-    private var binding: FragmentWelcomeBinding? = null
+    private var _binding: FragmentWelcomeBinding? = null
+    val binding: FragmentWelcomeBinding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentWelcomeBinding.inflate(inflater, container, false)
-        return binding?.root
+        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Welcome"
-        binding?.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             welcomeTextview.text = getWelcomeStatement()
             getStartedBtn.setOnClickListener {
-                if (getUserSubscriptionStatus().equals(requireContext().getString(R.string.trainee), true)) {
+                if (getUserSubscriptionStatus().equals(
+                        requireContext().getString(R.string.trainee),
+                        true
+                    )
+                ) {
                     goToUserInfoPage()
                 } else {
                     goToCoachInfoPage()
@@ -62,6 +67,6 @@ class WelcomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 }

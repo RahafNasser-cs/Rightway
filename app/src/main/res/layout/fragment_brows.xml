@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.brows.BrowsFragment">
+    tools:context=".ui.workout.BrowsFragment">
 
     <data>
 
         <variable
             name="browsFragment"
-            type="com.rahafcs.co.rightway.ui.brows.BrowsFragment" />
+            type="com.rahafcs.co.rightway.ui.workout.BrowsFragment" />
     </data>
 
     <ScrollView

@@ -1,6 +1,5 @@
 package com.rahafcs.co.rightway.data.source
 
-import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.rahafcs.co.rightway.data.Workout
 import com.rahafcs.co.rightway.network.WorkoutApiService
@@ -10,17 +9,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
+// Implementation of a workouts data source as db in Firestore.
+
 class WorkoutRemoteDataSource(
     private val api: WorkoutApiService,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : WorkoutDataSource {
     private val TAG = WorkoutRemoteDataSource::class.java.name
     private val db = FirebaseFirestore.getInstance()
+    private val collection = "workouts"
+    private val document = "listOfAllWorkouts"
 
+    // To refresh workouts. Get all workouts from API --> RapidApi
     override suspend fun getAllWorkouts(isRefresh: Boolean): List<WorkoutsInfoUiState> {
         if (isRefresh) {
             try {
-                val result = getAllWorkoutsFromApi()
+                val result = getAllWorkoutsFromRapidApi()
                 val list = result.map {
                     WorkoutsInfoUiState(
                         gifUrl = it.gifUrl,
@@ -33,36 +37,37 @@ class WorkoutRemoteDataSource(
                 saveAllWorkouts(list)
                 return list
             } catch (e: Exception) {
-                Log.e(TAG, "getAllWorkouts: a")
             }
         }
         return getAllWorkoutsFromFirestore()
     }
 
-    override suspend fun getAllWorkoutsFromApi(): List<Workout> = withContext(ioDispatcher) {
+    // To get all workouts from RapidApi
+    override suspend fun getAllWorkoutsFromRapidApi(): List<Workout> = withContext(ioDispatcher) {
         api.getAllWorkout()
     }
 
-    override suspend fun getWorkoutsByEquipmentFromApi(equipment: String): List<Workout> = withContext(ioDispatcher){
-        api.getWorkoutsByEquipment(equipment)
-    }
+    // To get workouts by equipment type from RapidApi
+    override suspend fun getWorkoutsByEquipmentFromRapidApi(equipment: String): List<Workout> =
+        withContext(ioDispatcher) {
+            api.getWorkoutsByEquipment(equipment)
+        }
 
-    // get workouts from Firestore if exit, if not exit get from api
+    // To get all workouts from Firestore if exit, if not exit get from RapidApi
     override suspend fun getAllWorkoutsFromFirestore(): List<WorkoutsInfoUiState> {
         var list = listOf<WorkoutsInfoUiState>()
         withContext(ioDispatcher) {
             try {
-                db.collection("workouts").document("listOfAllWorkouts").get().addOnSuccessListener {
+                db.collection(collection).document(document).get().addOnSuccessListener {
                     list = it.toObject(WorkoutsInfoUiState::class.java) as List<WorkoutsInfoUiState>
                 }.addOnFailureListener { list = listOf() }
                 return@withContext list
             } catch (e: Exception) {
-                Log.e(TAG, "getAllWorkoutsFromFirestore: $e")
             }
         }
         if (list.isEmpty()) {
             try {
-                val result = getAllWorkoutsFromApi()
+                val result = getAllWorkoutsFromRapidApi()
                 list = result.map {
                     WorkoutsInfoUiState(
                         gifUrl = it.gifUrl,
@@ -75,13 +80,13 @@ class WorkoutRemoteDataSource(
                 saveAllWorkouts(list) // save all workout in Firestore
                 return list // return workout list to viewModel
             } catch (e: Exception) {
-                Log.e(TAG, "getAllWorkoutsFromFirestore: $e")
             }
         }
         return listOf() // to avoid error
     }
 
+    // To save all workouts from RapidApi into Firestore
     override fun saveAllWorkouts(listOfAllWorkouts: List<WorkoutsInfoUiState>) {
-        db.collection("workouts").document("listOfAllWorkouts").set(listOfAllWorkouts)
+        db.collection(collection).document(document).set(listOfAllWorkouts)
     }
 }

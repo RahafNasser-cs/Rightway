@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui.brows
+package com.rahafcs.co.rightway.ui.workout
 
 import android.os.Bundle
 import android.view.*

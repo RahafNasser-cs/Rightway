@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.settings.trainee.UserInfoSettingsFragment">
+    tools:context=".ui.trainee.UserInfoSettingsFragment">
 
     <data>
 
         <variable
             name="userInfoViewModel"
-            type="com.rahafcs.co.rightway.viewmodels.SignUpViewModel" />
+            type="com.rahafcs.co.rightway.ui.auth.SignUpViewModel" />
     </data>
 
     <ScrollView

@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui.settings.trainee
+package com.rahafcs.co.rightway.ui.trainee
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -26,8 +26,8 @@ import com.rahafcs.co.rightway.utility.Constant.WEIGHT
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
 import com.rahafcs.co.rightway.utility.upToTop
-import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
+import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
+import com.rahafcs.co.rightway.ViewModelFactory
 
 class ActivityFragment : Fragment() {
     private var binding: FragmentActivityBinding? = null
@@ -35,8 +35,7 @@ class ActivityFragment : Fragment() {
     val viewModel: SignUpViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
 

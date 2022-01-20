@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.viewmodels
+package com.rahafcs.co.rightway.ui.auth
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,13 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.data.User
-import com.rahafcs.co.rightway.data.UserRepository
+import com.rahafcs.co.rightway.data.DefaultUserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
+class SignUpViewModel(
+//    private val traineeRepository: TraineeRepository,
+    private val userRepository: DefaultUserRepository,
+) : ViewModel() {
     private var _status = MutableLiveData<LoadingStatus>()
     val status: LiveData<LoadingStatus> get() = _status
 
@@ -45,7 +48,7 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
 
     // signupFragment
     fun userInfo(user: User) {
-        userRepository.addUserInfo(user)
+        userRepository.saveUserInfo(user)
     }
 
     // userInfoSettingsFragment

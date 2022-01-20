@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.settings.coach.CoachInfoSettingsFragment">
+    tools:context=".ui.coach.CoachInfoSettingsFragment">
 
     <data>
 
         <variable
             name="coachViewModel"
-            type="com.rahafcs.co.rightway.ui.settings.coach.CoachViewModel" />
+            type="com.rahafcs.co.rightway.ui.coach.CoachViewModel" />
     </data>
 
     <ScrollView

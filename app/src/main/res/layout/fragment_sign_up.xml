@@ -7,7 +7,7 @@
     <data>
         <variable
             name="signUpViewModel"
-            type="com.rahafcs.co.rightway.viewmodels.SignUpViewModel" />
+            type="com.rahafcs.co.rightway.ui.auth.SignUpViewModel" />
 
     </data>
 

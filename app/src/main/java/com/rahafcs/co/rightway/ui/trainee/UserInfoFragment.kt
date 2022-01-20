@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui.settings.trainee
+package com.rahafcs.co.rightway.ui.trainee
 
 import android.content.Context
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui.settings.coach
+package com.rahafcs.co.rightway.ui.coach
 
 import android.content.Context
 import android.os.Bundle
@@ -15,10 +15,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoSettingsBinding
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
-import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
 import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
 import com.rahafcs.co.rightway.utility.ServiceLocator
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
+import com.rahafcs.co.rightway.ViewModelFactory
 
 class CoachInfoSettingsFragment : Fragment() {
     private var _binding: FragmentCoachInfoSettingsBinding? = null
@@ -26,8 +25,7 @@ class CoachInfoSettingsFragment : Fragment() {
     private val viewModel by activityViewModels<CoachViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
     var isEditMode = false
@@ -60,9 +58,6 @@ class CoachInfoSettingsFragment : Fragment() {
                 }
             }
         }
-//        if (coachesEmail.contains(FirebaseAuth.getInstance().currentUser?.email)) {
-//            viewModel.readCoachInfo(true)
-//        }
     }
 
     private fun showEditUserInfo(coachInfo: CoachInfoUiState) {
@@ -198,10 +193,6 @@ class CoachInfoSettingsFragment : Fragment() {
             }.addOnFailureListener {
             }
     }
-
-    private fun getUserSubscriptionStatus() =
-        activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-            .getString(FIRST_NAME, "")!!
 
     override fun onDestroyView() {
         super.onDestroyView()

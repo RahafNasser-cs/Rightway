@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway
+package com.rahafcs.co.rightway.ui.trainee
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,15 +13,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentSendEmailBinding
+import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
-import com.rahafcs.co.rightway.viewmodels.EmailViewModel
-import com.rahafcs.co.rightway.viewmodels.SignUpViewModel
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SendEmailFragment : Fragment() {
@@ -29,15 +27,13 @@ class SendEmailFragment : Fragment() {
     private val viewModel by activityViewModels<SignUpViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
     private val emailViewModel by activityViewModels<EmailViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
     private val args: SendEmailFragmentArgs by navArgs()

@@ -13,12 +13,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rahafcs.co.rightway.databinding.FragmentViewPagerBinding
-import com.rahafcs.co.rightway.ui.brows.BrowsFragment
+import com.rahafcs.co.rightway.ui.workout.BrowsFragment
 import com.rahafcs.co.rightway.ui.coach.CoachesFragment
 import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
 import com.rahafcs.co.rightway.utility.ServiceLocator
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
+import com.rahafcs.co.rightway.ui.workout.WorkoutsViewModel
 import kotlinx.coroutines.launch
 
 class ViewPagerFragment : Fragment() {
@@ -28,8 +27,7 @@ class ViewPagerFragment : Fragment() {
     private val workoutsViewModel: WorkoutsViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
     private var userType = ""

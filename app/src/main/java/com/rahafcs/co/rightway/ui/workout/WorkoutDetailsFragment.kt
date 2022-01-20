@@ -15,8 +15,7 @@ import com.rahafcs.co.rightway.databinding.FragmentWorkoutDetailsBinding
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
-import com.rahafcs.co.rightway.viewmodels.ViewModelFactory
-import com.rahafcs.co.rightway.viewmodels.WorkoutsViewModel
+import com.rahafcs.co.rightway.ViewModelFactory
 import java.util.concurrent.TimeUnit
 
 class WorkoutDetailsFragment : Fragment() {
@@ -37,8 +36,7 @@ class WorkoutDetailsFragment : Fragment() {
     private val viewModel: WorkoutsViewModel by activityViewModels<WorkoutsViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideUserRepository(),
-            ServiceLocator.provideCoachRepository()
+            ServiceLocator.provideDefaultUserRepository()
         )
     }
 

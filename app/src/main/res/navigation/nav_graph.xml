@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.rahafcs.co.rightway.ui.settings.WelcomeFragment"
+        android:name="com.rahafcs.co.rightway.ui.WelcomeFragment"
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome">
         <action
@@ -56,7 +56,7 @@
 
     <fragment
         android:id="@+id/activityFragment"
-        android:name="com.rahafcs.co.rightway.ui.settings.trainee.ActivityFragment"
+        android:name="com.rahafcs.co.rightway.ui.trainee.ActivityFragment"
         android:label="fragment_activity"
         tools:layout="@layout/fragment_activity">
         <action
@@ -106,7 +106,7 @@
     </fragment>
     <fragment
         android:id="@+id/userInfoFragment"
-        android:name="com.rahafcs.co.rightway.ui.settings.trainee.UserInfoFragment"
+        android:name="com.rahafcs.co.rightway.ui.trainee.UserInfoFragment"
         android:label="fragment_user_info"
         tools:layout="@layout/fragment_user_info">
         <action
@@ -115,7 +115,7 @@
     </fragment>
     <fragment
         android:id="@+id/userInfoSettingsFragment2"
-        android:name="com.rahafcs.co.rightway.ui.settings.trainee.UserInfoSettingsFragment"
+        android:name="com.rahafcs.co.rightway.ui.trainee.UserInfoSettingsFragment"
         android:label="fragment_user_info_settings"
         tools:layout="@layout/fragment_user_info_settings">
         <action
@@ -133,7 +133,7 @@
     </fragment>
     <fragment
         android:id="@+id/sendEmailFragment"
-        android:name="com.rahafcs.co.rightway.SendEmailFragment"
+        android:name="com.rahafcs.co.rightway.ui.trainee.SendEmailFragment"
         android:label="fragment_send_email"
         tools:layout="@layout/fragment_send_email">
         <argument
@@ -142,7 +142,7 @@
     </fragment>
     <fragment
         android:id="@+id/workoutsByEquipmentFragment"
-        android:name="com.rahafcs.co.rightway.WorkoutsByEquipmentFragment"
+        android:name="com.rahafcs.co.rightway.ui.workout.WorkoutsByEquipmentFragment"
         android:label="fragment_show_workouts_by_equipment"
         tools:layout="@layout/fragment_workouts_by_equipment">
         <argument
@@ -154,7 +154,7 @@
     </fragment>
     <fragment
         android:id="@+id/savedWorkoutsFragment"
-        android:name="com.rahafcs.co.rightway.SavedWorkoutsFragment"
+        android:name="com.rahafcs.co.rightway.ui.workout.SavedWorkoutsFragment"
         android:label="fragment_show_saved_workouts"
         tools:layout="@layout/fragment_saved_workouts">
         <action
@@ -163,7 +163,7 @@
     </fragment>
     <fragment
         android:id="@+id/coachInfoFragment"
-        android:name="com.rahafcs.co.rightway.ui.settings.coach.CoachInfoFragment"
+        android:name="com.rahafcs.co.rightway.ui.coach.CoachInfoFragment"
         android:label="fragment_coach_info"
         tools:layout="@layout/fragment_coach_info" >
         <action
@@ -172,7 +172,7 @@
     </fragment>
     <fragment
         android:id="@+id/coachInfoSettingsFragment"
-        android:name="com.rahafcs.co.rightway.ui.settings.coach.CoachInfoSettingsFragment"
+        android:name="com.rahafcs.co.rightway.ui.coach.CoachInfoSettingsFragment"
         android:label="fragment_coach_info_settings"
         tools:layout="@layout/fragment_coach_info_settings" >
         <action
