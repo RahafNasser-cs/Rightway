@@ -59,7 +59,7 @@ class WorkoutsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.listWorkoutsUiState.collect {
                     when (it.loadingState) {
-                        LoadingStatus.FAILURE -> {
+                        LoadingStatus.ERROR -> {
                             showErrorLayout()
                         }
                         LoadingStatus.LOADING -> {

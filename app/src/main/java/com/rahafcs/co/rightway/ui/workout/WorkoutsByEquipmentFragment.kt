@@ -68,7 +68,7 @@ class WorkoutsByEquipmentFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.browsWorkoutUiState.collect { browsWorkoutUiState ->
                     when (browsWorkoutUiState.loadingState) {
-                        LoadingStatus.FAILURE -> {
+                        LoadingStatus.ERROR -> {
                             showErrorLayout(browsWorkoutUiState)
                         }
                         LoadingStatus.SUCCESS -> {

@@ -1,7 +1,6 @@
 package com.rahafcs.co.rightway.ui.coach
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +9,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentCoachesBinding
 import com.rahafcs.co.rightway.utility.ServiceLocator
-import com.rahafcs.co.rightway.ViewModelFactory
 import kotlinx.coroutines.launch
 
 class CoachesFragment : Fragment() {
@@ -59,23 +58,23 @@ class CoachesFragment : Fragment() {
         }
     }
 
-    private fun getUserType() {
+    // To get user type --> Trainer"Coach" or Trainee.
+    private fun getUserType() =
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.getUserType().collect {
-                    Log.e("ViewPagerFragment", "getUserStatus: $it ")
                     userType = it
                 }
             }
         }
-    }
 
-    private fun handleLayout() {
+    // To handle layout status --> ERROR, LOADING, SUCCESS
+    private fun handleLayout() =
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.coachList.collect {
                     when (it.loadingState) {
-                        LoadingStatus.FAILURE -> {
+                        LoadingStatus.ERROR -> {
                             showErrorLayout()
                         }
                         LoadingStatus.LOADING -> {
@@ -88,31 +87,30 @@ class CoachesFragment : Fragment() {
                 }
             }
         }
-    }
 
-    private fun shoeSuccessLayout() {
+    // To show success Layout
+    private fun shoeSuccessLayout() =
         _binding?.apply {
             error.visibility = View.GONE
             success.visibility = View.VISIBLE
             loading.visibility = View.GONE
         }
-    }
 
-    private fun showLoadingLayout() {
+    // To show loading Layout
+    private fun showLoadingLayout() =
         _binding?.apply {
             error.visibility = View.GONE
             success.visibility = View.GONE
             loading.visibility = View.VISIBLE
         }
-    }
 
-    private fun showErrorLayout() {
+    // To show error Layout
+    private fun showErrorLayout() =
         _binding?.apply {
             error.visibility = View.VISIBLE
             success.visibility = View.GONE
             loading.visibility = View.GONE
         }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

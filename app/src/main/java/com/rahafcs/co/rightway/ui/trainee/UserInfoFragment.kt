@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
@@ -32,7 +31,6 @@ class UserInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Profile"
         binding.nextBtn.setOnClickListener {
             if (checkInputValidation()) {
                 saveUserInfo()
@@ -41,34 +39,44 @@ class UserInfoFragment : Fragment() {
         }
     }
 
+    // To save user "trainee" info.
     private fun saveUserInfo() =
         addToSharedPreference(getGender(), getAge(), getWeight(), getHeight())
 
+    // To get user info from views "edittext".
     private fun getHeight() =
-        if (binding.cmOption.isChecked) "${binding.heightEditText.text} cm" else "${binding.weightEditText.text} ft"
+        if (binding.cmOption.isChecked) "${binding.heightEditText.text} ${getString(R.string.cm)}"
+        else "${binding.weightEditText.text} ${getString(R.string.ft)}"
 
     private fun getWeight() =
-        if (binding.kgOption.isChecked) "${binding.weightEditText.text} kg" else "${binding.weightEditText.text} lb"
+        if (binding.kgOption.isChecked) "${binding.weightEditText.text} ${getString(R.string.kg)}"
+        else "${binding.weightEditText.text} ${getString(R.string.lb)}"
 
-    private fun getGender() = if (binding.femaleOption.isChecked) "Female" else "Male"
+    private fun getGender() = if (binding.femaleOption.isChecked) getString(R.string.female)
+    else getString(R.string.male)
 
+    private fun getAge() = binding.ageEditText.text.toString()
+
+    // Check user input validation.
     private fun checkInputValidation(): Boolean {
         return if (!ageValidation()) {
-            requireContext().toast("Enter a age")
+            requireContext().toast(getString(R.string.enter_age))
             false
         } else if (!weightValidation()) {
-            requireContext().toast("Enter a weight")
+            requireContext().toast(getString(R.string.enter_weight))
             false
         } else if (!heightValidation()) {
-            requireContext().toast("Enter a height")
+            requireContext().toast(getString(R.string.enter_height))
             false
         } else {
             true
         }
     }
 
+    // To save user "trainee" info into sharedPreferences.
     private fun addToSharedPreference(gender: String, age: String, weight: String, height: String) {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         sharedPreferences.edit().apply {
             putString(GENDER, gender)
             putString(AGE, age)
@@ -78,23 +86,21 @@ class UserInfoFragment : Fragment() {
         }
     }
 
-    private fun goToActivityPage() {
+    // Go to next page.
+    private fun goToActivityPage() =
         findNavController().navigate(R.id.action_userInfoFragment_to_activityFragment)
-    }
 
-    private fun ageValidation(): Boolean {
-        return binding.ageEditText.text.toString().isNotEmpty()
-    }
+    // Check age validation.
+    private fun ageValidation() =
+        binding.ageEditText.text.toString().isNotEmpty()
 
-    private fun getAge() = binding.ageEditText.text.toString()
+    // Check weight validation.
+    private fun weightValidation() =
+        binding.weightEditText.text.toString().isNotEmpty()
 
-    private fun weightValidation(): Boolean {
-        return binding.weightEditText.text.toString().isNotEmpty()
-    }
-
-    private fun heightValidation(): Boolean {
-        return binding.heightEditText.text.toString().isNotEmpty()
-    }
+    // Check height validation.
+    private fun heightValidation() =
+        binding.heightEditText.text.toString().isNotEmpty()
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -90,6 +90,7 @@ class SendEmailFragment : Fragment() {
         }
     }
 
+    // To show pre message
     private fun showUserMessage(userInfo: User) {
         val preMessage =
             "Hi I'm ${userInfo.firstName}\nI would like to subscribe with you!" +
@@ -100,6 +101,7 @@ class SendEmailFragment : Fragment() {
         binding?.messageEditText?.setText(preMessage)
     }
 
+    // To show pre subject
     private fun showPreSubject() {
         val preSubject = "Hello, I would like to subscribe with you!"
         binding?.subjectEditText?.setText(preSubject)

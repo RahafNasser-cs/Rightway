@@ -85,7 +85,7 @@ class WorkoutsViewModel(
             } catch (e: Exception) {
                 _browsWorkoutUiState.update {
                     it.copy(
-                        loadingState = LoadingStatus.FAILURE,
+                        loadingState = LoadingStatus.ERROR,
                         userMsg = ERROR_MESSAGE
                     )
                 }
@@ -121,7 +121,7 @@ class WorkoutsViewModel(
             } catch (e: Exception) {
                 _listWorkoutsUiState.update {
                     it.copy(
-                        loadingState = LoadingStatus.FAILURE,
+                        loadingState = LoadingStatus.ERROR,
                         userMsg = ERROR_MESSAGE
                     )
                 }

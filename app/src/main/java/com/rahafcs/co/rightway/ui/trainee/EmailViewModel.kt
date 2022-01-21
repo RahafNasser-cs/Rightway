@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.data.DefaultUserRepository
+import com.rahafcs.co.rightway.data.User
 import kotlinx.coroutines.launch
 
 class EmailViewModel(private val userRepository: DefaultUserRepository) : ViewModel() {
@@ -16,7 +16,7 @@ class EmailViewModel(private val userRepository: DefaultUserRepository) : ViewMo
         readUserInfo()
     }
 
-    fun setPreMessage(message: String) {
+    private fun setPreMessage(message: String) {
         _preMessage.value = message
     }
 

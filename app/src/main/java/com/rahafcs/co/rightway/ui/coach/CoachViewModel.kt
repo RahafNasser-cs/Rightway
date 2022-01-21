@@ -2,9 +2,9 @@ package com.rahafcs.co.rightway.ui.coach
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rahafcs.co.rightway.data.DefaultUserRepository
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.data.User
-import com.rahafcs.co.rightway.data.DefaultUserRepository
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 import com.rahafcs.co.rightway.ui.state.ListCoachInfoUiState
 import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
@@ -15,10 +15,8 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class CoachViewModel(
-//    private val coachRepository: CoachRepository,
     private val userRepository: DefaultUserRepository,
 ) : ViewModel() {
-
     private var _coachList = MutableStateFlow(ListCoachInfoUiState())
     val coachList: MutableStateFlow<ListCoachInfoUiState> get() = _coachList
 
@@ -32,20 +30,19 @@ class CoachViewModel(
         getCoachInfo()
     }
 
-    fun setCoachesList() {
+    fun setCoachesList() =
         getCoachList()
-    }
 
-    fun saveCoachInfo(coach: User) {
+    fun saveCoachInfo(coach: User) =
         userRepository.saveUserInfo(coach)
-    }
 
-    private fun getCoachList() {
+    // To get list of coaches to show on fragment_coaches.xml.
+    private fun getCoachList() =
         viewModelScope.launch {
             try {
                 _coachList.update { it.copy(loadingState = LoadingStatus.LOADING) }
-                userRepository.getCoachList().collect {
-                    val result = it.map {
+                userRepository.getCoachList().collect { coachesList ->
+                    val result = coachesList.map {
                         CoachInfoUiState(
                             name = it.firstName,
                             experience = it.experience,
@@ -64,14 +61,14 @@ class CoachViewModel(
             } catch (e: Exception) {
                 _coachList.update {
                     it.copy(
-                        loadingState = LoadingStatus.FAILURE,
+                        loadingState = LoadingStatus.ERROR,
                         userMsg = ERROR_MESSAGE
                     )
                 }
             }
         }
-    }
 
+    // Save coach info.
     fun saveCoachInfo(coachInfoUiState: CoachInfoUiState) {
         _coachInfo.update {
             it.copy(
@@ -85,6 +82,7 @@ class CoachViewModel(
         saveCoachInfo(_coachInfo.value)
     }
 
+    // Get coach info to show on fragment_coach_info_settings.xml.
     fun getCoachInfo() {
         viewModelScope.launch {
             userRepository.readUserInfo().collect {
@@ -101,5 +99,6 @@ class CoachViewModel(
         }
     }
 
+    // To get user type --> trainee or trainer "coach".
     fun getUserType(): Flow<String> = userRepository.getUserType()
 }

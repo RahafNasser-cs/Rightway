@@ -1,13 +1,10 @@
 package com.rahafcs.co.rightway.ui.trainee
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -18,29 +15,23 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentUserInfoSettingsBinding
-import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
-import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
-import com.rahafcs.co.rightway.ViewModelFactory
+import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
+import com.rahafcs.co.rightway.utility.ServiceLocator
+import com.rahafcs.co.rightway.utility.toast
 import kotlinx.coroutines.launch
 
 class UserInfoSettingsFragment : Fragment() {
     var binding: FragmentUserInfoSettingsBinding? = null
-    var isEditMode = false
-    lateinit var sharedPreferences: SharedPreferences
+    private var isEditMode = false
     val viewModel: SignUpViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
             ServiceLocator.provideDefaultUserRepository()
         )
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Home"
     }
 
     override fun onCreateView(
@@ -74,21 +65,22 @@ class UserInfoSettingsFragment : Fragment() {
         readUserInfo()
     }
 
+    // To confirm sign out process.
     private fun signOutConfirmDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Sign Out")
-            .setMessage("Are you sure you want to sign out?")
-            .setNegativeButton("Cancel") { _, _ -> }
-            .setPositiveButton("Sign out") { _, _ ->
+            .setTitle(getString(R.string.sign_out))
+            .setMessage(getString(R.string.confirm_sign_out))
+            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+            .setPositiveButton(getString(R.string.sign_out)) { _, _ ->
                 signOut()
             }.show()
     }
 
+    // To get user "trainee" info then show it in edittext or textview.
     private fun readUserInfo() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.readUserInfo().collect {
-                    Log.d("UserInfoSettingsFragment", "readUserInfo: $it")
                     if (isEditMode) {
                         showEditUserInfo(it)
                     }
@@ -98,12 +90,11 @@ class UserInfoSettingsFragment : Fragment() {
         }
     }
 
+    // To sign out.
     private fun signOut() {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         val editor = sharedPreferences.edit()
-
-        // requireContext().toast("${FirebaseAuth.getInstance().currentUser?.email}")
-        Log.e("TAG", "signOut: before ${FirebaseAuth.getInstance().currentUser?.uid!!}")
         AuthUI.getInstance()
             .signOut(requireContext()).addOnSuccessListener {
                 FirebaseAuth.getInstance().signOut()
@@ -111,9 +102,11 @@ class UserInfoSettingsFragment : Fragment() {
                 editor.apply()
                 findNavController().navigate(R.id.registrationFragment)
             }.addOnFailureListener {
+                requireContext().toast(getString(R.string.sign_out_error))
             }
     }
 
+    // Show user "trainee" info in textview.
     private fun showUserInfo(userInfo: User) {
         binding?.apply {
             userNameTextview.text = userInfo.firstName
@@ -126,6 +119,7 @@ class UserInfoSettingsFragment : Fragment() {
         }
     }
 
+    // Show views "edittext" to enable edit info.
     private fun showEditUserInfo(userInfo: User) {
         makeEditTextVisible()
         binding?.apply {
@@ -152,6 +146,7 @@ class UserInfoSettingsFragment : Fragment() {
         }
     }
 
+    // Make edittext visible to enable edit mode.
     private fun makeEditTextVisible() {
         binding?.apply {
             userHeightInputLayout.visibility = View.VISIBLE
@@ -160,13 +155,13 @@ class UserInfoSettingsFragment : Fragment() {
             activityOptions.visibility = View.VISIBLE
             genderOption.visibility = View.VISIBLE
             userNameInputLayout.visibility = View.VISIBLE
-            // userSubscriptionStatusOptions.visibility = View.VISIBLE
             heightOption.visibility = View.VISIBLE
             weightOption.visibility = View.VISIBLE
             saveBtn.visibility = View.VISIBLE
         }
     }
 
+    // represent old user info into edit text.
     private fun representUserInfoIntoEditText(userInfo: User) {
         binding?.apply {
             userHeightEditText.setText(userInfo.height.substring(0, userInfo.height.length - 2))
@@ -174,30 +169,27 @@ class UserInfoSettingsFragment : Fragment() {
             userAgeEditText.setText(userInfo.age)
             userNameEditText.setText(userInfo.firstName)
             when (userInfo.gender) {
-                "Female" -> femaleOption.isChecked = true
+                getString(R.string.female) -> femaleOption.isChecked = true
                 else -> maleOption.isChecked = true
             }
             when (userInfo.activity) {
-                requireContext().getString(R.string.option_0) -> option0.isChecked = true
-                requireContext().getString(R.string.option_1) -> option1.isChecked = true
-                requireContext().getString(R.string.option_2) -> option2.isChecked = true
+                getString(R.string.option_0) -> option0.isChecked = true
+                getString(R.string.option_1) -> option1.isChecked = true
+                getString(R.string.option_2) -> option2.isChecked = true
                 else -> option3.isChecked = true
             }
-//            when (userInfo.subscriptionStatus) {
-//                requireContext().getString(R.string.trainee) -> traineeOption.isChecked = true
-//                else -> trainerOption.isChecked = true
-//            }
             when (userInfo.height.substring(userInfo.height.length - 2, userInfo.height.length)) {
-                "cm" -> cmOption.isChecked = true
+                getString(R.string.cm) -> cmOption.isChecked = true
                 else -> ftOption.isChecked = true
             }
             when (userInfo.weight.substring(userInfo.weight.length - 2, userInfo.weight.length)) {
-                "kg" -> kgOption.isChecked = true
+                getString(R.string.kg) -> kgOption.isChecked = true
                 else -> lbOption.isChecked = true
             }
         }
     }
 
+    // Make edittext gone to disable edit mode.
     private fun hideEditUserInfo() {
         binding?.apply {
             userHeightInputLayout.visibility = View.GONE
@@ -206,13 +198,13 @@ class UserInfoSettingsFragment : Fragment() {
             activityOptions.visibility = View.GONE
             genderOption.visibility = View.GONE
             userNameInputLayout.visibility = View.GONE
-            // userSubscriptionStatusOptions.visibility = View.GONE
             heightOption.visibility = View.GONE
             weightOption.visibility = View.GONE
             saveBtn.visibility = View.GONE
         }
     }
 
+    // Make textview gone to enable edit mode.
     private fun hideUserInfoTextView() {
         binding?.apply {
             userHeight.visibility = View.GONE
@@ -221,10 +213,10 @@ class UserInfoSettingsFragment : Fragment() {
             userActivityLeve.visibility = View.GONE
             userGender.visibility = View.GONE
             userNameTextview.visibility = View.GONE
-            // subscriptionStatus.visibility = View.GONE
         }
     }
 
+    // Show user "trainee" info -- make textview visible.
     private fun showUserInfoTextView() {
         binding?.apply {
             userHeight.visibility = View.VISIBLE
@@ -237,14 +229,15 @@ class UserInfoSettingsFragment : Fragment() {
         }
     }
 
+    // Save updated user "trainee" info.
     private fun saveUserInfo(userInfo: User) {
         viewModel.userInfo(userInfo)
     }
 
+    // Get updated info from views "edittext".
     private fun getUpdatedUserInfo(oldUserInfo: User) =
         oldUserInfo.copy(
             firstName = getFirstName(),
-            // subscriptionStatus = getSubscriptionStatus(),
             height = getHeight(),
             weight = getWeight(),
             age = getAge(),
@@ -252,43 +245,33 @@ class UserInfoSettingsFragment : Fragment() {
             activity = getActivityLevel()
         )
 
-    private fun getSubscriptionStatus() =
-        if (binding?.traineeOption?.isChecked!!) {
-            updateSharedPreference(requireContext().getString(R.string.trainee))
-            requireContext().getString(R.string.trainee)
-        } else {
-            updateSharedPreference(requireContext().getString(R.string.trainer))
-            requireContext().getString(R.string.trainer)
-        }
-
-    private fun updateSharedPreference(subscriptionStatus: String) {
-        activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!.edit().putString(
-            SUPERSCRIPTION, subscriptionStatus
-        ).apply()
-    }
-
+    // To get updated info from views. 
     private fun getActivityLevel() = when (binding?.activityOptions?.checkedRadioButtonId) {
-        R.id.option_0 -> requireContext().getString(R.string.option_0)
-        R.id.option_1 -> requireContext().getString(R.string.option_1)
-        R.id.option_2 -> requireContext().getString(R.string.option_2)
-        else -> requireContext().getString(R.string.option_3)
+        R.id.option_0 -> getString(R.string.option_0)
+        R.id.option_1 -> getString(R.string.option_1)
+        R.id.option_2 -> getString(R.string.option_2)
+        else -> getString(R.string.option_3)
     }
 
-    private fun getGender() = if (binding?.femaleOption?.isChecked!!) "Female" else "Male"
+    private fun getGender() =
+        if (binding?.femaleOption?.isChecked!!) getString(R.string.female) else getString(R.string.male)
 
     private fun getAge() = binding?.userAgeEditText?.text.toString()
 
     private fun getWeight() =
-        if (binding?.kgOption?.isChecked!!) "${binding?.userWeightEditText?.text} kg"
-        else "${binding?.userWeightEditText?.text} lb"
+        if (binding?.kgOption?.isChecked!!) "${binding?.userWeightEditText?.text} ${getString(R.string.kg)}"
+        else "${binding?.userWeightEditText?.text} ${getString(R.string.lb)}"
 
     private fun getHeight() =
-        if (binding?.cmOption?.isChecked!!) "${binding?.userHeightEditText?.text?.toString()} cm"
-        else "${binding?.userHeightEditText?.text} ft"
+        if (binding?.cmOption?.isChecked!!) "${binding?.userHeightEditText?.text?.toString()} ${
+        getString(R.string.cm)
+        }"
+        else "${binding?.userHeightEditText?.text} ${getString(R.string.ft)}"
 
     private fun getFirstName() =
         binding?.userNameEditText?.text.toString()
 
+    // Go to home page.
     private fun goToHomePage() =
         findNavController().navigate(R.id.action_userInfoSettingsFragment2_to_viewPagerFragment2)
 

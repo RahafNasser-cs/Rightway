@@ -1,9 +1,7 @@
 package com.rahafcs.co.rightway.ui.trainee
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentActivityBinding
+import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
 import com.rahafcs.co.rightway.utility.Constant.ACTIVITY_LEVEL
 import com.rahafcs.co.rightway.utility.Constant.AGE
 import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
@@ -26,12 +26,11 @@ import com.rahafcs.co.rightway.utility.Constant.WEIGHT
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
 import com.rahafcs.co.rightway.utility.upToTop
-import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
-import com.rahafcs.co.rightway.ViewModelFactory
 
 class ActivityFragment : Fragment() {
     private var binding: FragmentActivityBinding? = null
-    lateinit var sharedPreferences: SharedPreferences
+    private val sharedPreferences =
+        activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
     val viewModel: SignUpViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
@@ -69,10 +68,10 @@ class ActivityFragment : Fragment() {
 
     private fun getActivityLevel(): String {
         return when (binding?.activityOptions?.checkedRadioButtonId) {
-            R.id.option_0 -> requireContext().getString(R.string.option_0)
-            R.id.option_1 -> requireContext().getString(R.string.option_1)
-            R.id.option_2 -> requireContext().getString(R.string.option_2)
-            else -> requireContext().getString(R.string.option_3)
+            R.id.option_0 -> getString(R.string.option_0)
+            R.id.option_1 -> getString(R.string.option_1)
+            R.id.option_2 -> getString(R.string.option_2)
+            else -> getString(R.string.option_3)
         }
     }
 
@@ -84,7 +83,6 @@ class ActivityFragment : Fragment() {
     private fun addToSharedPreference(
         activityLevel: String,
     ) {
-        sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         sharedPreferences.edit().apply {
             putString(ACTIVITY_LEVEL, activityLevel)
             apply()
@@ -92,13 +90,7 @@ class ActivityFragment : Fragment() {
     }
 
     private fun saveUserInfo() {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-        Log.e(
-            "TAG",
-            "saveUserInfo: ${sharedPreferences.getBoolean(SIGN_UP, false)}",
-        )
         if (sharedPreferences.getBoolean(SIGN_UP, false)) {
-            Log.e("TAG", "saveUserInfo: in if")
             viewModel.userInfo(getUserInfo())
             val editor = sharedPreferences.edit()
             editor.putBoolean(SIGN_UP, false)
@@ -107,7 +99,6 @@ class ActivityFragment : Fragment() {
     }
 
     private fun getUserInfo(): User {
-        sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
         return User(
             firstName = sharedPreferences.getString(FIRST_NAME, "")!!,
             lastName = sharedPreferences.getString(LAST_NAME, "")!!,

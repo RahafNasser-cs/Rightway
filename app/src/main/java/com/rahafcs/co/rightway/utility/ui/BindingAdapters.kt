@@ -26,7 +26,7 @@ fun LottieAnimationView.bindRegistrationStatus(status: LoadingStatus?) {
         LoadingStatus.SUCCESS -> {
             this.visibility = View.GONE
         }
-        LoadingStatus.FAILURE -> {
+        LoadingStatus.ERROR -> {
             this.visibility = View.GONE
         }
         LoadingStatus.LOADING -> {
@@ -96,6 +96,6 @@ fun ImageView.findUrlGlide(imgUrl: String?) {
 @BindingAdapter("getStringFromResources")
 fun TextView.getStringFromResources(messageKey: String) {
     when (messageKey) {
-        ERROR_MESSAGE -> this.text = this.context.getString(R.string.errorMessage)
+        ERROR_MESSAGE -> this.text = this.context.getString(R.string.error_message)
     }
 }

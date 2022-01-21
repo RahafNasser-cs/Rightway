@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoBinding
+import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
 import com.rahafcs.co.rightway.utility.Constant.COACH_EMAIL
 import com.rahafcs.co.rightway.utility.Constant.COACH_EXPERIENCE
 import com.rahafcs.co.rightway.utility.Constant.COACH_PHONE
@@ -21,8 +23,6 @@ import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
 import com.rahafcs.co.rightway.utility.toast
-import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
-import com.rahafcs.co.rightway.ViewModelFactory
 
 class CoachInfoFragment : Fragment() {
     private var _binding: FragmentCoachInfoBinding? = null
@@ -45,7 +45,7 @@ class CoachInfoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment.
         _binding = FragmentCoachInfoBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -63,13 +63,14 @@ class CoachInfoFragment : Fragment() {
         }
     }
 
+    // To add user "coach" info in sharedPreferences.
     private fun addToSharedPreference(
         email: String,
         experience: String,
         phone: String,
         priceRange: String,
     ) {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val sharedPreferences = activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         sharedPreferences.edit().apply {
             putString(COACH_EMAIL, email)
             putString(COACH_EXPERIENCE, experience)
@@ -79,10 +80,11 @@ class CoachInfoFragment : Fragment() {
         }
     }
 
-    private fun goToHomePage() {
+    // To go home page.
+    private fun goToHomePage() =
         findNavController().navigate(R.id.action_coachInfoFragment_to_viewPagerFragment2)
-    }
 
+    // Check user input validation.
     private fun checkInputValidation(): Boolean {
         return if (!experienceValidation()) {
             requireContext().toast("Enter a experience")
@@ -101,51 +103,49 @@ class CoachInfoFragment : Fragment() {
         }
     }
 
-    private fun priceValidation(): Boolean {
-        return binding.priceRangeEditText.text.toString().isNotEmpty()
-    }
+    // Validation price input.
+    private fun priceValidation() =
+        binding.priceRangeEditText.text.toString().isNotEmpty()
 
+    // Validation email input.
     private fun emailValidation(): Boolean {
         val email = binding.emailEditText.text.toString()
         return email.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    private fun phoneValidation(): Boolean {
-        return binding.phoneEditText.text.toString().isNotEmpty()
-    }
+    // Validation phone input.
+    private fun phoneValidation() =
+        binding.phoneEditText.text.toString().isNotEmpty()
 
-    private fun experienceValidation(): Boolean {
-        return binding.experienceEditText.text.toString().isNotEmpty()
-    }
+    // Validation experience input.
+    private fun experienceValidation() =
+        binding.experienceEditText.text.toString().isNotEmpty()
 
-    private fun getExperience(): String {
-        return binding.experienceEditText.text.toString()
-    }
+    // Get experience from view.
+    private fun getExperience() =
+        binding.experienceEditText.text.toString()
 
-    private fun getPhone(): String {
-        return binding.phoneEditText.text.toString()
-    }
+    // Get phone from view.
+    private fun getPhone() =
+        binding.phoneEditText.text.toString()
 
-    private fun getPriceRange(): String {
-        return binding.priceRangeEditText.text.toString()
-    }
+    // Get price from view.
+    private fun getPriceRange() =
+        binding.priceRangeEditText.text.toString()
 
-    private fun getEmail(): String {
-        return binding.emailEditText.text.toString()
-    }
+    // Get email from view.
+    private fun getEmail() =
+        binding.emailEditText.text.toString()
 
-    private fun getName() =
-        activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-            .getString(FIRST_NAME, "")!!
-
+    // Save user "coach" info.
     private fun saveCoachInfo() {
         addToSharedPreference(getEmail(), getExperience(), getPhone(), getPriceRange())
         viewModel.saveCoachInfo(getCoachInfo())
-//        signUpViewModel.userInfo(getCoachInfo())
     }
 
+    // Get coach info. 
     private fun getCoachInfo(): User {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val sharedPreferences = activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         return User(
             firstName = sharedPreferences.getString(FIRST_NAME, "")!!,
             lastName = sharedPreferences.getString(LAST_NAME, "")!!,
@@ -157,8 +157,6 @@ class CoachInfoFragment : Fragment() {
             phoneNumber = sharedPreferences.getString(COACH_PHONE, "")!!
         )
     }
-//    private fun getCoachInfo() =
-//        Coach(getName(), getExperience(), getEmail(), getPhone(), getPriceRange())
 
     override fun onDestroyView() {
         super.onDestroyView()

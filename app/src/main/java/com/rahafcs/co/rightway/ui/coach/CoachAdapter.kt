@@ -62,7 +62,6 @@ class CoachAdapter(val userType: String) :
         )
     }
 
-    override fun onBindViewHolder(holder: CoachViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CoachViewHolder, position: Int) =
         holder.bind(getItem(position))
-    }
 }

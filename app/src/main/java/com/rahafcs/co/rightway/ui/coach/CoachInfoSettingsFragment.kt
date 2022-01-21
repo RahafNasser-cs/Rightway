@@ -2,22 +2,23 @@ package com.rahafcs.co.rightway.ui.coach
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoSettingsBinding
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
 import com.rahafcs.co.rightway.utility.ServiceLocator
-import com.rahafcs.co.rightway.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class CoachInfoSettingsFragment : Fragment() {
     private var _binding: FragmentCoachInfoSettingsBinding? = null
@@ -28,7 +29,7 @@ class CoachInfoSettingsFragment : Fragment() {
             ServiceLocator.provideDefaultUserRepository()
         )
     }
-    var isEditMode = false
+    private var isEditMode = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,12 +55,23 @@ class CoachInfoSettingsFragment : Fragment() {
                     it.visibility = View.GONE
                     binding.closeImg.visibility = View.VISIBLE
                     hideUserInfoTextView()
-                    showEditUserInfo(viewModel.coachInfoUiState.value)
+                    readCoachInfo()
                 }
             }
         }
     }
 
+    // To get user "coach" info then show it in edittext.
+    private fun readCoachInfo() {
+        lifecycleScope.launch {
+            viewModel.coachInfoUiState.collect {
+                if (isEditMode)
+                    showEditUserInfo(it)
+            }
+        }
+    }
+
+    // Show views "edittext" to enable edit info.
     private fun showEditUserInfo(coachInfo: CoachInfoUiState) {
         makeEditTextVisible()
         binding.apply {
@@ -86,10 +98,11 @@ class CoachInfoSettingsFragment : Fragment() {
         }
     }
 
-    private fun saveUserInfo(updatedCoachInfo: CoachInfoUiState) {
+    // Save updated user "coach" info.
+    private fun saveUserInfo(updatedCoachInfo: CoachInfoUiState) =
         viewModel.saveCoachInfo(updatedCoachInfo)
-    }
 
+    // Get updated user "coach" info.
     private fun getUpdatedCoachInfo(oldCoachInfo: CoachInfoUiState) =
         oldCoachInfo.copy(
             name = getCoachName(),
@@ -99,23 +112,15 @@ class CoachInfoSettingsFragment : Fragment() {
             price = getCoachRangePrice()
         )
 
-    fun createCoach(newCoachInfo: CoachInfoUiState) =
-        CoachInfoUiState(
-            newCoachInfo.name,
-            newCoachInfo.experience,
-            newCoachInfo.email,
-            newCoachInfo.phoneNumber,
-            newCoachInfo.price,
-            newCoachInfo.savedWorkouts
-        )
-
+    // To get updated user info from views "edittext".
     private fun getCoachName() = binding.coachNameEditText.text.toString()
     private fun getCoachEmail() = binding.emailEditText.text.toString()
     private fun getCoachExperience() = binding.experienceEditText.text.toString()
     private fun getCoachPhone() = binding.phoneEditText.text.toString()
     private fun getCoachRangePrice() = binding.rangePriceEditText.text.toString()
 
-    private fun showUserInfoTextView() {
+    // Show user info -- make textview visible.
+    private fun showUserInfoTextView() =
         binding.apply {
             coachNameTextview.visibility = View.VISIBLE
             coachExperience.visibility = View.VISIBLE
@@ -123,9 +128,9 @@ class CoachInfoSettingsFragment : Fragment() {
             coachPhone.visibility = View.VISIBLE
             coachRangePrice.visibility = View.VISIBLE
         }
-    }
 
-    private fun hideEditUserInfo() {
+    // Make edittext gone to disable edit mode.
+    private fun hideEditUserInfo() =
         binding.apply {
             coachNameInputLayout.visibility = View.GONE
             emailInputLayout.visibility = View.GONE
@@ -134,9 +139,9 @@ class CoachInfoSettingsFragment : Fragment() {
             rangePriceInputLayout.visibility = View.GONE
             saveBtn.visibility = View.GONE
         }
-    }
 
-    private fun representUserInfoIntoEditText(coachInfo: CoachInfoUiState) {
+    // represent old user info into edit text.
+    private fun representUserInfoIntoEditText(coachInfo: CoachInfoUiState) =
         binding.apply {
             coachNameEditText.setText(coachInfo.name)
             emailEditText.setText(coachInfo.email)
@@ -144,9 +149,9 @@ class CoachInfoSettingsFragment : Fragment() {
             phoneEditText.setText(coachInfo.phoneNumber)
             rangePriceEditText.setText(coachInfo.price)
         }
-    }
 
-    private fun makeEditTextVisible() {
+    // Make edittext visible to enable edit mode.
+    private fun makeEditTextVisible() =
         binding.apply {
             coachNameInputLayout.visibility = View.VISIBLE
             emailInputLayout.visibility = View.VISIBLE
@@ -155,9 +160,9 @@ class CoachInfoSettingsFragment : Fragment() {
             rangePriceInputLayout.visibility = View.VISIBLE
             saveBtn.visibility = View.VISIBLE
         }
-    }
 
-    private fun hideUserInfoTextView() {
+    // Make textview gone to enable edit mode.
+    private fun hideUserInfoTextView() =
         binding.apply {
             coachNameTextview.visibility = View.GONE
             coachExperience.visibility = View.GONE
@@ -165,25 +170,27 @@ class CoachInfoSettingsFragment : Fragment() {
             coachPhone.visibility = View.GONE
             coachRangePrice.visibility = View.GONE
         }
-    }
 
+    // To go home page.
     private fun goToHomePage() =
         findNavController().navigate(R.id.action_coachInfoSettingsFragment_to_viewPagerFragment2)
 
+    // To confirm sign out process. 
     private fun signOutConfirmDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Sign Out")
-            .setMessage("Are you sure you want to sign out?")
-            .setNegativeButton("Cancel") { _, _ -> }
-            .setPositiveButton("Sign out") { _, _ ->
+            .setTitle(getString(R.string.sign_out))
+            .setMessage(getString(R.string.confirm_sign_out))
+            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+            .setPositiveButton(getString(R.string.sign_out)) { _, _ ->
                 signOut()
             }.show()
     }
 
+    // To sign out.
     private fun signOut() {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         val editor = sharedPreferences.edit()
-        Log.e("TAG", "signOut: before ${FirebaseAuth.getInstance().currentUser?.uid!!}")
         AuthUI.getInstance()
             .signOut(requireContext()).addOnSuccessListener {
                 FirebaseAuth.getInstance().signOut()
