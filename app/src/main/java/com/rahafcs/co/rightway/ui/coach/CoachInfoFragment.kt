@@ -87,16 +87,16 @@ class CoachInfoFragment : Fragment() {
     // Check user input validation.
     private fun checkInputValidation(): Boolean {
         return if (!experienceValidation()) {
-            requireContext().toast("Enter a experience")
+            requireContext().toast(getString(R.string.enter_experience))
             false
         } else if (!phoneValidation()) {
-            requireContext().toast("Enter a phone number")
+            requireContext().toast(getString(R.string.enter_phone))
             false
         } else if (!priceValidation()) {
-            requireContext().toast("Enter a range price")
+            requireContext().toast(getString(R.string.enter_price))
             false
         } else if (!emailValidation()) {
-            requireContext().toast("Enter a valid Email")
+            requireContext().toast(getString(R.string.enter_email))
             false
         } else {
             true

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 
 class SplashFragment : Fragment() {
@@ -17,7 +18,9 @@ class SplashFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         Handler().postDelayed({
-            findNavController().navigate(R.id.action_splashFragment_to_registrationFragment)
+            lifecycleScope.launchWhenCreated {
+                findNavController().navigate(R.id.action_splashFragment_to_registrationFragment)
+            }
         }, 3000)
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }

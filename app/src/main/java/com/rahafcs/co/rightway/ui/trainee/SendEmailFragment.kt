@@ -9,27 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
-import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentSendEmailBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
-import kotlinx.coroutines.launch
 
 class SendEmailFragment : Fragment() {
     private var binding: FragmentSendEmailBinding? = null
-    private val viewModel by activityViewModels<SignUpViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
-        )
-    }
     private val emailViewModel by activityViewModels<EmailViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
@@ -48,64 +37,42 @@ class SendEmailFragment : Fragment() {
         return binding?.root
     }
 
-    @SuppressLint("QueryPermissionsNeeded")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        readUserInfo()
-        showPreSubject()
-        binding?.backArrow?.setOnClickListener { this.upToTop() }
-        binding?.emailAddressEditText?.setText(args.coachEmail)
-        binding?.emailViewModel = emailViewModel
-        binding?.lifecycleOwner = viewLifecycleOwner
-        binding?.sendBtn?.setOnClickListener {
-
-            val email = binding?.emailAddressEditText?.text.toString()
-            val subject = binding?.subjectEditText?.text.toString()
-            val message = binding?.messageEditText?.text.toString()
-            val address = email.split(",".toRegex()).toTypedArray()
-
-            val intent = Intent(Intent.ACTION_SEND).apply {
-                data = Uri.parse("mailto:")
-                putExtra(Intent.EXTRA_EMAIL, address)
-                putExtra(Intent.EXTRA_SUBJECT, subject)
-                putExtra(Intent.EXTRA_TEXT, message)
-                type = "message/rfc822"
-            }
-
-            if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                startActivity(intent)
-            } else {
-                requireContext().toast("Required app is not installed")
+        binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
+            emailViewModel = this@SendEmailFragment.emailViewModel
+            backArrow.setOnClickListener { this@SendEmailFragment.upToTop() }
+            emailAddressEditText.setText(args.coachEmail)
+            sendBtn.setOnClickListener {
+                sendEmail()
             }
         }
     }
 
-    private fun readUserInfo() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.readUserInfo().collect {
-                    showUserMessage(it)
-                }
-            }
+    // To complete send email process.
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun sendEmail() {
+        val address = getEmail().split(",".toRegex()).toTypedArray()
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, address)
+            putExtra(Intent.EXTRA_SUBJECT, getSubject())
+            putExtra(Intent.EXTRA_TEXT, getMessage())
+            type = "message/rfc822"
+        }
+
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(intent)
+        } else {
+            requireContext().toast(getString(R.string.required_app))
         }
     }
 
-    // To show pre message
-    private fun showUserMessage(userInfo: User) {
-        val preMessage =
-            "Hi I'm ${userInfo.firstName}\nI would like to subscribe with you!" +
-                "\nSome info about me:\nGender: ${userInfo.gender}" +
-                "\nHeight: ${userInfo.height}\nWeight: ${userInfo.weight}" +
-                "\nAge: ${userInfo.age}\nActivity level: ${userInfo.activity}\n"
-
-        binding?.messageEditText?.setText(preMessage)
-    }
-
-    // To show pre subject
-    private fun showPreSubject() {
-        val preSubject = "Hello, I would like to subscribe with you!"
-        binding?.subjectEditText?.setText(preSubject)
-    }
+    // Get data from views.
+    private fun getMessage() = binding?.messageEditText?.text.toString()
+    private fun getSubject() = binding?.subjectEditText?.text.toString()
+    private fun getEmail() = binding?.emailAddressEditText?.text.toString()
 
     override fun onDestroyView() {
         super.onDestroyView()

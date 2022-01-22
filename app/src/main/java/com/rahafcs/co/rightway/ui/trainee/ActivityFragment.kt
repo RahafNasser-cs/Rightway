@@ -1,11 +1,11 @@
 package com.rahafcs.co.rightway.ui.trainee
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -29,8 +29,7 @@ import com.rahafcs.co.rightway.utility.upToTop
 
 class ActivityFragment : Fragment() {
     private var binding: FragmentActivityBinding? = null
-    private val sharedPreferences =
-        activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
+    private lateinit var sharedPreferences: SharedPreferences
     val viewModel: SignUpViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
@@ -50,7 +49,6 @@ class ActivityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Profile"
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             doneBtn.setOnClickListener {
@@ -62,34 +60,37 @@ class ActivityFragment : Fragment() {
         }
     }
 
-    private fun goToHomePage() {
+    // Go to home page.
+    private fun goToHomePage() =
         findNavController().navigate(R.id.action_activityFragment_to_viewPagerFragment2)
-    }
 
-    private fun getActivityLevel(): String {
-        return when (binding?.activityOptions?.checkedRadioButtonId) {
+    // Get activity level from views.
+    private fun getActivityLevel() =
+        when (binding?.activityOptions?.checkedRadioButtonId) {
             R.id.option_0 -> getString(R.string.option_0)
             R.id.option_1 -> getString(R.string.option_1)
             R.id.option_2 -> getString(R.string.option_2)
             else -> getString(R.string.option_3)
         }
-    }
 
-    private fun setActivityLevel() {
-        // send user level to viewModel TODO()
+    // Set activity level into sharedPreferences.
+    private fun setActivityLevel() =
         addToSharedPreference(getActivityLevel())
-    }
 
-    private fun addToSharedPreference(
-        activityLevel: String,
-    ) {
+    // Save activity level in sharedPreferences.
+    private fun addToSharedPreference(activityLevel: String) {
+        sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         sharedPreferences.edit().apply {
             putString(ACTIVITY_LEVEL, activityLevel)
             apply()
         }
     }
 
+    // Save new user info in Firestore.
     private fun saveUserInfo() {
+        sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         if (sharedPreferences.getBoolean(SIGN_UP, false)) {
             viewModel.userInfo(getUserInfo())
             val editor = sharedPreferences.edit()
@@ -98,7 +99,10 @@ class ActivityFragment : Fragment() {
         }
     }
 
+    // Get all user info from sharedPreferences.
     private fun getUserInfo(): User {
+        sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         return User(
             firstName = sharedPreferences.getString(FIRST_NAME, "")!!,
             lastName = sharedPreferences.getString(LAST_NAME, "")!!,

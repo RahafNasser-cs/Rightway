@@ -77,25 +77,33 @@ class CoachInfoSettingsFragment : Fragment() {
         binding.apply {
             representUserInfoIntoEditText(coachInfo)
             closeImg.setOnClickListener {
-                if (isEditMode) {
-                    isEditMode = false
-                    it.visibility = View.GONE
-                    binding.editImg.visibility = View.VISIBLE
-                    hideEditUserInfo()
-                    showUserInfoTextView()
-                }
+                if (isEditMode)
+                    cancelEditInfo()
             }
             saveBtn.setOnClickListener {
-                if (isEditMode) {
-                    isEditMode = false
-                    binding.closeImg.visibility = View.GONE
-                    binding.editImg.visibility = View.VISIBLE
-                    saveUserInfo(getUpdatedCoachInfo(coachInfo))
-                    hideEditUserInfo()
-                    showUserInfoTextView()
-                }
+                if (isEditMode)
+                    saveEditInfo(coachInfo)
             }
         }
+    }
+
+    // To complete edit process.
+    private fun saveEditInfo(coachInfo: CoachInfoUiState) {
+        isEditMode = false
+        binding.closeImg.visibility = View.GONE
+        binding.editImg.visibility = View.VISIBLE
+        saveUserInfo(getUpdatedCoachInfo(coachInfo))
+        hideEditUserInfo()
+        showUserInfoTextView()
+    }
+
+    // Cancel edit info.
+    private fun cancelEditInfo() {
+        isEditMode = false
+        binding.closeImg.visibility = View.GONE
+        binding.editImg.visibility = View.VISIBLE
+        hideEditUserInfo()
+        showUserInfoTextView()
     }
 
     // Save updated user "coach" info.
@@ -176,7 +184,7 @@ class CoachInfoSettingsFragment : Fragment() {
         findNavController().navigate(R.id.action_coachInfoSettingsFragment_to_viewPagerFragment2)
 
     // To confirm sign out process. 
-    private fun signOutConfirmDialog() {
+    private fun signOutConfirmDialog() =
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.sign_out))
             .setMessage(getString(R.string.confirm_sign_out))
@@ -184,7 +192,6 @@ class CoachInfoSettingsFragment : Fragment() {
             .setPositiveButton(getString(R.string.sign_out)) { _, _ ->
                 signOut()
             }.show()
-    }
 
     // To sign out.
     private fun signOut() {

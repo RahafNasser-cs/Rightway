@@ -18,4 +18,7 @@ object Constant {
     const val COACH_PRICE_RANGE = "priceRange"
     const val ERROR_MESSAGE = "errorMessage"
     const val RAPID_API_KEY = "ccb06bc4c0mshb7a29f7814116c6p14a25ajsn3cfb231e6ceb"
+    const val PRE_MESSAGE = "preMessage"
+    const val PRE_SUBJECT = "preSubject"
+    const val PRE_EMAIL = "preEmail"
 }

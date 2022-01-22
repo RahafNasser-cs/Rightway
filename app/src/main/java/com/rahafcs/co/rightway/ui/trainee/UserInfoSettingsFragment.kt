@@ -126,24 +126,34 @@ class UserInfoSettingsFragment : Fragment() {
             representUserInfoIntoEditText(userInfo) // show info into editText
             closeImg.setOnClickListener {
                 if (isEditMode) {
-                    isEditMode = false
-                    it.visibility = View.GONE
-                    binding?.editImg?.visibility = View.VISIBLE
-                    hideEditUserInfo()
-                    showUserInfoTextView()
+                    cancelEditInfo()
                 }
             }
             saveBtn.setOnClickListener {
                 if (isEditMode) {
-                    isEditMode = false
-                    binding?.closeImg?.visibility = View.GONE
-                    binding?.editImg?.visibility = View.VISIBLE
-                    saveUserInfo(getUpdatedUserInfo(userInfo))
-                    hideEditUserInfo()
-                    showUserInfoTextView()
+                    saveEditInfo(userInfo)
                 }
             }
         }
+    }
+
+    // To complete edit process.
+    private fun saveEditInfo(userInfo: User) {
+        isEditMode = false
+        binding?.closeImg?.visibility = View.GONE
+        binding?.editImg?.visibility = View.VISIBLE
+        saveUserInfo(getUpdatedUserInfo(userInfo))
+        hideEditUserInfo()
+        showUserInfoTextView()
+    }
+
+    // Cancel edit info.
+    private fun cancelEditInfo() {
+        isEditMode = false
+        binding?.closeImg?.visibility = View.GONE
+        binding?.editImg?.visibility = View.VISIBLE
+        hideEditUserInfo()
+        showUserInfoTextView()
     }
 
     // Make edittext visible to enable edit mode.
@@ -257,7 +267,6 @@ class UserInfoSettingsFragment : Fragment() {
         if (binding?.femaleOption?.isChecked!!) getString(R.string.female) else getString(R.string.male)
 
     private fun getAge() = binding?.userAgeEditText?.text.toString()
-
     private fun getWeight() =
         if (binding?.kgOption?.isChecked!!) "${binding?.userWeightEditText?.text} ${getString(R.string.kg)}"
         else "${binding?.userWeightEditText?.text} ${getString(R.string.lb)}"

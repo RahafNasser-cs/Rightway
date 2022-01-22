@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
+import com.google.android.material.textfield.TextInputEditText
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.ui.coach.CoachAdapter
@@ -18,6 +19,8 @@ import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
 import com.rahafcs.co.rightway.ui.workout.WorkoutHorizontalAdapter
 import com.rahafcs.co.rightway.ui.workout.WorkoutVerticalAdapter
 import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
+import com.rahafcs.co.rightway.utility.Constant.PRE_MESSAGE
+import com.rahafcs.co.rightway.utility.Constant.PRE_SUBJECT
 import pl.droidsonroids.gif.GifImageView
 
 @BindingAdapter("registrationStatus")
@@ -61,7 +64,7 @@ fun RecyclerView.binCoachRecyclerView(data: List<CoachInfoUiState>?) {
 @BindingAdapter("imageUrl")
 fun ImageView.findUrl(imgUrl: String?) {
     imgUrl?.let {
-        var imgUri = imgUrl.toUri().buildUpon().scheme("http").build()
+        val imgUri = imgUrl.toUri().buildUpon().scheme("http").build()
         this.load(imgUri) {
             placeholder(R.drawable.loading_animation)
             error(R.drawable.broken_image)
@@ -72,7 +75,7 @@ fun ImageView.findUrl(imgUrl: String?) {
 @BindingAdapter("imageUrl")
 fun GifImageView.findUrl(imgUrl: String?) {
     imgUrl?.let {
-        var imgUri = imgUrl.toUri().buildUpon().scheme("http").build()
+        val imgUri = imgUrl.toUri().buildUpon().scheme("http").build()
         this.load(imgUri) {
             placeholder(R.drawable.loading_animation)
             error(R.drawable.broken_image)
@@ -97,5 +100,26 @@ fun ImageView.findUrlGlide(imgUrl: String?) {
 fun TextView.getStringFromResources(messageKey: String) {
     when (messageKey) {
         ERROR_MESSAGE -> this.text = this.context.getString(R.string.error_message)
+    }
+}
+
+@BindingAdapter(value = ["messageKey", "userInfo"], requireAll = false)
+fun TextInputEditText.getStringFromResourcesEditText(
+    messageKey: String?,
+    userInfo: ArrayList<String>?,
+) {
+    when (messageKey) {
+        PRE_SUBJECT -> this.setText(context.getString(R.string.pre_subject))
+        PRE_MESSAGE -> this.setText(
+            context.getString(
+                R.string.pre_message,
+                userInfo?.get(0),
+                userInfo?.get(1),
+                userInfo?.get(2),
+                userInfo?.get(3),
+                userInfo?.get(4),
+                userInfo?.get(5)
+            )
+        )
     }
 }

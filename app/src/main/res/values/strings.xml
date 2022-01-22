@@ -39,6 +39,13 @@
     <string name="enter_age">Enter a age</string>
     <string name="enter_weight">Enter a weight</string>
     <string name="enter_height">Enter a height</string>
+    <string name="enter_experience">Enter a experience</string>
+    <string name="enter_phone">Enter a phone number</string>
+    <string name="enter_email">Enter a valid Email</string>
+    <string name="enter_price">Enter a range price</string>
+    <string name="pre_message">Hi I\'m %1$s,\nI would like to subscribe with you!\n\nSome info about me:\nGender: %2$s\nHeight: %3$s\nWeight: %4$s\nAge: %5$s\nActivity level: %6$s\n</string>
+    <string name="pre_subject">Hello, I would like to subscribe with you!</string>
+    <string name="required_app">Required app is not installed</string>
 
 
     <string name="formatted_time">%02d:%02d</string>
@@ -51,4 +58,10 @@
     <string name="ft">ft</string>
     <string name="next">Next</string>
     <string name="track_1_out_of_2">1 out of 2</string>
+    <string name="to">To</string>
+    <string name="email_address">Email address</string>
+    <string name="subject">Subject</string>
+    <string name="message">Message</string>
+    <string name="type_your_message_here">Type your message here…</string>
+    <string name="send">Send</string>
 </resources>

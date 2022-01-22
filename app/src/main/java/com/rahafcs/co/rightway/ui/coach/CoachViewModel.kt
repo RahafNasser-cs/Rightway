@@ -17,11 +17,14 @@ import java.lang.Exception
 class CoachViewModel(
     private val userRepository: DefaultUserRepository,
 ) : ViewModel() {
+    // To show it in coaches list --> fragment_coaches.xml.
     private var _coachList = MutableStateFlow(ListCoachInfoUiState())
     val coachList: MutableStateFlow<ListCoachInfoUiState> get() = _coachList
 
+    // A copy of the all original user info.
     private var _coachInfo = MutableStateFlow(User())
 
+    // To show it in coach info settings --> fragment_coach_info_settings.xml.
     private var _coachInfoUiState = MutableStateFlow(CoachInfoUiState())
     val coachInfoUiState: MutableStateFlow<CoachInfoUiState> get() = _coachInfoUiState
 
