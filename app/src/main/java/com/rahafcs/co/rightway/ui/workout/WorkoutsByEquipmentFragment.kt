@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutsByEquipmentBinding
@@ -46,7 +47,7 @@ class WorkoutsByEquipmentFragment : Fragment() {
         viewModel.getWorkoutsByEquipment(args.equipment)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            val adapter = WorkoutHorizontalAdapter("") { workoutsInfoUiState ->
+            val adapter = WorkoutHorizontalAdapter(getString(R.string.workouts_by_equipment_fragment)) { workoutsInfoUiState ->
                 if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
                     viewModel.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
                     true

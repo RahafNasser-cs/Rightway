@@ -46,6 +46,9 @@
     <string name="pre_message">Hi I\'m %1$s,\nI would like to subscribe with you!\n\nSome info about me:\nGender: %2$s\nHeight: %3$s\nWeight: %4$s\nAge: %5$s\nActivity level: %6$s\n</string>
     <string name="pre_subject">Hello, I would like to subscribe with you!</string>
     <string name="required_app">Required app is not installed</string>
+    <string name="saved_workouts_fragment">SavedWorkoutsFragment</string>
+    <string name="workouts_fragment">WorkoutsFragment</string>
+    <string name="workouts_by_equipment_fragment">WorkoutsByEquipmentFragment</string>
 
 
     <string name="formatted_time">%02d:%02d</string>

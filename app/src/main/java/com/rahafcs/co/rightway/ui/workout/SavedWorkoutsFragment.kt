@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSavedWorkoutsBinding
 import com.rahafcs.co.rightway.utility.ServiceLocator
@@ -22,7 +23,7 @@ class SavedWorkoutsFragment : Fragment() {
         )
     }
 
-    var adapter = WorkoutHorizontalAdapter("SavedWorkouts") { false }
+    var adapter = WorkoutHorizontalAdapter(getString(R.string.saved_workouts_fragment)) { false }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

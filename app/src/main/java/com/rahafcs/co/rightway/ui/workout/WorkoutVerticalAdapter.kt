@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.OuterItemBinding
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
@@ -22,7 +23,7 @@ class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boo
         fun bind(item: WorkoutsUiState) {
             binding.muscleName.text =
                 item.workoutTypeUiState.bodyPart.capitalizeFormatIfFirstLatterSmall()
-            val adapter = WorkoutHorizontalAdapter("WorkoutFragment") { workoutsInfoUiState ->
+            val adapter = WorkoutHorizontalAdapter(binding.root.context.getString(R.string.workouts_fragment)) { workoutsInfoUiState ->
                 itemClickListener(workoutsInfoUiState)
             }
             binding.innerRecyclerview.adapter = adapter

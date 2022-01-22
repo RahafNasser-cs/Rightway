@@ -21,4 +21,10 @@ object Constant {
     const val PRE_MESSAGE = "preMessage"
     const val PRE_SUBJECT = "preSubject"
     const val PRE_EMAIL = "preEmail"
+    const val BARBELL = "barbell"
+    const val DUMBBELL = "dumbbell"
+    const val CABLE = "cable"
+    const val KETTLE_BELL = "kettlebell"
+    const val RESISTANCE_BAND = "resistance band"
+    const val BODY_WEIGHT = "body weight"
 }

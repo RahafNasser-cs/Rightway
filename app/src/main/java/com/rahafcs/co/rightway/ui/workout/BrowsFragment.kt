@@ -6,6 +6,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.ViewPagerFragmentDirections
 import com.rahafcs.co.rightway.databinding.FragmentBrowsBinding
+import com.rahafcs.co.rightway.utility.Constant.BARBELL
+import com.rahafcs.co.rightway.utility.Constant.BODY_WEIGHT
+import com.rahafcs.co.rightway.utility.Constant.CABLE
+import com.rahafcs.co.rightway.utility.Constant.DUMBBELL
+import com.rahafcs.co.rightway.utility.Constant.KETTLE_BELL
+import com.rahafcs.co.rightway.utility.Constant.RESISTANCE_BAND
 
 class BrowsFragment : Fragment() {
 
@@ -40,45 +46,64 @@ class BrowsFragment : Fragment() {
         binding = null
     }
 
+    // To show workout with all equipment.
     private fun showWorkoutWithAllEquipment() {
         val action =
             ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("")
         findNavController().navigate(action)
     }
 
+    // To show workout with barbell.
     private fun showWorkoutWithBarbell() {
         val action =
-            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("barbell")
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment(
+                BARBELL
+            )
         findNavController().navigate(action)
     }
 
+    // To show workout with cable.
     private fun showWorkoutWithCable() {
         val action =
-            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("cable")
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment(
+                CABLE
+            )
         findNavController().navigate(action)
     }
 
+    // To show workout with dumbbell.
     private fun showWorkoutWithDumbbell() {
         val action =
-            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("dumbbell")
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment(
+                DUMBBELL
+            )
         findNavController().navigate(action)
     }
 
+    // To show workout with kettle bell.
     private fun showWorkoutWithKettleBell() {
         val action =
-            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("kettlebell")
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment(
+                KETTLE_BELL
+            )
         findNavController().navigate(action)
     }
 
+    // To show workout with resistance band.
     private fun showWorkoutWithResistanceBand() {
         val action =
-            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("resistance band")
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment(
+                RESISTANCE_BAND
+            )
         findNavController().navigate(action)
     }
 
+    // To show workout with body weight. 
     private fun showWorkoutWithBodyWeight() {
         val action =
-            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment("body weight")
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToShowWorkoutsByEquipmentFragment(
+                BODY_WEIGHT
+            )
         findNavController().navigate(action)
     }
 }

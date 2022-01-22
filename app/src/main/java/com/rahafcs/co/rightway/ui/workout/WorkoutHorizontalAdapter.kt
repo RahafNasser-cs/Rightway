@@ -1,7 +1,6 @@
 package com.rahafcs.co.rightway.ui.workout
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -29,24 +28,16 @@ class WorkoutHorizontalAdapter(
             binding.bodyTargetTextview.text = item.name
             binding.workoutGif.findUrlGlide(item.gifUrl)
             binding.workoutCardView.setOnClickListener {
-                if (flag == "WorkoutFragment") {
-                    val action =
-                        ViewPagerFragmentDirections.actionViewPagerFragment2ToWorkoutDetailsFragment2(
-                            item
-                        )
-                    binding.root.findNavController().navigate(action)
-                } else if (flag == "SavedWorkouts") {
-                    val action =
-                        SavedWorkoutsFragmentDirections.actionSavedWorkoutsFragmentToWorkoutDetailsFragment2(
-                            item
-                        )
-                    binding.root.findNavController().navigate(action)
-                } else {
-                    val action =
-                        WorkoutsByEquipmentFragmentDirections.actionWorkoutsByEquipmentFragmentToWorkoutDetailsFragment2(
-                            item
-                        )
-                    binding.root.findNavController().navigate(action)
+                when (flag) {
+                    binding.root.context.getString(R.string.workouts_fragment) -> {
+                        goFromViewPagerToWorkoutDetails(item)
+                    }
+                    binding.root.context.getString(R.string.saved_workouts_fragment) -> {
+                        goFromSavedWorkoutToWorkoutDetails(item)
+                    }
+                    binding.root.context.getString(R.string.workouts_by_equipment_fragment) -> {
+                        goFromWorkoutByEquipmentToWorkoutDetails(item)
+                    }
                 }
             }
             if (isSaved(item)) {
@@ -61,10 +52,32 @@ class WorkoutHorizontalAdapter(
             }
         }
 
-        private fun isSaved(workoutsInfoUiState: WorkoutsInfoUiState): Boolean {
-            Log.e("WorkoutHorizontalAdapter", "isSaved: $listOfSavedWorkouts")
-            return listOfSavedWorkouts.contains(workoutsInfoUiState)
+        private fun goFromWorkoutByEquipmentToWorkoutDetails(item: WorkoutsInfoUiState) {
+            val action =
+                WorkoutsByEquipmentFragmentDirections.actionWorkoutsByEquipmentFragmentToWorkoutDetailsFragment2(
+                    item
+                )
+            binding.root.findNavController().navigate(action)
         }
+
+        private fun goFromSavedWorkoutToWorkoutDetails(item: WorkoutsInfoUiState) {
+            val action =
+                SavedWorkoutsFragmentDirections.actionSavedWorkoutsFragmentToWorkoutDetailsFragment2(
+                    item
+                )
+            binding.root.findNavController().navigate(action)
+        }
+
+        private fun goFromViewPagerToWorkoutDetails(item: WorkoutsInfoUiState) {
+            val action =
+                ViewPagerFragmentDirections.actionViewPagerFragment2ToWorkoutDetailsFragment2(
+                    item
+                )
+            binding.root.findNavController().navigate(action)
+        }
+
+        private fun isSaved(workoutsInfoUiState: WorkoutsInfoUiState) =
+            listOfSavedWorkouts.contains(workoutsInfoUiState)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutViewHolder {
