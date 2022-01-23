@@ -12,7 +12,6 @@ import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
 import com.rahafcs.co.rightway.utility.Constant.COACH_EMAIL
 import com.rahafcs.co.rightway.utility.Constant.COACH_EXPERIENCE
 import com.rahafcs.co.rightway.utility.Constant.COACH_PHONE
@@ -27,16 +26,11 @@ import com.rahafcs.co.rightway.utility.toast
 class CoachInfoFragment : Fragment() {
     private var _binding: FragmentCoachInfoBinding? = null
     val binding: FragmentCoachInfoBinding get() = _binding!!
-    private val viewModel: CoachViewModel by activityViewModels {
+    private val coachViewModel: CoachViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
-        )
-    }
-    val signUpViewModel: SignUpViewModel by activityViewModels {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
         )
     }
 
@@ -70,7 +64,8 @@ class CoachInfoFragment : Fragment() {
         phone: String,
         priceRange: String,
     ) {
-        val sharedPreferences = activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
+        val sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         sharedPreferences.edit().apply {
             putString(COACH_EMAIL, email)
             putString(COACH_EXPERIENCE, experience)
@@ -140,12 +135,13 @@ class CoachInfoFragment : Fragment() {
     // Save user "coach" info.
     private fun saveCoachInfo() {
         addToSharedPreference(getEmail(), getExperience(), getPhone(), getPriceRange())
-        viewModel.saveCoachInfo(getCoachInfo())
+        coachViewModel.saveCoachInfo(getCoachInfo())
     }
 
     // Get coach info. 
     private fun getCoachInfo(): User {
-        val sharedPreferences = activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
+        val sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         return User(
             firstName = sharedPreferences.getString(FIRST_NAME, "")!!,
             lastName = sharedPreferences.getString(LAST_NAME, "")!!,

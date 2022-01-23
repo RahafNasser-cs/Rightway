@@ -147,6 +147,50 @@
             app:layout_constraintBottom_toBottomOf="@id/sign_in_btn"
             android:layout_marginEnd="8dp"
              />
+        <View
+            android:id="@+id/divider1"
+            style="@style/Widget.Rightway.Divider"
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@id/sign_in_btn"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_btn" />
+
+        <TextView
+            android:id="@+id/or_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/or"
+            app:layout_constraintEnd_toStartOf="@id/divider2"
+            app:layout_constraintStart_toEndOf="@id/divider1"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_btn" />
+
+        <View
+            android:id="@+id/divider2"
+            style="@style/Widget.Rightway.Divider"
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/sign_in_btn"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_btn" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sign_in_with_google_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/dark_white"
+            android:text="@string/sign_in_with_google"
+            android:textAllCaps="false"
+            android:textColor="@color/light_black"
+            app:cornerRadius="6dp"
+            app:icon="@drawable/google_icon"
+            app:iconGravity="textStart"
+            app:iconSize="20dp"
+            app:iconTint="@null"
+            app:layout_constraintEnd_toEndOf="@id/divider2"
+            app:layout_constraintStart_toStartOf="@id/divider1"
+            app:layout_constraintTop_toBottomOf="@id/or_textview" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

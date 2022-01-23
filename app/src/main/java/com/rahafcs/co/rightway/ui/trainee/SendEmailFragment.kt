@@ -22,7 +22,8 @@ class SendEmailFragment : Fragment() {
     private val emailViewModel by activityViewModels<EmailViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
         )
     }
     private val args: SendEmailFragmentArgs by navArgs()

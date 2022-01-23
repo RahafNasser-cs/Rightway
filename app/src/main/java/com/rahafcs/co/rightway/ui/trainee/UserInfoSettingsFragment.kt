@@ -1,5 +1,6 @@
 package com.rahafcs.co.rightway.ui.trainee
 
+import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,27 +12,40 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentUserInfoSettingsBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
+import com.rahafcs.co.rightway.ui.auth.AuthViewModel
 import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class UserInfoSettingsFragment : Fragment() {
     var binding: FragmentUserInfoSettingsBinding? = null
     private var isEditMode = false
-    val viewModel: SignUpViewModel by activityViewModels {
+    private val traineeViewModel: TraineeViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
         )
+    }
+    private val authViewModel by activityViewModels<AuthViewModel> {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
+        )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ServiceLocator.ProgramListService.application = context?.applicationContext as Application
     }
 
     override fun onCreateView(
@@ -80,7 +94,7 @@ class UserInfoSettingsFragment : Fragment() {
     private fun readUserInfo() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.readUserInfo().collect {
+                traineeViewModel.readUserInfo().collect {
                     if (isEditMode) {
                         showEditUserInfo(it)
                     }
@@ -94,16 +108,22 @@ class UserInfoSettingsFragment : Fragment() {
     private fun signOut() {
         val sharedPreferences =
             activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
-        val editor = sharedPreferences.edit()
-        AuthUI.getInstance()
-            .signOut(requireContext()).addOnSuccessListener {
-                FirebaseAuth.getInstance().signOut()
-                editor.putBoolean(SIGN_IN, false)
-                editor.apply()
-                findNavController().navigate(R.id.registrationFragment)
-            }.addOnFailureListener {
-                requireContext().toast(getString(R.string.sign_out_error))
+        lifecycleScope.launch {
+            authViewModel.signOut().collect {
+                if (it is Task<*>) {
+                    val task = it as Task<Void>
+                    if (task.isSuccessful) {
+                        sharedPreferences.edit().apply {
+                            putBoolean(SIGN_IN, false)
+                            apply()
+                        }
+                        findNavController().navigate(R.id.registrationFragment)
+                    }
+                } else {
+                    requireContext().toast(getString(R.string.sign_out_error))
+                }
             }
+        }
     }
 
     // Show user "trainee" info in textview.
@@ -241,7 +261,7 @@ class UserInfoSettingsFragment : Fragment() {
 
     // Save updated user "trainee" info.
     private fun saveUserInfo(userInfo: User) {
-        viewModel.userInfo(userInfo)
+        traineeViewModel.userInfo(userInfo)
     }
 
     // Get updated info from views "edittext".

@@ -7,8 +7,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -18,18 +19,23 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
 import com.rahafcs.co.rightway.utility.Constant.USERID
+import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
+import kotlinx.coroutines.launch
 
 class SignInFragment : Fragment() {
     var binding: FragmentSignInBinding? = null
-    lateinit var sharedPreferences: SharedPreferences
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Sign in"
+    private lateinit var sharedPreferences: SharedPreferences
+    private val authViewModel by activityViewModels<AuthViewModel> {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
+        )
     }
 
     override fun onCreateView(
@@ -82,58 +88,67 @@ class SignInFragment : Fragment() {
         }
     }
 
-    fun signInWithEmailAndPassword() {
+    // Sign in with email and password.
+    private fun signInWithEmailAndPassword() {
         if (!isValidEmail()) {
-            requireContext().toast("Enter a valid email")
+            requireContext().toast(getString(R.string.enter_email))
         } else if (!isValidPassword()) {
-            requireContext().toast("Enter a valid password")
+            requireContext().toast(getString(R.string.enter_password))
         } else {
             binding?.signInBtn?.isEnabled = false
             signIn()
         }
     }
 
+    // Complete sign in with email and password process.
     private fun signIn() {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(
-            binding?.emailEditText?.text.toString(),
-            binding?.passwordEditText?.text.toString()
-        )
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    signInOnSuccess(it)
+        lifecycleScope.launch {
+            authViewModel.signInWithEmailAndPassword(
+                binding?.emailEditText?.text.toString(),
+                binding?.passwordEditText?.text.toString()
+            ).collect {
+                if (it is Task<*>) {
+                    val task = it as Task<AuthResult>
+                    if (task.isSuccessful) {
+                        signInOnSuccess(task)
+                    }
+                } else {
+                    requireContext().toast("$it")
+                    binding?.signInBtn?.isEnabled = true
                 }
-            }.addOnFailureListener {
-                requireContext().toast("${it.message}")
-                binding?.signInBtn?.isEnabled = true
             }
+        }
     }
 
+    // If sign in success, save user id into sharedPreference.
     private fun signInOnSuccess(it: Task<AuthResult>) {
         val firebaseUser = it.result.user
         firebaseUser?.let {
             addToSharedPreference(it.uid)
             goToHomePage()
         }
-        requireContext().toast("Hello ${firebaseUser?.email}")
     }
 
-    private fun goToHomePage() {
+    // Go to home page.
+    private fun goToHomePage() =
         findNavController().navigate(R.id.action_signInFragment_to_viewPagerFragment2)
-    }
 
+    // Save user id into sharedPreference.
     private fun addToSharedPreference(userId: String) {
-        sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-        val editor = sharedPreferences.edit()
-        editor.apply {
+        sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
+        sharedPreferences.edit().apply {
             putString(USERID, userId)
             apply()
         }
     }
 
+    // Check email validation.
     private fun isValidEmail(): Boolean {
         return binding?.passwordEditText?.text.toString().isNotEmpty()
     }
 
+    // Check password validation.
     private fun isValidPassword(): Boolean {
         return binding?.emailEditText?.text.toString().isNotEmpty()
     }

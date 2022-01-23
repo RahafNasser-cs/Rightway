@@ -43,6 +43,9 @@
     <string name="enter_phone">Enter a phone number</string>
     <string name="enter_email">Enter a valid Email</string>
     <string name="enter_price">Enter a range price</string>
+    <string name="enter_first_name">Enter a first name</string>
+    <string name="enter_last_name">Enter a last name</string>
+    <string name="enter_password">Enter a valid password</string>
     <string name="pre_message">Hi I\'m %1$s,\nI would like to subscribe with you!\n\nSome info about me:\nGender: %2$s\nHeight: %3$s\nWeight: %4$s\nAge: %5$s\nActivity level: %6$s\n</string>
     <string name="pre_subject">Hello, I would like to subscribe with you!</string>
     <string name="required_app">Required app is not installed</string>
@@ -69,4 +72,6 @@
     <string name="message">Message</string>
     <string name="type_your_message_here">Type your message here…</string>
     <string name="send">Send</string>
+    <string name="save">Save</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
 </resources>

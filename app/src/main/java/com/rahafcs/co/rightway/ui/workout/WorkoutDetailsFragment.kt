@@ -11,11 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutDetailsBinding
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
-import com.rahafcs.co.rightway.ViewModelFactory
 import java.util.concurrent.TimeUnit
 
 class WorkoutDetailsFragment : Fragment() {
@@ -36,7 +36,8 @@ class WorkoutDetailsFragment : Fragment() {
     private val viewModel: WorkoutsViewModel by activityViewModels<WorkoutsViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
         )
     }
 

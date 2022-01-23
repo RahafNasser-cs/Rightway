@@ -21,7 +21,8 @@ class WorkoutsFragment : Fragment() {
     private val viewModel: WorkoutsViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
         )
     }
     private lateinit var adapter: WorkoutVerticalAdapter

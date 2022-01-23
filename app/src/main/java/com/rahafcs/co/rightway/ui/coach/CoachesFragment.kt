@@ -20,7 +20,8 @@ class CoachesFragment : Fragment() {
     private val viewModel: CoachViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
         )
     }
     private var userType = ""

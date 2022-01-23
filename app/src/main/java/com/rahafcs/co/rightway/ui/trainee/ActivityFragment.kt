@@ -13,7 +13,6 @@ import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentActivityBinding
-import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
 import com.rahafcs.co.rightway.utility.Constant.ACTIVITY_LEVEL
 import com.rahafcs.co.rightway.utility.Constant.AGE
 import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
@@ -30,10 +29,11 @@ import com.rahafcs.co.rightway.utility.upToTop
 class ActivityFragment : Fragment() {
     private var binding: FragmentActivityBinding? = null
     private lateinit var sharedPreferences: SharedPreferences
-    val viewModel: SignUpViewModel by activityViewModels {
+    private val traineeViewModel: TraineeViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
         )
     }
 
@@ -92,7 +92,7 @@ class ActivityFragment : Fragment() {
         sharedPreferences =
             activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         if (sharedPreferences.getBoolean(SIGN_UP, false)) {
-            viewModel.userInfo(getUserInfo())
+            traineeViewModel.userInfo(getUserInfo())
             val editor = sharedPreferences.edit()
             editor.putBoolean(SIGN_UP, false)
             editor.apply()

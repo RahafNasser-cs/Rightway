@@ -26,7 +26,8 @@ class ViewPagerFragment : Fragment() {
     private val workoutsViewModel: WorkoutsViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
         )
     }
     private var userType = ""

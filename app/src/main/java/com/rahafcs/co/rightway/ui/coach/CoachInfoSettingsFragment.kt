@@ -9,24 +9,34 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoSettingsBinding
+import com.rahafcs.co.rightway.ui.auth.AuthViewModel
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
 import com.rahafcs.co.rightway.utility.ServiceLocator
+import com.rahafcs.co.rightway.utility.toast
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class CoachInfoSettingsFragment : Fragment() {
     private var _binding: FragmentCoachInfoSettingsBinding? = null
     val binding: FragmentCoachInfoSettingsBinding get() = _binding!!
-    private val viewModel by activityViewModels<CoachViewModel> {
+    private val coachViewModel by activityViewModels<CoachViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
+        )
+    }
+    private val authViewModel by activityViewModels<AuthViewModel> {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
         )
     }
     private var isEditMode = false
@@ -43,10 +53,10 @@ class CoachInfoSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getCoachInfo()
+        coachViewModel.getCoachInfo()
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            coachViewModel = viewModel
+            coachViewModel = coachViewModel
             homeImg.setOnClickListener { goToHomePage() }
             logoutImg.setOnClickListener { signOutConfirmDialog() }
             editImg.setOnClickListener {
@@ -64,7 +74,7 @@ class CoachInfoSettingsFragment : Fragment() {
     // To get user "coach" info then show it in edittext.
     private fun readCoachInfo() {
         lifecycleScope.launch {
-            viewModel.coachInfoUiState.collect {
+            coachViewModel.coachInfoUiState.collect {
                 if (isEditMode)
                     showEditUserInfo(it)
             }
@@ -108,7 +118,7 @@ class CoachInfoSettingsFragment : Fragment() {
 
     // Save updated user "coach" info.
     private fun saveUserInfo(updatedCoachInfo: CoachInfoUiState) =
-        viewModel.saveCoachInfo(updatedCoachInfo)
+        coachViewModel.saveCoachInfo(updatedCoachInfo)
 
     // Get updated user "coach" info.
     private fun getUpdatedCoachInfo(oldCoachInfo: CoachInfoUiState) =
@@ -197,15 +207,22 @@ class CoachInfoSettingsFragment : Fragment() {
     private fun signOut() {
         val sharedPreferences =
             activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
-        val editor = sharedPreferences.edit()
-        AuthUI.getInstance()
-            .signOut(requireContext()).addOnSuccessListener {
-                FirebaseAuth.getInstance().signOut()
-                editor.putBoolean(SIGN_IN, false)
-                editor.apply()
-                findNavController().navigate(R.id.registrationFragment)
-            }.addOnFailureListener {
+        lifecycleScope.launch {
+            authViewModel.signOut().collect {
+                if (it is Task<*>) {
+                    val task = it as Task<Void>
+                    if (task.isSuccessful) {
+                        sharedPreferences.edit().apply {
+                            putBoolean(SIGN_IN, false)
+                            apply()
+                        }
+                        findNavController().navigate(R.id.registrationFragment)
+                    }
+                } else {
+                    requireContext().toast(getString(R.string.sign_out_error))
+                }
             }
+        }
     }
 
     override fun onDestroyView() {

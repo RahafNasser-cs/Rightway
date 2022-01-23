@@ -1,13 +1,10 @@
 package com.rahafcs.co.rightway.utility
 
-import com.rahafcs.co.rightway.data.CoachRepository
-import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
-import com.rahafcs.co.rightway.data.TraineeRepository
-import com.rahafcs.co.rightway.data.source.CoachRemoteDataSource
-import com.rahafcs.co.rightway.data.DefaultUserRepository
-import com.rahafcs.co.rightway.data.source.TraineeRemoteDataSource
-import com.rahafcs.co.rightway.data.source.WorkoutRemoteDataSource
-import com.rahafcs.co.rightway.data.source.UserRemoteDataSource
+import android.app.Application
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.data.*
+import com.rahafcs.co.rightway.data.source.*
 import com.rahafcs.co.rightway.network.WorkoutApi
 import com.rahafcs.co.rightway.network.WorkoutApiService
 
@@ -35,6 +32,21 @@ object ServiceLocator {
     fun provideDefaultUserRepository(): DefaultUserRepository = DefaultUserRepository(
         provideUserRemoteDataSource()
     )
+
+    private fun provideAuthRemoteDataSource(): AuthRemoteDataSource = AuthRemoteDataSource()
+
+    fun provideAuthRepository(): AuthRepository = AuthRepository(provideAuthRemoteDataSource())
+
+    fun provideGoogleSignInOptions(): GoogleSignInOptions =
+        GoogleSignInOptions
+            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(ProgramListService.application.getString(R.string.web_client))
+            .requestEmail()
+            .build()
+
+    object ProgramListService {
+        lateinit var application: Application
+    }
 //
 //    private fun provideDao(workoutsDao: WorkoutsDao): WorkoutsDao = workoutsDao
 //    private fun provideWorkoutLocalDataSource(): WorkoutsLocalDataSource = WorkoutsLocalDataSource(

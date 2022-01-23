@@ -18,7 +18,8 @@ class SavedWorkoutsFragment : Fragment() {
     val viewModel by activityViewModels<WorkoutsViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository()
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
         )
     }
     private lateinit var adapter: WorkoutHorizontalAdapter

@@ -17,7 +17,7 @@ class RegistrationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentRegistrationBinding.inflate(inflater, container, false)
@@ -26,21 +26,21 @@ class RegistrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Welcome"
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             registrationFragment = this@RegistrationFragment
         }
     }
 
-    fun goToSignUpPage() {
+    // Go to sign up page.
+    fun goToSignUpPage() =
         findNavController().navigate(R.id.action_welcomeFragment_to_signUpFragment)
-    }
 
-    fun goToSignInPage() {
+    // Go to sign in page.
+    fun goToSignInPage() =
         findNavController().navigate(R.id.action_welcomeFragment_to_signInFragment)
-    }
 
+    // Check if user is sign in. 
     override fun onStart() {
         super.onStart()
         val account = FirebaseAuth.getInstance().currentUser
