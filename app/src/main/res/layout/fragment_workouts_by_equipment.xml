@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.workout.WorkoutsByEquipmentFragment">
 
     <data>
+
         <variable
             name="workoutsViewModel"
             type="com.rahafcs.co.rightway.ui.workout.WorkoutsViewModel" />
@@ -13,112 +14,115 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/back_arrow"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:src="@drawable/arrow_back"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
-            android:id="@+id/back_arrow"/>
+            android:src="@drawable/arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/success"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
-            android:id="@+id/success"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/body_part_textview"
+                getStringFromResources="@{workoutsViewModel.browsWorkoutUiState.workoutsUiState.workoutTypeUiState.bodyPart}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:id="@+id/body_part_textview"
-                android:textSize="24sp"
-                android:text="@{workoutsViewModel.browsWorkoutUiState.workoutsUiState.workoutTypeUiState.bodyPart}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="20dp"
-                />
+                android:text="@{workoutsViewModel.browsWorkoutUiState.workoutsUiState.workoutTypeUiState.bodyPart}"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/workout_recyclerview"
+                horizontalListItem="@{workoutsViewModel.browsWorkoutUiState.workoutsUiState.workoutsInfoUiState}"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="58dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/workout_recyclerview"
-                android:scrollbars="vertical"
-                horizontalListItem="@{workoutsViewModel.browsWorkoutUiState.workoutsUiState.workoutsInfoUiState}"
-                android:orientation="vertical"
                 android:clipToPadding="false"
-                tools:listitem="@layout/nested_item"
+                android:orientation="vertical"
+                android:scrollbars="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/nested_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/loading"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/loading_animationView"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:lottie_rawRes="@raw/loading"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loading"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/error"
-            app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loading_animationView"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/error_animationView"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="80dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="80dp"
-                app:lottie_rawRes="@raw/error"
+                app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="true"/>
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/error" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/error_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20sp"
+                android:gravity="center"
                 android:text="@{workoutsViewModel.browsWorkoutUiState.userMsg}"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_margin="20sp"
-                android:gravity="center"
-                app:layout_constraintTop_toBottomOf="@id/error_animationView"
-                app:layout_constraintStart_toStartOf="@id/error_animationView"
                 app:layout_constraintEnd_toEndOf="@id/error_animationView"
-                android:id="@+id/error_msg"/>
+                app:layout_constraintStart_toStartOf="@id/error_animationView"
+                app:layout_constraintTop_toBottomOf="@id/error_animationView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

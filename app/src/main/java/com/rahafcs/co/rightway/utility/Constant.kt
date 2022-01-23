@@ -27,4 +27,5 @@ object Constant {
     const val KETTLE_BELL = "kettlebell"
     const val RESISTANCE_BAND = "resistance band"
     const val BODY_WEIGHT = "body weight"
+    const val ALL_EQUIPMENT = "allEquipment"
 }

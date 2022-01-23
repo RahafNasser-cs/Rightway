@@ -5,9 +5,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
-fun Context.toast(message: String) {
+fun Context.toast(message: String) =
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-}
 
 fun String.capitalizeFormatIfFirstLatterSmall(): String {
     val temp = this[0]
@@ -19,6 +18,4 @@ fun String.capitalizeFormatIfFirstLatterCapital(): String {
     return this.lowercase().replace('_', ' ').replace(temp.lowercaseChar(), temp)
 }
 
-fun Fragment.upToTop() {
-    findNavController().popBackStack()
-}
+fun Fragment.upToTop() = findNavController().popBackStack()

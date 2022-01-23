@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
@@ -29,7 +28,6 @@ class WelcomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Welcome"
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             welcomeTextview.text = getWelcomeStatement()
@@ -39,7 +37,7 @@ class WelcomeFragment : Fragment() {
                         true
                     )
                 ) {
-                    goToUserInfoPage()
+                    goToTraineeInfoPage()
                 } else {
                     goToCoachInfoPage()
                 }
@@ -47,22 +45,25 @@ class WelcomeFragment : Fragment() {
         }
     }
 
-    private fun goToUserInfoPage() {
+    // Go to trainee info page.
+    private fun goToTraineeInfoPage() =
         findNavController().navigate(R.id.action_welcomeFragment_to_userInfoFragment)
-    }
 
-    private fun goToCoachInfoPage() {
+    // Go to coach info page.
+    private fun goToCoachInfoPage() =
         findNavController().navigate(R.id.action_welcomeFragment_to_coachInfoFragment)
-    }
 
+    // Get welcome statement.
     private fun getWelcomeStatement(): String {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        val sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         val userName = sharedPreferences.getString(FIRST_NAME, "").toString()
-        return "Welcome $userName, you're in!"
+        return getString(R.string.welcome, userName)
     }
 
+    // Get user type --> trainer "coach" or trainee.
     private fun getUserSubscriptionStatus() =
-        activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
+        activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
             .getString(SUPERSCRIPTION, "")!!
 
     override fun onDestroyView() {

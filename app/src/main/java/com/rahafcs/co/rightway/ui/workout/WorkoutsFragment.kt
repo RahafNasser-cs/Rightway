@@ -9,11 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutsBinding
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.utility.ServiceLocator
-import com.rahafcs.co.rightway.ViewModelFactory
 import kotlinx.coroutines.launch
 
 class WorkoutsFragment : Fragment() {
@@ -24,6 +24,7 @@ class WorkoutsFragment : Fragment() {
             ServiceLocator.provideDefaultUserRepository()
         )
     }
+    private lateinit var adapter: WorkoutVerticalAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +42,7 @@ class WorkoutsFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             workoutsFragment = this@WorkoutsFragment
             workoutViewModel = viewModel
-            titleRecyclerview.adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
+            adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
                 if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
                     viewModel.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
                     true
@@ -50,10 +51,12 @@ class WorkoutsFragment : Fragment() {
                     false
                 }
             }
+            titleRecyclerview.adapter = adapter
         }
         handleLayout()
     }
 
+    // To handle layout status --> ERROR, LOADING, SUCCESS.
     private fun handleLayout() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -66,7 +69,7 @@ class WorkoutsFragment : Fragment() {
                             showLoadingLayout()
                         }
                         LoadingStatus.SUCCESS -> {
-                            shoeSuccessLayout()
+                            showSuccessLayout()
                         }
                     }
                 }
@@ -74,7 +77,8 @@ class WorkoutsFragment : Fragment() {
         }
     }
 
-    private fun shoeSuccessLayout() {
+    // To show success Layout.
+    private fun showSuccessLayout() {
         binding?.apply {
             error.visibility = View.GONE
             success.visibility = View.VISIBLE
@@ -82,6 +86,7 @@ class WorkoutsFragment : Fragment() {
         }
     }
 
+    // To show loading Layout.
     private fun showLoadingLayout() {
         binding?.apply {
             error.visibility = View.GONE
@@ -90,6 +95,7 @@ class WorkoutsFragment : Fragment() {
         }
     }
 
+    // To show error Layout.
     private fun showErrorLayout() {
         binding?.apply {
             error.visibility = View.VISIBLE
@@ -98,19 +104,11 @@ class WorkoutsFragment : Fragment() {
         }
     }
 
+    // To redraw the layout.
     override fun onResume() {
         super.onResume()
         viewModel.setListSavedWorkout()
         viewModel.listSavedWorkout.observe(viewLifecycleOwner, {
-            val adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
-                if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
-                    viewModel.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
-                    true
-                } else {
-                    viewModel.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
-                    false
-                }
-            }
             binding?.titleRecyclerview?.adapter = adapter
             lifecycleScope.launch {
                 viewModel.listWorkoutsUiState.collect {
@@ -125,6 +123,7 @@ class WorkoutsFragment : Fragment() {
         binding = null
     }
 
+    // Local list to check saved workouts when create the recyclerview.
     companion object {
         var listOfSavedWorkouts = mutableListOf<WorkoutsInfoUiState>()
     }

@@ -68,7 +68,7 @@ class CoachesFragment : Fragment() {
             }
         }
 
-    // To handle layout status --> ERROR, LOADING, SUCCESS
+    // To handle layout status --> ERROR, LOADING, SUCCESS.
     private fun handleLayout() =
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -88,7 +88,7 @@ class CoachesFragment : Fragment() {
             }
         }
 
-    // To show success Layout
+    // To show success Layout.
     private fun shoeSuccessLayout() =
         _binding?.apply {
             error.visibility = View.GONE
@@ -96,7 +96,7 @@ class CoachesFragment : Fragment() {
             loading.visibility = View.GONE
         }
 
-    // To show loading Layout
+    // To show loading Layout.
     private fun showLoadingLayout() =
         _binding?.apply {
             error.visibility = View.GONE
@@ -104,7 +104,7 @@ class CoachesFragment : Fragment() {
             loading.visibility = View.VISIBLE
         }
 
-    // To show error Layout
+    // To show error Layout.
     private fun showErrorLayout() =
         _binding?.apply {
             error.visibility = View.VISIBLE

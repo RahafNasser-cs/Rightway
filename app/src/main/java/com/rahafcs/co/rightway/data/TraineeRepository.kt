@@ -30,7 +30,7 @@ class TraineeRepository(
     override fun removeListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) =
         traineeRemoteDataSource.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
 
-    // Check if workoutsInfoUiState is exit in list of saved workouts.
+    // Check if  workoutsInfoUiState exists in list of saved workouts.
     override fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean =
         traineeRemoteDataSource.checkIsSavedWorkout(workoutsInfoUiState)
 

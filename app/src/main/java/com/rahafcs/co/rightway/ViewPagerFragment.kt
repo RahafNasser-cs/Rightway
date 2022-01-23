@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -13,11 +12,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rahafcs.co.rightway.databinding.FragmentViewPagerBinding
-import com.rahafcs.co.rightway.ui.workout.BrowsFragment
 import com.rahafcs.co.rightway.ui.coach.CoachesFragment
+import com.rahafcs.co.rightway.ui.workout.BrowsFragment
 import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.ui.workout.WorkoutsViewModel
+import com.rahafcs.co.rightway.utility.ServiceLocator
 import kotlinx.coroutines.launch
 
 class ViewPagerFragment : Fragment() {
@@ -31,11 +30,6 @@ class ViewPagerFragment : Fragment() {
         )
     }
     private var userType = ""
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.hide()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,27 +66,32 @@ class ViewPagerFragment : Fragment() {
             if (userType.equals(requireContext().getString(R.string.trainer), true)) {
                 goToCoachInfoSettings()
             } else {
-                goToUserInfoSettings()
+                goToTraineeInfoSettings()
             }
         }
         binding.savedWorkout.setOnClickListener { goToSavedWorkoutsPage() }
     }
 
-    private fun goToUserInfoSettings() =
+    // Go to trainee settings.
+    private fun goToTraineeInfoSettings() =
         findNavController().navigate(R.id.action_viewPagerFragment2_to_userInfoSettingsFragment2)
 
+    // Go to coach settings.
     private fun goToCoachInfoSettings() =
         findNavController().navigate(R.id.action_viewPagerFragment2_to_coachInfoSettingsFragment)
 
+    // Go to saved workouts.
     private fun goToSavedWorkoutsPage() =
         findNavController().navigate(R.id.action_viewPagerFragment2_to_showSavedWorkoutsFragment)
 
+    // Get list of fragments to show it in viewpager.
     private fun getFragmentList(): ArrayList<Fragment> = arrayListOf(
         WorkoutsFragment(),
         BrowsFragment(),
         CoachesFragment()
     )
 
+    // Get user type --> trainer "coach" or trainee.
     private fun getUserType() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -103,6 +102,7 @@ class ViewPagerFragment : Fragment() {
         }
     }
 
+    // Reload list of saved workouts from Firestore.
     private fun reloadListOfSavedWorkouts() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {

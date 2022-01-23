@@ -23,9 +23,10 @@ class WorkoutVerticalAdapter(var itemClickListener: (WorkoutsInfoUiState) -> Boo
         fun bind(item: WorkoutsUiState) {
             binding.muscleName.text =
                 item.workoutTypeUiState.bodyPart.capitalizeFormatIfFirstLatterSmall()
-            val adapter = WorkoutHorizontalAdapter(binding.root.context.getString(R.string.workouts_fragment)) { workoutsInfoUiState ->
-                itemClickListener(workoutsInfoUiState)
-            }
+            val adapter =
+                WorkoutHorizontalAdapter(binding.root.context.getString(R.string.workouts_fragment)) { workoutsInfoUiState ->
+                    itemClickListener(workoutsInfoUiState)
+                }
             binding.innerRecyclerview.adapter = adapter
             adapter.notifyDataSetChanged()
             adapter.submitList(item.workoutsInfoUiState)

@@ -2,8 +2,8 @@ package com.rahafcs.co.rightway
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
 import com.rahafcs.co.rightway.data.DefaultUserRepository
+import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
 import com.rahafcs.co.rightway.ui.auth.SignUpViewModel
 import com.rahafcs.co.rightway.ui.coach.CoachViewModel
 import com.rahafcs.co.rightway.ui.trainee.EmailViewModel
@@ -28,7 +28,3 @@ class ViewModelFactory(
         }
     }
 }
-
-// if (modelClass.isAssignableFrom(SignUpViewModel::class.java)) {
-//    SignUpViewModel(userRepository) as T
-// }

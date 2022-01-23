@@ -21,6 +21,7 @@ data class WorkoutsInfoUiState(
     val isSaved: Boolean = false,
 ) : Parcelable
 
+// Use it to WorkoutsFragment.
 data class ListWorkoutsUiState(
     val workUiState: List<WorkoutsUiState> = listOf(),
     val loadingState: LoadingStatus = LoadingStatus.LOADING,
@@ -28,6 +29,7 @@ data class ListWorkoutsUiState(
     val isSigned: Boolean = false,
 )
 
+// Use it to BrowsFragment.
 data class BrowsWorkoutUiState(
     val workoutsUiState: WorkoutsUiState = WorkoutsUiState(),
     val loadingState: LoadingStatus = LoadingStatus.SUCCESS,

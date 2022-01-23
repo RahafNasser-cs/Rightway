@@ -1,7 +1,6 @@
 package com.rahafcs.co.rightway.ui.workout
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +21,8 @@ class SavedWorkoutsFragment : Fragment() {
             ServiceLocator.provideDefaultUserRepository()
         )
     }
+    private lateinit var adapter: WorkoutHorizontalAdapter
 
-    var adapter = WorkoutHorizontalAdapter(getString(R.string.saved_workouts_fragment)) { false }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,19 +37,18 @@ class SavedWorkoutsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setListSavedWorkout()
         binding.apply {
-            adapter = WorkoutHorizontalAdapter("SavedWorkouts") { workoutsInfoUiState ->
-                if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
-                    viewModel.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
-                    true
-                } else {
-                    viewModel.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
-                    false
+            adapter =
+                WorkoutHorizontalAdapter(getString(R.string.saved_workouts_fragment)) { workoutsInfoUiState ->
+                    if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
+                        viewModel.addListOfSavedWorkoutsLocal(workoutsInfoUiState)
+                        true
+                    } else {
+                        viewModel.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
+                        false
+                    }
                 }
-            }
             lifecycleOwner = viewLifecycleOwner
             recyclerview.adapter = adapter
-            adapter.submitList(viewModel.listSavedWorkout.value)
-            Log.e("MainActiv", "onViewCreated: ${viewModel.listSavedWorkout.value}")
             backArrow.setOnClickListener { this@SavedWorkoutsFragment.upToTop() }
         }
     }
@@ -67,11 +65,13 @@ class SavedWorkoutsFragment : Fragment() {
         })
     }
 
+    // To show saved workouts.
     private fun showLayoutOfSavedWorkouts() {
         binding.noSavedWorkout.visibility = View.GONE
         binding.savedWorkout.visibility = View.VISIBLE
     }
 
+    // If there is no saved workout --> show animation.
     private fun showLayoutDumbbellAnimation() {
         binding.noSavedWorkout.visibility = View.VISIBLE
         binding.savedWorkout.visibility = View.GONE

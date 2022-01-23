@@ -18,7 +18,7 @@ class SplashFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         Handler().postDelayed({
-            lifecycleScope.launchWhenCreated {
+            lifecycleScope.launchWhenCreated { // To avoid crush when config.
                 findNavController().navigate(R.id.action_splashFragment_to_registrationFragment)
             }
         }, 3000)

@@ -52,6 +52,7 @@ class WorkoutHorizontalAdapter(
             }
         }
 
+        // Go to WorkoutDetails fragment.
         private fun goFromWorkoutByEquipmentToWorkoutDetails(item: WorkoutsInfoUiState) {
             val action =
                 WorkoutsByEquipmentFragmentDirections.actionWorkoutsByEquipmentFragmentToWorkoutDetailsFragment2(
@@ -60,6 +61,7 @@ class WorkoutHorizontalAdapter(
             binding.root.findNavController().navigate(action)
         }
 
+        // Go to WorkoutDetails fragment.
         private fun goFromSavedWorkoutToWorkoutDetails(item: WorkoutsInfoUiState) {
             val action =
                 SavedWorkoutsFragmentDirections.actionSavedWorkoutsFragmentToWorkoutDetailsFragment2(
@@ -68,6 +70,7 @@ class WorkoutHorizontalAdapter(
             binding.root.findNavController().navigate(action)
         }
 
+        // Go to WorkoutDetails fragment.
         private fun goFromViewPagerToWorkoutDetails(item: WorkoutsInfoUiState) {
             val action =
                 ViewPagerFragmentDirections.actionViewPagerFragment2ToWorkoutDetailsFragment2(
@@ -76,6 +79,7 @@ class WorkoutHorizontalAdapter(
             binding.root.findNavController().navigate(action)
         }
 
+        // Check if  workoutsInfoUiState exists in list of saved workouts.
         private fun isSaved(workoutsInfoUiState: WorkoutsInfoUiState) =
             listOfSavedWorkouts.contains(workoutsInfoUiState)
     }

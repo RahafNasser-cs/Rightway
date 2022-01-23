@@ -18,6 +18,7 @@ import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
 import com.rahafcs.co.rightway.ui.workout.WorkoutHorizontalAdapter
 import com.rahafcs.co.rightway.ui.workout.WorkoutVerticalAdapter
+import com.rahafcs.co.rightway.utility.Constant.ALL_EQUIPMENT
 import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
 import com.rahafcs.co.rightway.utility.Constant.PRE_MESSAGE
 import com.rahafcs.co.rightway.utility.Constant.PRE_SUBJECT
@@ -100,6 +101,7 @@ fun ImageView.findUrlGlide(imgUrl: String?) {
 fun TextView.getStringFromResources(messageKey: String) {
     when (messageKey) {
         ERROR_MESSAGE -> this.text = this.context.getString(R.string.error_message)
+        ALL_EQUIPMENT -> this.text = this.context.getString(R.string.all_equipment)
     }
 }
 

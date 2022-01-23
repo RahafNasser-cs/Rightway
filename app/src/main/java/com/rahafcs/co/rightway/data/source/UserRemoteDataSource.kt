@@ -80,7 +80,7 @@ class UserRemoteDataSource : UserDataSource {
         }
     }
 
-    // Check if workoutsInfoUiState is exit in list of saved workouts
+    // Check if  workoutsInfoUiState exists in list of saved workouts.
     override fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState) =
         listOfSavedWorkouts.contains(workoutsInfoUiState)
 

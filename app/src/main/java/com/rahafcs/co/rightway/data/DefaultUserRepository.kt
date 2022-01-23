@@ -28,7 +28,7 @@ class DefaultUserRepository(
     override fun removeListOfSavedWorkoutsLocal(workoutsInfoUiState: WorkoutsInfoUiState) =
         userRemoteDataSource.removeListOfSavedWorkoutsLocal(workoutsInfoUiState)
 
-    // Check if workoutsInfoUiState is exit in list of saved workouts.
+    // Check if  workoutsInfoUiState exists in list of saved workouts.
     override fun checkIsSavedWorkout(workoutsInfoUiState: WorkoutsInfoUiState): Boolean =
         userRemoteDataSource.checkIsSavedWorkout(workoutsInfoUiState)
 

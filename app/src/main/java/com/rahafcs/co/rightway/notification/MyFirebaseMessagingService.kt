@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway
+package com.rahafcs.co.rightway.notification
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -12,6 +12,8 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.rahafcs.co.rightway.R
+import com.rahafcs.co.rightway.ViewPagerFragment
 
 const val CHANNEL_ID = "notification_channel"
 const val CHANNEL_NAME = "com.rahafcs.co.rightway"

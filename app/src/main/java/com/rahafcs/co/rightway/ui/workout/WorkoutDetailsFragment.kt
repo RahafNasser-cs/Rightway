@@ -121,7 +121,7 @@ class WorkoutDetailsFragment : Fragment() {
                     isStarted = false
                     isPause = false
                 }
-                binding?.timerTextview?.text = getString(
+                binding?.timerTextview?.text = requireContext().getString(
                     R.string.formatted_time,
                     TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished - (numberOfSecondsResume * 1000)) % 60,
                     TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished - (numberOfSecondsResume * 1000)) % 60
