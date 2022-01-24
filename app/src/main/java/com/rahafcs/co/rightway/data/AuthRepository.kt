@@ -15,7 +15,7 @@ class AuthRepository(private val authRemoteDataSource: AuthRemoteDataSource) {
     fun registerWithEmailAndPassword(email: String, password: String) =
         authRemoteDataSource.registerWithEmailAndPassword(email, password)
 
-    // Register with google.
-    fun registerWithGoogleAuthFirebase(account: GoogleSignInAccount) =
-        authRemoteDataSource.registerWithGoogleAuthFirebase(account)
+    // Sign in with google.
+    fun signInWithGoogleAuthFirebase(account: GoogleSignInAccount) =
+        authRemoteDataSource.signInWithGoogleAuthFirebase(account)
 }

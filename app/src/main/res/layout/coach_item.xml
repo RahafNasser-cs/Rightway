@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/coach_card_view"
             android:layout_width="384dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/dark_white"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:paddingEnd="8dp"
             app:cardCornerRadius="11dp"
             app:cardElevation="11dp"
-            app:cardUseCompatPadding="true">
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Coach name"
+                    android:text="@string/coach_name"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/coach_img"
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Experience"
+                    android:text="@string/experience"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@id/coach_name_textview"
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="coach experience"
+                    android:text="@string/coach_experience"
                     app:layout_constraintBottom_toBottomOf="@id/experience"
                     app:layout_constraintStart_toEndOf="@id/experience"
                     app:layout_constraintTop_toTopOf="@id/experience" />
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Email"
+                    android:text="@string/email"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@id/experience"
@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="coach email"
+                    android:text="@string/coach_email"
                     app:layout_constraintBottom_toBottomOf="@id/email_textview"
                     app:layout_constraintStart_toEndOf="@id/email_textview"
                     app:layout_constraintTop_toTopOf="@id/email_textview" />
@@ -92,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Phone"
+                    android:text="@string/phone"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@id/email_textview"
@@ -103,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="coach phone"
+                    android:text="@string/coach_phone"
                     app:layout_constraintBottom_toBottomOf="@id/phone_textview"
                     app:layout_constraintStart_toEndOf="@id/phone_textview"
                     app:layout_constraintTop_toTopOf="@id/phone_textview" />
@@ -113,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Price"
+                    android:text="@string/price"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@id/phone_textview"
@@ -124,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="coach price"
+                    android:text="@string/coach_price"
                     app:layout_constraintBottom_toBottomOf="@id/price"
                     app:layout_constraintStart_toEndOf="@id/price"
                     app:layout_constraintTop_toTopOf="@id/price" />
@@ -140,8 +140,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
 </layout>

@@ -1,54 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/workout_card_view"
         android:layout_width="380dp"
         android:layout_height="370dp"
-        app:cardElevation="11dp"
-        app:cardCornerRadius="11dp"
-        android:id="@+id/workout_card_view"
         android:backgroundTint="@color/dark_white"
+        app:cardCornerRadius="11dp"
+        app:cardElevation="11dp"
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/body_target_textview"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:text="Nested"
-                android:id="@+id/body_target_textview"
-                android:textStyle="bold"
-                android:textSize="16sp"
                 android:layout_margin="8dp"
-                android:padding="8dp"
                 android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/nested"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/workout_gif"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/workout_gif" />
+
             <ImageView
+                android:id="@+id/workout_gif"
                 android:layout_width="340dp"
                 android:layout_height="200dp"
-                android:id="@+id/workout_gif"
+                android:contentDescription="@string/workout_photo"
                 android:scaleType="centerCrop"
-                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/coach"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/bookmark"
                 android:layout_width="40dp"
                 android:layout_height="50dp"
-                app:layout_constraintEnd_toEndOf="@id/workout_gif"
-                app:layout_constraintTop_toTopOf="@id/workout_gif"
-                android:src="@drawable/bookmark"
                 android:layout_margin="8dp"
-                android:id="@+id/bookmark"/>
+                android:src="@drawable/bookmark"
+                app:layout_constraintEnd_toEndOf="@id/workout_gif"
+                app:layout_constraintTop_toTopOf="@id/workout_gif" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

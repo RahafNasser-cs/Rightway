@@ -5,6 +5,7 @@
     tools:context=".ui.trainee.SendEmailFragment">
 
     <data>
+
         <variable
             name="emailViewModel"
             type="com.rahafcs.co.rightway.ui.trainee.EmailViewModel" />

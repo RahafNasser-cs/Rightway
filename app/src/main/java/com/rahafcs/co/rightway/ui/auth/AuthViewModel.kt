@@ -18,7 +18,7 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
     fun registerWithEmailAndPassword(email: String, password: String) =
         authRepository.registerWithEmailAndPassword(email, password)
 
-    // Register with google.
-    fun registerWithGoogleAuthFirebase(account: GoogleSignInAccount) =
-        authRepository.registerWithGoogleAuthFirebase(account)
+    // Sign in with google.
+    fun signInWithGoogleAuthFirebase(account: GoogleSignInAccount) =
+        authRepository.signInWithGoogleAuthFirebase(account)
 }

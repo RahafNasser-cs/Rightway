@@ -7,10 +7,6 @@
     <data>
 
         <variable
-            name="workoutsFragment"
-            type="com.rahafcs.co.rightway.ui.workout.WorkoutsFragment" />
-
-        <variable
             name="workoutViewModel"
             type="com.rahafcs.co.rightway.ui.workout.WorkoutsViewModel" />
     </data>

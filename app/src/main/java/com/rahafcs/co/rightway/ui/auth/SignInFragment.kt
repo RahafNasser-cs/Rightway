@@ -13,11 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
@@ -53,17 +50,14 @@ class SignInFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             signInBtn.setOnClickListener { signInWithEmailAndPassword() }
+            signInWithGoogleBtn.setOnClickListener { signInWithGoogle() }
             backArrow.setOnClickListener { this@SignInFragment.upToTop() }
         }
     }
 
-    fun signInWithGoogle() {
-        val options = GoogleSignInOptions
-            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.web_client))
-            .requestEmail()
-            .build()
-        val googleSignInClient = GoogleSignIn.getClient(requireContext(), options)
+    private fun signInWithGoogle() {
+        val googleSignInClient =
+            GoogleSignIn.getClient(requireContext(), ServiceLocator.provideGoogleSignInOptions())
         googleSignInClient.signInIntent.also {
             startActivityForResult(it, REQUEST_CODE_SIGNING)
         }
@@ -77,14 +71,19 @@ class SignInFragment : Fragment() {
         }
     }
 
+    // Complete sign in with google process.
     private fun googleAuthFirebase(account: GoogleSignInAccount) {
-        val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
-        FirebaseAuth.getInstance().signInWithCredential(credentials).addOnCompleteListener {
-            if (it.isSuccessful) {
-                requireContext().toast("hello ${it.result?.user?.email}")
+        lifecycleScope.launch {
+            authViewModel.signInWithGoogleAuthFirebase(account).collect {
+                if (it is Task<*>) {
+                    val task = it as Task<AuthResult>
+                    if (task.isSuccessful) {
+                        signInOnSuccess(task)
+                    }
+                } else {
+                    requireContext().toast("$it")
+                }
             }
-        }.addOnFailureListener {
-            requireContext().toast("${it.message}")
         }
     }
 

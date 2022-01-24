@@ -52,8 +52,8 @@ class AuthRemoteDataSource {
         awaitClose { cancel() }
     }
 
-    // Register with google.
-    fun registerWithGoogleAuthFirebase(account: GoogleSignInAccount): Flow<Any> = callbackFlow {
+    // Sign in with google.
+    fun signInWithGoogleAuthFirebase(account: GoogleSignInAccount): Flow<Any> = callbackFlow {
         val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credentials).addOnCompleteListener {
             if (it.isSuccessful) {

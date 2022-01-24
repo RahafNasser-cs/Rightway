@@ -139,10 +139,10 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    // Complete sign up with google process.
+    // Complete sign in with google process.
     private fun googleAuthFirebase(account: GoogleSignInAccount) {
         lifecycleScope.launch {
-            authViewModel.registerWithGoogleAuthFirebase(account).collect {
+            authViewModel.signInWithGoogleAuthFirebase(account).collect {
                 if (it is Task<*>) {
                     val task = it as Task<AuthResult>
                     if (task.isSuccessful) {

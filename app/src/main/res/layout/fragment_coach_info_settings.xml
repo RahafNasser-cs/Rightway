@@ -108,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="Trainer"
+                android:text="@string/trainer"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/coach_name_textview"
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="50dp"
-                android:text="Experience"
+                android:text="@string/experience"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -172,7 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:text="Email"
+                android:text="@string/email"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/experience_textview"
@@ -212,7 +212,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:text="Phone"
+                android:text="@string/phone"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/email_textview"
@@ -238,12 +238,13 @@
                 app:layout_constraintBottom_toBottomOf="@id/phone_textview"
                 app:layout_constraintStart_toStartOf="@id/email_input_layout"
                 app:layout_constraintTop_toTopOf="@id/phone_textview">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phone_edit_text"
-                android:layout_width="244dp"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:text="@{coachViewModel.coachInfoUiState.phoneNumber}" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone_edit_text"
+                    android:layout_width="244dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:text="@{coachViewModel.coachInfoUiState.phoneNumber}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
@@ -251,7 +252,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:text="Range price"
+                android:text="@string/price_range"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/phone_textview"
@@ -267,6 +268,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/range_price_textview"
                 app:layout_constraintStart_toEndOf="@id/range_price_textview"
                 app:layout_constraintTop_toTopOf="@id/range_price_textview" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/range_price_input_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -275,7 +277,8 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/range_price_textview"
                 app:layout_constraintStart_toStartOf="@id/phone_input_layout"
-                app:layout_constraintTop_toTopOf="@id/range_price_textview" >
+                app:layout_constraintTop_toTopOf="@id/range_price_textview">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/range_price_edit_text"
                     android:layout_width="244dp"
@@ -291,7 +294,7 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="50dp"
                 android:background="@drawable/button_disabled"
-                android:text="Save"
+                android:text="@string/save"
                 android:textAllCaps="false"
                 android:visibility="gone"
                 app:cornerRadius="6dp"

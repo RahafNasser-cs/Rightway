@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -29,6 +28,8 @@ class RegistrationFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             registrationFragment = this@RegistrationFragment
+            signInBtn.setOnClickListener { goToSignInPage() }
+            signUpBtn.setOnClickListener { goToSignUpPage() }
         }
     }
 
