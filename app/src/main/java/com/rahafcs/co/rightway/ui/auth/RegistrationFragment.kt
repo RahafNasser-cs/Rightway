@@ -27,18 +27,17 @@ class RegistrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            registrationFragment = this@RegistrationFragment
             signInBtn.setOnClickListener { goToSignInPage() }
             signUpBtn.setOnClickListener { goToSignUpPage() }
         }
     }
 
     // Go to sign up page.
-    fun goToSignUpPage() =
+    private fun goToSignUpPage() =
         findNavController().navigate(R.id.action_welcomeFragment_to_signUpFragment)
 
     // Go to sign in page.
-    fun goToSignInPage() =
+    private fun goToSignInPage() =
         findNavController().navigate(R.id.action_welcomeFragment_to_signInFragment)
 
     // Check if user is sign in. 

@@ -31,6 +31,7 @@ import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 const val REQUEST_CODE_SIGNING = 0
 
@@ -133,10 +134,12 @@ class SignUpFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_SIGNING) {
-            val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
-            account?.let { googleAuthFirebase(it) }
-        }
+        try{
+            if (requestCode == REQUEST_CODE_SIGNING) {
+                val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
+                account?.let { googleAuthFirebase(it) }
+            }
+        } catch (e: Exception){}
     }
 
     // Complete sign in with google process.

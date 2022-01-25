@@ -1,5 +1,6 @@
 package com.rahafcs.co.rightway.ui.auth
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -23,6 +24,7 @@ import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class SignInFragment : Fragment() {
     var binding: FragmentSignInBinding? = null
@@ -33,6 +35,11 @@ class SignInFragment : Fragment() {
             ServiceLocator.provideDefaultUserRepository(),
             ServiceLocator.provideAuthRepository()
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ServiceLocator.ProgramListService.application = context?.applicationContext as Application
     }
 
     override fun onCreateView(
@@ -65,9 +72,12 @@ class SignInFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_SIGNING) {
-            val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
-            account?.let { googleAuthFirebase(it) }
+        try {
+            if (requestCode == REQUEST_CODE_SIGNING) {
+                val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
+                account?.let { googleAuthFirebase(it) }
+            }
+        } catch (e: Exception) {
         }
     }
 
