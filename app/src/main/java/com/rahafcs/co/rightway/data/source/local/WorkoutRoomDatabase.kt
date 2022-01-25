@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.rahafcs.co.rightway.data.SavedWorkoutFoeDatabase
+import com.rahafcs.co.rightway.data.SavedWorkoutForDatabase
 import com.rahafcs.co.rightway.data.WorkoutListForDatabase
 
 @Database(
-    entities = [WorkoutListForDatabase::class, SavedWorkoutFoeDatabase::class],
+    entities = [WorkoutListForDatabase::class, SavedWorkoutForDatabase::class],
     version = 2
 )
 abstract class WorkoutRoomDatabase : RoomDatabase() {

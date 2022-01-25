@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.UserInfoSettingsFragment">
+    tools:context=".ui.trainee.UserInfoSettingsFragment">
 
     <data>
 
         <variable
-            name="userInfoViewModel"
-            type="com.rahafcs.co.rightway.viewmodels.SignUpViewModel" />
+            name="traineeViewModel"
+            type="com.rahafcs.co.rightway.ui.trainee.TraineeViewModel" />
     </data>
 
     <ScrollView
@@ -45,8 +45,8 @@
                 android:id="@+id/edit_img"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/edit_filled"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -55,8 +55,8 @@
                 android:id="@+id/close_img"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/close"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{userInfoViewModel.userInfo.firstName}"
+                android:text="@{traineeViewModel.traineeInfo.firstName}"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/user_img"
@@ -100,7 +100,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:text="@{userInfoViewModel.userInfo.height}" />
+                    android:text="@{traineeViewModel.traineeInfo.height}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
@@ -108,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="@{userInfoViewModel.userInfo.subscriptionStatus}"
+                android:text="@{traineeViewModel.traineeInfo.subscriptionStatus}"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/user_name_textview"
@@ -153,7 +153,7 @@
                 app:layout_constraintTop_toBottomOf="@id/user_img" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/height_textview"
+                android:id="@+id/experience_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -169,11 +169,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="@{userInfoViewModel.userInfo.height}"
+                android:text="@{traineeViewModel.traineeInfo.height}"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@id/height_textview"
-                app:layout_constraintStart_toEndOf="@id/height_textview"
-                app:layout_constraintTop_toTopOf="@id/height_textview" />
+                app:layout_constraintBottom_toBottomOf="@id/experience_textview"
+                app:layout_constraintStart_toEndOf="@id/experience_textview"
+                app:layout_constraintTop_toTopOf="@id/experience_textview" />
             <!--endregion -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/user_height_input_layout"
@@ -182,16 +182,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/height_textview"
-                app:layout_constraintStart_toEndOf="@id/height_textview"
-                app:layout_constraintTop_toTopOf="@id/height_textview">
+                app:layout_constraintBottom_toBottomOf="@id/experience_textview"
+                app:layout_constraintStart_toEndOf="@id/experience_textview"
+                app:layout_constraintTop_toTopOf="@id/experience_textview">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/user_height_edit_text"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="@{userInfoViewModel.userInfo.height}" />
+                    android:text="@{traineeViewModel.traineeInfo.height}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RadioGroup
@@ -209,13 +209,13 @@
                     android:id="@+id/cm_option"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="cm" />
+                    android:text="@string/cm" />
 
                 <RadioButton
                     android:id="@+id/ft_option"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ft" />
+                    android:text="@string/ft" />
             </RadioGroup>
 
             <com.google.android.material.textview.MaterialTextView
@@ -226,15 +226,15 @@
                 android:text="@string/weight"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/height_textview"
-                app:layout_constraintTop_toBottomOf="@id/height_textview" />
+                app:layout_constraintStart_toStartOf="@id/experience_textview"
+                app:layout_constraintTop_toBottomOf="@id/experience_textview" />
             <!--region user_weight textview-->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/user_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="@{userInfoViewModel.userInfo.weight}"
+                android:text="@{traineeViewModel.traineeInfo.weight}"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/weight_textview"
                 app:layout_constraintStart_toEndOf="@id/weight_textview"
@@ -255,7 +255,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="@{userInfoViewModel.userInfo.weight}" />
+                    android:text="@{traineeViewModel.traineeInfo.weight}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RadioGroup
@@ -273,13 +273,13 @@
                     android:id="@+id/kg_option"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="kg" />
+                    android:text="@string/kg" />
 
                 <RadioButton
                     android:id="@+id/lb_option"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="lb" />
+                    android:text="@string/lb" />
             </RadioGroup>
 
             <com.google.android.material.textview.MaterialTextView
@@ -298,7 +298,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="@{userInfoViewModel.userInfo.age}"
+                android:text="@{traineeViewModel.traineeInfo.age}"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/age_textview"
                 app:layout_constraintStart_toEndOf="@id/age_textview"
@@ -307,7 +307,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/user_age_input_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="280dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/age_textview"
@@ -316,10 +316,10 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/user_age_edit_text"
-                    android:layout_width="280dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="@{userInfoViewModel.userInfo.age}" />
+                    android:text="@{traineeViewModel.traineeInfo.age}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
@@ -338,7 +338,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="@{userInfoViewModel.userInfo.gender}"
+                android:text="@{traineeViewModel.traineeInfo.gender}"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/gender_textview"
                 app:layout_constraintStart_toEndOf="@id/gender_textview"
@@ -381,13 +381,13 @@
                     android:id="@+id/female_option"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Female" />
+                    android:text="@string/female" />
 
                 <RadioButton
                     android:id="@+id/male_option"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Male" />
+                    android:text="@string/male" />
             </RadioGroup>
 
             <com.google.android.material.textview.MaterialTextView
@@ -406,7 +406,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="@{userInfoViewModel.userInfo.activity}"
+                android:text="@{traineeViewModel.traineeInfo.activity}"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/activity_level_textview"
                 app:layout_constraintStart_toEndOf="@id/activity_level_textview"
@@ -481,7 +481,7 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="50dp"
                 android:background="@drawable/button_disabled"
-                android:text="Save"
+                android:text="@string/save"
                 android:textAllCaps="false"
                 android:visibility="gone"
                 app:cornerRadius="6dp"

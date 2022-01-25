@@ -1,121 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.BrowsFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.workout.BrowsFragment">
 
     <data>
+
         <variable
             name="browsFragment"
-            type="com.rahafcs.co.rightway.ui.BrowsFragment" />
+            type="com.rahafcs.co.rightway.ui.workout.BrowsFragment" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:scrollbars="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="56dp">
+
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/equipment_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:id="@+id/equipment_card"
-                app:cardElevation="11dp"
                 app:cardCornerRadius="11dp"
-                app:layout_constraintTop_toTopOf="parent"
+                app:cardElevation="11dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toTopOf="parent">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/dumbbell"/>
+                        android:src="@drawable/dumbbell" />
+
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Equipment"
                         android:padding="16dp"
-                        android:textAppearance="?attr/textAppearanceHeadline6"/>
+                        android:text="@string/equipment"
+                        android:textAppearance="?attr/textAppearanceHeadline6" />
+
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chipGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp">
+
                         <com.google.android.material.chip.Chip
                             android:id="@+id/all_equipment_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="All equipment"/>
+                            android:text="@string/all_equipment_" />
+
                         <com.google.android.material.chip.Chip
                             android:id="@+id/barbell_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Barbell"/>
+                            android:text="@string/barbell" />
+
                         <com.google.android.material.chip.Chip
                             android:id="@+id/cable_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cable"/>
+                            android:text="@string/cable" />
+
                         <com.google.android.material.chip.Chip
                             android:id="@+id/dumbbell_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dumbbell"/>
+                            android:text="@string/dumbbell" />
+
                         <com.google.android.material.chip.Chip
                             android:id="@+id/kettle_bell_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kettle bell"/>
+                            android:text="@string/kettle_bell" />
+
                         <com.google.android.material.chip.Chip
                             android:id="@+id/resistance_band_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Resistance band"/>
+                            android:text="@string/resistance_band" />
 
                     </com.google.android.material.chip.ChipGroup>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/no_equipment_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/no_equipment_card"
                 android:layout_margin="8dp"
-                app:cardElevation="11dp"
                 app:cardCornerRadius="11dp"
-                app:layout_constraintTop_toBottomOf="@id/equipment_card"
+                app:cardElevation="11dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/equipment_card">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:src="@drawable/body_weight"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/body_weight" />
+
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Body weight"
                         android:padding="16dp"
-                        android:textAppearance="?attr/textAppearanceHeadline6"/>
+                        android:text="@string/body_weight"
+                        android:textAppearance="?attr/textAppearanceHeadline6" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </layout>

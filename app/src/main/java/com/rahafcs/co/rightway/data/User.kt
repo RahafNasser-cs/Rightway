@@ -11,5 +11,11 @@ data class User(
     val gender: String = "",
     val age: String = "",
     val activity: String = "",
-    val savedWorkouts: List<WorkoutsInfoUiState> = listOf()
+    val experience: String = "",
+    val email: String = "",
+    val phoneNumber: String = "",
+    val price: String = "",
+    val savedWorkouts: List<WorkoutsInfoUiState> = listOf(),
 )
+
+

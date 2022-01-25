@@ -1,30 +1,36 @@
 package com.rahafcs.co.rightway
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.databinding.FragmentViewPagerBinding
-import com.rahafcs.co.rightway.ui.BrowsFragment
-import com.rahafcs.co.rightway.ui.CoachesFragment
-import com.rahafcs.co.rightway.ui.SignUpFragment
-import com.rahafcs.co.rightway.ui.WorkoutsFragment
-import com.rahafcs.co.rightway.utility.toast
+import com.rahafcs.co.rightway.ui.coach.CoachesFragment
+import com.rahafcs.co.rightway.ui.workout.BrowsFragment
+import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
+import com.rahafcs.co.rightway.ui.workout.WorkoutsViewModel
+import com.rahafcs.co.rightway.utility.ServiceLocator
+import kotlinx.coroutines.launch
 
 class ViewPagerFragment : Fragment() {
     private var _binding: FragmentViewPagerBinding? = null
     val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.hide()
+    private val workoutsViewModel: WorkoutsViewModel by activityViewModels {
+        ViewModelFactory(
+            ServiceLocator.provideWorkoutRepository(),
+            ServiceLocator.provideDefaultUserRepository(),
+            ServiceLocator.provideAuthRepository()
+        )
     }
+    private var userType = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,9 +49,9 @@ class ViewPagerFragment : Fragment() {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = "Workouts"
-                1 -> tab.text = "Brows"
-                2 -> tab.text = "Coaches"
+                0 -> tab.text = requireContext().getString(R.string.Workouts)
+                1 -> tab.text = requireContext().getString(R.string.Brows)
+                2 -> tab.text = requireContext().getString(R.string.Coaches)
             }
         }.attach()
 
@@ -54,31 +60,58 @@ class ViewPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.userInfo.setOnClickListener { goToInfoSettings() }
+        workoutsViewModel.getUserType() // to get user type--> trainer or trainee
+        getUserType()
+        reloadListOfSavedWorkouts()
+        binding.userInfo.setOnClickListener {
+            if (userType.equals(requireContext().getString(R.string.trainer), true)) {
+                goToCoachInfoSettings()
+            } else {
+                goToTraineeInfoSettings()
+            }
+        }
         binding.savedWorkout.setOnClickListener { goToSavedWorkoutsPage() }
-        // binding?.logout?.setOnClickListener { signOut() }
     }
 
-    private fun goToInfoSettings() =
+    // Go to trainee settings.
+    private fun goToTraineeInfoSettings() =
         findNavController().navigate(R.id.action_viewPagerFragment2_to_userInfoSettingsFragment2)
 
+    // Go to coach settings.
+    private fun goToCoachInfoSettings() =
+        findNavController().navigate(R.id.action_viewPagerFragment2_to_coachInfoSettingsFragment)
+
+    // Go to saved workouts.
     private fun goToSavedWorkoutsPage() =
         findNavController().navigate(R.id.action_viewPagerFragment2_to_showSavedWorkoutsFragment)
 
+    // Get list of fragments to show it in viewpager.
     private fun getFragmentList(): ArrayList<Fragment> = arrayListOf(
         WorkoutsFragment(),
         BrowsFragment(),
         CoachesFragment()
     )
 
-    private fun signOut() {
-        val sharedPreferences = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)!!
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(SignUpFragment.SIGN_IN, false)
-        editor.apply()
-        requireContext().toast("${FirebaseAuth.getInstance().currentUser?.email}")
-        FirebaseAuth.getInstance().signOut()
-        findNavController().navigate(R.id.registrationFragment)
+    // Get user type --> trainer "coach" or trainee.
+    private fun getUserType() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                workoutsViewModel.getUserType().collect {
+                    userType = it
+                }
+            }
+        }
+    }
+
+    // Reload list of saved workouts from Firestore.
+    private fun reloadListOfSavedWorkouts() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                workoutsViewModel.reloadListOfSavedWorkouts().collect {
+                    WorkoutsFragment.listOfSavedWorkouts = it.toMutableList()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
