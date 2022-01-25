@@ -41,7 +41,6 @@ class WorkoutsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            workoutsFragment = this@WorkoutsFragment
             workoutViewModel = viewModel
             adapter = WorkoutVerticalAdapter { workoutsInfoUiState ->
                 if (!viewModel.checkIsSavedWorkout(workoutsInfoUiState)) {
