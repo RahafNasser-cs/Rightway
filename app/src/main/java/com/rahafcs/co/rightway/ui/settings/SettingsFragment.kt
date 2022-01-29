@@ -8,12 +8,14 @@ import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.utility.Constant.LANGUAGES
 import com.rahafcs.co.rightway.utility.Constant.PROFILE
 import com.rahafcs.co.rightway.utility.toast
+import java.util.*
 
 class SettingsFragment :
     PreferenceFragmentCompat(),
@@ -22,6 +24,10 @@ class SettingsFragment :
     private val TAG = "SettingsFragment"
     private val args: SettingsFragmentArgs by navArgs()
     private lateinit var sharedPreferences: SharedPreferences
+    lateinit var personalCategory: PreferenceCategory
+    lateinit var languagesSettingsCategory: PreferenceCategory
+    lateinit var profile: Preference
+    lateinit var languages: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
@@ -34,10 +40,19 @@ class SettingsFragment :
         val languagePref = findPreference<Preference>(LANGUAGES)
         languagePref?.summary =
             sharedPreferences.getString(LANGUAGES, "")
+        profile = findPreference(getString(R.string.profile_key))!!
+        languages = findPreference(getString(R.string.languages_key))!!
+        personalCategory = findPreference(getString(R.string.personal_key))!!
+        languagesSettingsCategory =
+            findPreference(getString(R.string.languages_settings_title_key))!!
     }
 
     override fun onResume() {
         super.onResume()
+        profile.title = requireContext().getString(R.string.profile_title)
+        languages.title = requireContext().getString(R.string.languages_title)
+        personalCategory.title = requireContext().getString(R.string.personal_title)
+        languagesSettingsCategory.title = requireContext().getString(R.string.languages_settings_title)
         onBackPressedDispatcher()
     }
 
@@ -101,6 +116,7 @@ class SettingsFragment :
                 val languagePref = findPreference<Preference>(LANGUAGES)
                 languagePref?.summary =
                     sharedPreferences?.getString(key, "")
+                setLocale(sharedPreferences?.getString(key, "")!!)
                 changeLanguage()
             }
             "darkMode" -> {
@@ -116,5 +132,16 @@ class SettingsFragment :
             else -> {
             }
         }
+    }
+
+    private fun setLocale(language: String) {
+        val resource = requireContext().resources
+        val metric = resource.displayMetrics
+        val config = resource.configuration
+        val locale = Locale(language)
+//        Locale.setDefault(locale)
+        config.setLocale(locale)
+        resource.updateConfiguration(config, metric)
+        onConfigurationChanged(config)
     }
 }

@@ -123,6 +123,8 @@
     <string name="languages_title">Languages</string>
     <string name="en">en</string>
     <string name="personal_title">Personal</string>
+    <string name="personal_key">personal</string>
+    <string name="languages_settings_title_key">languageTitle</string>
 
     <string-array name="languages">
         <item>English</item>

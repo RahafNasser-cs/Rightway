@@ -133,8 +133,8 @@
     </string-array>
 
     <string-array name="lang_code">
-        <item>الإنجليزية</item>
-        <item>العربية</item>
+        <item>en</item>
+        <item>ar</item>
     </string-array>
 </resources>
 
