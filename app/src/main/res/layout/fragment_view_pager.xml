@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ViewPagerFragment">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -49,8 +49,17 @@
                         android:layout_width="30dp"
                         android:layout_height="40dp"
                         android:layout_margin="8dp"
+                        android:visibility="gone"
                         android:src="@drawable/record"
                         app:layout_constraintEnd_toStartOf="@id/saved_workout"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/settings"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/settings"
+                        app:layout_constraintEnd_toStartOf="@id/user_info"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -83,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </RelativeLayout>
 
 
 </layout>

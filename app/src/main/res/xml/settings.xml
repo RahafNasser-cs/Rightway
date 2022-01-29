@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/personal_title">
+        <Preference
+            app:key="@string/profile_key"
+            app:title="@string/profile_title" />
+    </PreferenceCategory>
+<!--    <PreferenceCategory android:title="@string/general_title">-->
+<!--        <SwitchPreference-->
+<!--            android:key="@string/dark_mode_key"-->
+<!--            android:title="@string/dark_mode_title" />-->
+
+
+<!--    </PreferenceCategory>-->
+    <PreferenceCategory android:title="@string/languages_settings_title">
+        <ListPreference
+            android:defaultValue="@string/en"
+            android:entries="@array/languages"
+            android:entryValues="@array/languages"
+            app:key="@string/languages_key"
+            app:title="@string/languages_title"/>
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

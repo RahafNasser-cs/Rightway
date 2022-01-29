@@ -26,8 +26,8 @@ android {
     compileSdk 31
 
     buildFeatures{
-        //noinspection DataBindingWithoutKapt
         dataBinding true
+        viewBinding true
     }
 
     defaultConfig {
@@ -121,4 +121,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
 
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 }

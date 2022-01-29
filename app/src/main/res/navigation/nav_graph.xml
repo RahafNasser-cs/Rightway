@@ -94,6 +94,9 @@
         <action
             android:id="@+id/action_viewPagerFragment2_to_coachInfoSettingsFragment"
             app:destination="@id/coachInfoSettingsFragment" />
+        <action
+            android:id="@+id/action_viewPagerFragment2_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/workoutDetailsFragment2"
@@ -178,5 +181,19 @@
         <action
             android:id="@+id/action_coachInfoSettingsFragment_to_viewPagerFragment2"
             app:destination="@id/viewPagerFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.rahafcs.co.rightway.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_coachInfoSettingsFragment"
+            app:destination="@id/coachInfoSettingsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_userInfoSettingsFragment2"
+            app:destination="@id/userInfoSettingsFragment2" />
+        <argument
+            android:name="userType"
+            app:argType="string" />
     </fragment>
 </navigation>

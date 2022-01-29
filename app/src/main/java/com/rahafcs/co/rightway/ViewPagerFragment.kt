@@ -71,6 +71,13 @@ class ViewPagerFragment : Fragment() {
             }
         }
         binding.savedWorkout.setOnClickListener { goToSavedWorkoutsPage() }
+        binding.settings.setOnClickListener { goToSettings() }
+    }
+
+    // Go to settings page.
+    private fun goToSettings() {
+        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToSettingsFragment(userType)
+        findNavController().navigate(action)
     }
 
     // Go to trainee settings.
