@@ -21,8 +21,10 @@ import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.SubscriptionStatus
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
+import com.rahafcs.co.rightway.utility.Constant.EMAIL
 import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
 import com.rahafcs.co.rightway.utility.Constant.LAST_NAME
+import com.rahafcs.co.rightway.utility.Constant.REMEMBER_ME
 import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
 import com.rahafcs.co.rightway.utility.Constant.SIGN_UP
 import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
@@ -31,12 +33,13 @@ import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 const val REQUEST_CODE_SIGNING = 0
 
 class SignUpFragment : Fragment() {
     private var binding: FragmentSignUpBinding? = null
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
     private val authViewModel by activityViewModels<AuthViewModel> {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
@@ -101,6 +104,8 @@ class SignUpFragment : Fragment() {
             putString(SUPERSCRIPTION, subscriptionStatus)
             putBoolean(SIGN_IN, true)
             putBoolean(SIGN_UP, true)
+            putBoolean(REMEMBER_ME, false)
+            putString(EMAIL, "")
             apply()
         }
     }
@@ -133,9 +138,12 @@ class SignUpFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_SIGNING) {
-            val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
-            account?.let { googleAuthFirebase(it) }
+        try {
+            if (requestCode == REQUEST_CODE_SIGNING) {
+                val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
+                account?.let { googleAuthFirebase(it) }
+            }
+        } catch (e: Exception) {
         }
     }
 

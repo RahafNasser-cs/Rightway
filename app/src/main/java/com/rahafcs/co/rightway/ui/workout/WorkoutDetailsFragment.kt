@@ -2,8 +2,6 @@ package com.rahafcs.co.rightway.ui.workout
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,27 +17,20 @@ import com.rahafcs.co.rightway.utility.upToTop
 import java.util.concurrent.TimeUnit
 
 class WorkoutDetailsFragment : Fragment() {
+
+    private val timerViewModel by activityViewModels<TimerViewModel>()
     private val args: WorkoutDetailsFragmentArgs by navArgs()
-
-    var isStarted = false
-    var isPause = false
-    var numberOfSeconds = 0
-    var numberOfSecondsResume = 0
-    var secondsRemaining = 0
-    lateinit var countDownTimer: CountDownTimer
-
-    init {
-        createCountDownTimer(0)
-    }
-
     private var binding: FragmentWorkoutDetailsBinding? = null
-    private val viewModel: WorkoutsViewModel by activityViewModels<WorkoutsViewModel> {
+    private val workoutsViewModel: WorkoutsViewModel by activityViewModels {
         ViewModelFactory(
             ServiceLocator.provideWorkoutRepository(),
             ServiceLocator.provideDefaultUserRepository(),
             ServiceLocator.provideAuthRepository()
         )
     }
+    private var isStarted = false
+    private var isPause = false
+    private var numberOfSeconds = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,36 +45,61 @@ class WorkoutDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            workoutViewModel = viewModel
+            workoutViewModel = workoutsViewModel
             backArrow.setOnClickListener { this@WorkoutDetailsFragment.upToTop() }
             shareImg.setOnClickListener { shareWorkout() }
-            startBtn.setOnClickListener {
-                if (numberOfSeconds == 0) {
-                    requireContext().toast("Select a time")
-                } else if (!isStarted && !isPause) {
-                    createCountDownTimer(numberOfSeconds)
-                    startTimer()
-                } else if (isStarted && !isPause) {
-                    Log.e("MainActivity", "onViewCreated: isStarted && !isPause")
-                    pauseTimer()
-                } else {
-                    resumeTimer(numberOfSecondsResume)
-                }
-            }
+            startBtn.setOnClickListener { timerStatus() }
             stopBtn.setOnClickListener { stopTimer() }
-            // resumeBtn.setOnClickListener { resumeTimer(numberOfSecondsResume) }
             plus.setOnClickListener { incrementNumberOfSeconds() }
             minus.setOnClickListener { decrementNumberOfSeconds() }
         }
-        Log.d("TAG", "onViewCreated: ${args.workoutInfoUiState}")
-        viewModel.setWorkoutsInfoUiState(args.workoutInfoUiState)
+        workoutsViewModel.setWorkoutsInfoUiState(args.workoutInfoUiState)
+        updateProgressBar()
+        updateTimerSecondsTextview()
+        checkTimerIsFinished()
     }
 
+    // To check timer is finished.
+    private fun checkTimerIsFinished() {
+        timerViewModel.finished.observe(viewLifecycleOwner, {
+            if (it) {
+                binding?.stopBtn?.isEnabled = false
+                stopTimer()
+            }
+        })
+    }
+
+    // To update timer seconds in textview.
+    private fun updateTimerSecondsTextview() {
+        timerViewModel.millisUntilFinished.observe(viewLifecycleOwner, {
+            binding?.timerTextview?.text = requireContext().getString(
+                R.string.formatted_time,
+                TimeUnit.MILLISECONDS.toMinutes(it) % 60,
+                TimeUnit.MILLISECONDS.toSeconds(it) % 60
+            )
+        })
+    }
+
+    // Check of timer status.
+    private fun timerStatus() {
+        if (numberOfSeconds == 0) {
+            requireContext().toast(getString(R.string.select_time))
+        } else if (!isStarted && !isPause) {
+            startTimer()
+        } else if (isStarted && !isPause) {
+            pauseTimer()
+        } else {
+            resumeTimer()
+        }
+    }
+
+    // Increment timer.
     private fun incrementNumberOfSeconds() {
         numberOfSeconds += 1
         binding?.timeTextview?.text = numberOfSeconds.toString()
     }
 
+    // Decrement timer.
     private fun decrementNumberOfSeconds() {
         if (numberOfSeconds != 0) {
             numberOfSeconds -= 1
@@ -91,101 +107,57 @@ class WorkoutDetailsFragment : Fragment() {
         }
     }
 
+    // Share workout.
     private fun shareWorkout() {
         val intent = Intent(Intent.ACTION_SEND).putExtra(
-            Intent.EXTRA_TEXT, viewModel.shareMessage()
+            Intent.EXTRA_TEXT, workoutsViewModel.shareMessage()
         ).setType("text/plain")
         startActivity(intent)
     }
 
-    private fun createCountDownTimer(numberOfSeconds: Int) {
-
-        countDownTimer = object : CountDownTimer(1000 * numberOfSeconds.toLong(), 1000) {
-
-            override fun onTick(millisUntilFinished: Long) {
-
-                Log.d("MainActivity", "onTick: init $millisUntilFinished")
-                val factor = 100 / numberOfSeconds
-                Log.d("MainActivity", "onTick: millisUntilFinished ${millisUntilFinished / 1000}")
-
-                secondsRemaining =
-                    (millisUntilFinished / 1000).toInt() - numberOfSecondsResume // 8 -9
-                val progressPercentage = (numberOfSeconds - secondsRemaining) * factor
-                updateProgressBar(progressPercentage)
-                Log.d("MainActivity", "onTick: ${millisUntilFinished / 1000f}")
-                Log.d("MainActivity", "onTick: nof: $numberOfSeconds, sr:  $secondsRemaining")
-                if (numberOfSeconds - secondsRemaining == numberOfSeconds) { // 8-7 ==1
-                    Log.e("MainActivity", "onTick: cancel")
-                    cancel()
-                    binding?.startBtn?.text = "Start"
-                    binding?.timerTextview?.text = "00:00"
-                    isStarted = false
-                    isPause = false
-                }
-                binding?.timerTextview?.text = requireContext().getString(
-                    R.string.formatted_time,
-                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished - (numberOfSecondsResume * 1000)) % 60,
-                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished - (numberOfSecondsResume * 1000)) % 60
-                )
-            }
-
-            override fun onFinish() {
-                Log.e("MainActivity", "onFinish: cancel")
-                isStarted = false
-                isPause = false
-                numberOfSecondsResume = secondsRemaining
-                binding?.startBtn?.text = "Start"
-            }
-        }
-    }
-
+    // To start the timer.
     private fun startTimer() {
-        if (numberOfSeconds != 0) {
-            countDownTimer.start()
-            isStarted = true
-            binding?.startBtn?.text = "Pause"
-            // binding?.timerTextview?.text = "00:"
-        } else {
-            requireContext().toast("Chose a time")
-        }
+        binding?.stopBtn?.isEnabled = true
+        timerViewModel.setTimerValue(numberOfSeconds)
+        timerViewModel.startTimer()
+        isStarted = true
+        binding?.startBtn?.text = getString(R.string.pause)
     }
 
+    // To stop the timer.
     private fun stopTimer() {
-        numberOfSecondsResume = 0
         isStarted = false
         isPause = false
-        binding?.startBtn?.text = "Start"
-        updateProgressBar(0)
-        binding?.timerTextview?.text = "00:00"
-        countDownTimer.cancel()
-        countDownTimer.onFinish()
+        binding?.startBtn?.text = getString(R.string.start)
+        binding?.timerTextview?.text = getString(R.string.reset_timer)
+        binding?.stopBtn?.isEnabled = false
+        timerViewModel.stopTimer()
     }
 
+    // To pause the timer.
     private fun pauseTimer() {
         isPause = true
-        Log.e("MainActivity", "pauseTimer:$secondsRemaining ")
-        numberOfSecondsResume = secondsRemaining
-        countDownTimer.cancel()
-        binding?.startBtn?.text = "Resume"
+        timerViewModel.pauseTimer()
+        binding?.startBtn?.text = getString(R.string.resume)
     }
 
-    private fun resumeTimer(resumeTime: Int) {
-        Log.e("MainActivity", "resumeTimer: resumeTimer $resumeTime")
+    // To resume the timer.
+    private fun resumeTimer() {
         isPause = false
-        binding?.startBtn?.text = "Pause"
-        // createCountDownTimer(resumeTime)
-        // startTimer()
-        countDownTimer.onTick(1000 * resumeTime.toLong())
-        countDownTimer.start()
+        timerViewModel.resumeTimer()
+        binding?.startBtn?.text = getString(R.string.pause)
     }
 
-    fun updateProgressBar(progress: Int) {
-        binding?.progressBar?.progress = progress
+    // Update progress bar.
+    private fun updateProgressBar() {
+        timerViewModel.progressPercentage.observe(viewLifecycleOwner, {
+            binding?.progressBar?.progress = it
+        })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-        countDownTimer.cancel()
+        timerViewModel.stopTimer()
     }
 }

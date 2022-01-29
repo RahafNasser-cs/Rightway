@@ -23,11 +23,11 @@
     <string name="get_started">Get started</string>
     <string name="intro_get_started">Let\'s start with some information to help you in best way.</string>
     <string name="password_requirements">Should be at least 6 characters</string>
-    <string name="height">Height:</string>
-    <string name="weight">Weight:</string>
-    <string name="age">Age:</string>
-    <string name="gender">Gender:</string>
-    <string name="activity_level">Activity:</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="age">Age</string>
+    <string name="gender">Gender</string>
+    <string name="activity_level">Activity</string>
     <string name="sign_out">Sign out</string>
     <string name="back_to_home">Back to Home</string>
     <string name="error_message">Something went wrong\nWe\'er having issues loading this page.\nTry again!</string>
@@ -53,8 +53,10 @@
     <string name="workouts_by_equipment_fragment">WorkoutsByEquipmentFragment</string>
     <string name="all_equipment">All Equipment</string>
     <string name="welcome">Welcome %1$s, you\'re in!</string>
-
-
+    <string name="pause">Pause</string>
+    <string name="reset_timer">00:00</string>
+    <string name="resume">Resume</string>
+    <string name="select_time">Please select a time</string>
     <string name="formatted_time">%02d:%02d</string>
     <string name="female">Female</string>
     <string name="male">Male</string>
@@ -96,17 +98,14 @@
     <string name="body_weight">Body weight</string>
     <string name="track_1_out_of_1">1 out of 1</string>
     <string name="price_range">Price Range</string>
-    <string name="sign_up">Sign up</string>
-    <string name="sign_in">Sign in</string>
     <string name="saved_workouts">Saved Workouts</string>
     <string name="home">Home</string>
     <string name="workouts">Workouts</string>
     <string name="coaches">Coaches</string>
     <string name="brows">Brows</string>
     <string name="workout_details">Workout details</string>
-    <string name="equipment_">Equipment:</string>
-    <string name="body_part">Body part:</string>
-    <string name="target">Target:</string>
+    <string name="body_part">Body part</string>
+    <string name="target">Target</string>
     <string name="_0">0</string>
     <string name="_00_00">00:00</string>
     <string name="start">Start</string>
@@ -115,6 +114,5 @@
     <string name="workout_photo">workout photo</string>
     <string name="logo">logo</string>
     <string name="title">title</string>
-    <string name="message">Message</string>
     <string name="waist">Waist</string>
 </resources>

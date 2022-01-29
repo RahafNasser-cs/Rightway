@@ -1,5 +1,6 @@
 package com.rahafcs.co.rightway.ui.auth
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -18,11 +19,14 @@ import com.google.firebase.auth.AuthResult
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
+import com.rahafcs.co.rightway.utility.Constant.EMAIL
+import com.rahafcs.co.rightway.utility.Constant.REMEMBER_ME
 import com.rahafcs.co.rightway.utility.Constant.USERID
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class SignInFragment : Fragment() {
     var binding: FragmentSignInBinding? = null
@@ -33,6 +37,11 @@ class SignInFragment : Fragment() {
             ServiceLocator.provideDefaultUserRepository(),
             ServiceLocator.provideAuthRepository()
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ServiceLocator.ProgramListService.application = context?.applicationContext as Application
     }
 
     override fun onCreateView(
@@ -49,12 +58,49 @@ class SignInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            signInBtn.setOnClickListener { signInWithEmailAndPassword() }
+            signInBtn.setOnClickListener {
+                signInWithEmailAndPassword()
+            }
             signInWithGoogleBtn.setOnClickListener { signInWithGoogle() }
             backArrow.setOnClickListener { this@SignInFragment.upToTop() }
         }
+        showUserEmail()
     }
 
+    // To clear user email from sharedPreferences.
+    private fun clearRememberUserEmail() {
+        sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
+        sharedPreferences.edit().apply {
+            putBoolean(REMEMBER_ME, false)
+            putString(EMAIL, "")
+            apply()
+        }
+    }
+
+    // To show user email from sharedPreferences.
+    private fun showUserEmail() {
+        sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
+        if (sharedPreferences.getBoolean(REMEMBER_ME, false)) {
+            val email = sharedPreferences.getString(EMAIL, "")
+            binding?.emailEditText?.setText(email)
+            binding?.rememberMeCheckbox?.isChecked = true
+        }
+    }
+
+    // To save user email in sharedPreferences.
+    private fun rememberUserEmail() {
+        sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
+        sharedPreferences.edit().apply {
+            putBoolean(REMEMBER_ME, true)
+            putString(EMAIL, binding?.emailEditText?.text.toString())
+            apply()
+        }
+    }
+
+    // Sign in with google.
     private fun signInWithGoogle() {
         val googleSignInClient =
             GoogleSignIn.getClient(requireContext(), ServiceLocator.provideGoogleSignInOptions())
@@ -65,9 +111,12 @@ class SignInFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_SIGNING) {
-            val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
-            account?.let { googleAuthFirebase(it) }
+        try {
+            if (requestCode == REQUEST_CODE_SIGNING) {
+                val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
+                account?.let { googleAuthFirebase(it) }
+            }
+        } catch (e: Exception) {
         }
     }
 
@@ -121,6 +170,11 @@ class SignInFragment : Fragment() {
 
     // If sign in success, save user id into sharedPreference.
     private fun signInOnSuccess(it: Task<AuthResult>) {
+        if (binding?.rememberMeCheckbox?.isChecked!!) {
+            rememberUserEmail()
+        } else {
+            clearRememberUserEmail()
+        }
         val firebaseUser = it.result.user
         firebaseUser?.let {
             addToSharedPreference(it.uid)
