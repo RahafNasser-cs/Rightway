@@ -1,6 +1,5 @@
 package com.rahafcs.co.rightway.ui.settings
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
@@ -25,17 +24,6 @@ class SettingsFragment :
     private lateinit var languagesSettingsCategory: PreferenceCategory
     private lateinit var profile: Preference
     private lateinit var languages: Preference
-    private var mContext: Context? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mContext = context
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mContext = null
-    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
@@ -54,7 +42,8 @@ class SettingsFragment :
 
     override fun onResume() {
         super.onResume()
-        languages.setDefaultValue(getString(R.string.language_code_select))
+        listView.layoutDirection =
+            View.LAYOUT_DIRECTION_LOCALE // To fix PreferenceScreen layout direction.
         onBackPressedDispatcher()
     }
 
@@ -85,7 +74,7 @@ class SettingsFragment :
                 true
             }
             findPreference<Preference>(PROFILE) -> {
-                if (args.userType.equals(mContext?.getString(R.string.trainer), true)) {
+                if (args.userType.equals(requireContext()?.getString(R.string.trainer), true)) {
                     goToCoachInfoSettings()
                 } else {
                     goToTraineeInfoSettings()
@@ -101,7 +90,7 @@ class SettingsFragment :
     // To change languages. 
     private fun changeLanguage(languagePref: Preference, languageCode: String) {
         setLocale(languageCode)
-        languagePref.summary = mContext?.getString(R.string.language_select)
+        languagePref.summary = requireContext()?.getString(R.string.language_select)
     }
 
     // Go to trainee settings.
@@ -113,7 +102,7 @@ class SettingsFragment :
         findNavController().navigate(R.id.action_settingsFragment_to_coachInfoSettingsFragment)
 
     private fun darkMode() =
-        mContext?.toast(DARK_MODE)
+        requireContext()?.toast(DARK_MODE)
 
     // Go to home page.
     private fun goToHomePage() =
@@ -123,7 +112,7 @@ class SettingsFragment :
     private fun setLocale(language: String) {
         val locale = Locale(language)
         Locale.setDefault(locale)
-        val resource = mContext?.resources
+        val resource = requireContext()?.resources
         val config = resource?.configuration
         config?.setLocale(locale)
         config?.setLayoutDirection(locale)
@@ -135,11 +124,12 @@ class SettingsFragment :
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        profile.title = mContext?.getString(R.string.profile_title)
-        languages.title = mContext?.getString(R.string.languages_title)
-        personalCategory.title = mContext?.getString(R.string.personal_title)
+        listView.layoutDirection = View.LAYOUT_DIRECTION_LOCALE
+        profile.title = requireContext()?.getString(R.string.profile_title)
+        languages.title = requireContext()?.getString(R.string.languages_title)
+        personalCategory.title = requireContext()?.getString(R.string.personal_title)
         languagesSettingsCategory.title =
-            mContext?.getString(R.string.languages_settings_title)
+            requireContext()?.getString(R.string.languages_settings_title)
         goToHomePage()
     }
 }

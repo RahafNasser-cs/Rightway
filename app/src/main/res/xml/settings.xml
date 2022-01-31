@@ -3,10 +3,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
         <PreferenceCategory
             android:key="@string/personal_key"
-            android:title="@string/personal_title">
+            android:title="@string/personal_title"
+            >
             <Preference
                 app:key="@string/profile_key"
-                app:title="@string/profile_title" />
+                app:title="@string/profile_title"
+                />
         </PreferenceCategory>
         <!--    <PreferenceCategory android:title="@string/general_title">-->
         <!--        <SwitchPreference-->
@@ -16,11 +18,13 @@
 
         <!--    </PreferenceCategory>-->
         <PreferenceCategory android:title="@string/languages_settings_title"
-            android:key="@string/languages_settings_title_key">
+            android:key="@string/languages_settings_title_key"
+            >
             <ListPreference
                 android:entries="@array/languages"
                 android:entryValues="@array/lang_code"
                 app:key="@string/languages_key"
-                app:title="@string/languages_title" />
+                app:title="@string/languages_title"
+               />
         </PreferenceCategory>
     </androidx.preference.PreferenceScreen>
