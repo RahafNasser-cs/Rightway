@@ -16,6 +16,10 @@ class TimerViewModel : ViewModel() {
     private var _millisUntilFinished = MutableLiveData<Long>()
     val millisUntilFinished: MutableLiveData<Long> get() = _millisUntilFinished
 
+    init {
+        setTimerValue()
+        startTimer()
+    }
     // To set timer value.
     fun setTimerValue(seconds: Int = 0) {
         _timerValue.value = seconds

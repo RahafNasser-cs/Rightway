@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutsBinding
@@ -54,6 +56,18 @@ class WorkoutsFragment : Fragment() {
             titleRecyclerview.adapter = adapter
         }
         handleLayout()
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To handle layout status --> ERROR, LOADING, SUCCESS.
@@ -107,6 +121,7 @@ class WorkoutsFragment : Fragment() {
     // To redraw the layout.
     override fun onResume() {
         super.onResume()
+        onBackPressedDispatcher()
         viewModel.setListSavedWorkout()
         viewModel.listSavedWorkout.observe(viewLifecycleOwner, {
             binding?.titleRecyclerview?.adapter = adapter

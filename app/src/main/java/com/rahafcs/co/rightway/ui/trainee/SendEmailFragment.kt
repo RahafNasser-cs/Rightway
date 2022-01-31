@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
@@ -49,6 +51,23 @@ class SendEmailFragment : Fragment() {
                 sendEmail()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedDispatcher()
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To complete send email process.

@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">Rightway</string>
     <string name="web_client">427576789394-3botmelcdrunvn14h1dptpibd8n3r7kj.apps.googleusercontent.com</string>
-    <string name="option_3">تمرين مكثف 6-7 مرات / أسبوع</string>
-    <string name="option_2">تمرين 4-5 مرات في الأسبوع</string>
-    <string name="option_1">تمرين من 1 إلى 3 مرات في الأسبوع</string>
+    <string name="option_3">تمرين مكثف 6–7 مرات في الأسبوع</string>
+    <string name="option_2">تمرين 4–5 مرات في الأسبوع</string>
+    <string name="option_1">تمرين من 1–3 مرات في الأسبوع</string>
     <string name="option_0">تمرين قليل أو لا يوجد</string>
     <string name="or">أو</string>
     <string name="first_name">الأسم الأول</string>
@@ -13,7 +13,7 @@
     <string name="password">الرقم السري</string>
     <string name="trainer">مدرب</string>
     <string name="trainee">متدرب</string>
-    <string name="Workouts">التماربن</string>
+    <string name="Workouts">التمارين</string>
     <string name="Brows">بحث</string>
     <string name="Coaches">المدربين</string>
     <string name="sign_up">التسجيل</string>
@@ -30,7 +30,7 @@
     <string name="sign_out">تسجيل الخروج</string>
     <string name="back_to_home">الصفحة الرئيسية</string>
     <string name="confirm_sign_out">هل أنت متأكد أنك تريد الخروج؟</string>
-    <string name="cancel">إالغاء</string>
+    <string name="cancel">إلغاء</string>
     <string name="sign_out_error">خطأ ما حاول مرة أخرى!</string>
     <string name="user_info">userInfo</string>
     <string name="enter_age">ادخل العمر</string>
@@ -124,12 +124,19 @@
     <string name="languages_title">اللغات</string>
     <string name="en">اللغة الإنجليزية</string>
     <string name="personal_title">شخصي</string>
-
+    <string name="personal_key">personal</string>
+    <string name="languages_settings_title_key">languageTitle</string>
+    <string name="english">الإنجليزية</string>
+    <string name="arabic">العربية</string>
+    <string name="language_select">العربية</string>
+    <string name="lang_code_en">en</string>
+    <string name="lang_code_ar">ar</string>
+    <string name="language_code_select">ar</string>
 
 
     <string-array name="languages">
-        <item>الإنجليزية</item>
-        <item>العربية</item>
+        <item>@string/english</item>
+        <item>@string/arabic</item>
     </string-array>
 
     <string-array name="lang_code">

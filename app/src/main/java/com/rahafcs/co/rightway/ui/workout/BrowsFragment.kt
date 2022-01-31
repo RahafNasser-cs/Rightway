@@ -2,6 +2,7 @@ package com.rahafcs.co.rightway.ui.workout
 
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.ViewPagerFragmentDirections
@@ -39,6 +40,23 @@ class BrowsFragment : Fragment() {
             dumbbellChip.setOnClickListener { showWorkoutWithDumbbell() }
             noEquipmentCard.setOnClickListener { showWorkoutWithBodyWeight() }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedDispatcher()
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     override fun onDestroyView() {

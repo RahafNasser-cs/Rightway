@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -73,6 +74,23 @@ class CoachInfoFragment : Fragment() {
             putString(COACH_PRICE_RANGE, priceRange)
             apply()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedDispatcher()
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To go home page.

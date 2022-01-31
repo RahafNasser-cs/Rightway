@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentCoachesBinding
@@ -50,6 +52,7 @@ class CoachesFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        onBackPressedDispatcher()
         lifecycleScope.launch {
             viewModel.coachList.collect {
                 val adapter = CoachAdapter(userType)
@@ -57,6 +60,18 @@ class CoachesFragment : Fragment() {
                 adapter.submitList(it.coachInfoUiState)
             }
         }
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To get user type --> Trainer"Coach" or Trainee.

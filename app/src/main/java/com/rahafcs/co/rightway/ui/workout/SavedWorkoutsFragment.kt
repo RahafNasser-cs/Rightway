@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSavedWorkoutsBinding
@@ -56,6 +58,7 @@ class SavedWorkoutsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        onBackPressedDispatcher()
         viewModel.listSavedWorkout.observe(viewLifecycleOwner, {
             adapter.submitList(it)
             if (it.isEmpty()) {
@@ -64,6 +67,18 @@ class SavedWorkoutsFragment : Fragment() {
                 showLayoutOfSavedWorkouts()
             }
         })
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To show saved workouts.

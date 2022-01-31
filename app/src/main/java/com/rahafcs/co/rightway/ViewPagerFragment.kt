@@ -55,6 +55,7 @@ class ViewPagerFragment : Fragment() {
             }
         }.attach()
 
+//        binding.viewPager.setCurrentItem(adapter.itemCount - 1, false)
         return binding.root
     }
 
@@ -76,7 +77,8 @@ class ViewPagerFragment : Fragment() {
 
     // Go to settings page.
     private fun goToSettings() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragment2ToSettingsFragment(userType)
+        val action =
+            ViewPagerFragmentDirections.actionViewPagerFragment2ToSettingsFragment(userType)
         findNavController().navigate(action)
     }
 

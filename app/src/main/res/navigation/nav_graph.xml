@@ -195,5 +195,8 @@
         <argument
             android:name="userType"
             app:argType="string" />
+        <action
+            android:id="@+id/action_settingsFragment_to_viewPagerFragment2"
+            app:destination="@id/viewPagerFragment2" />
     </fragment>
 </navigation>

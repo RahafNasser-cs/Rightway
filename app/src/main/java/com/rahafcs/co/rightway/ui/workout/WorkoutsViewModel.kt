@@ -10,7 +10,6 @@ import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.ui.state.*
 import com.rahafcs.co.rightway.utility.Constant.ALL_EQUIPMENT
 import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
-import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterSmall
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -66,7 +65,7 @@ class WorkoutsViewModel(
                     workoutRepository.getWorkoutsByEquipment(equipment)
                 val type =
                     if (equipment.isEmpty()) ALL_EQUIPMENT else equipment
-                        .capitalizeFormatIfFirstLatterSmall()
+//                        .capitalizeFormatIfFirstLatterSmall()
                 val list = result.map {
                     WorkoutsInfoUiState(
                         gifUrl = it.gifUrl,
