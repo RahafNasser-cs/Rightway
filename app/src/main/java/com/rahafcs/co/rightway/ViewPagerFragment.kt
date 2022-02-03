@@ -1,5 +1,6 @@
 package com.rahafcs.co.rightway
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +17,15 @@ import com.rahafcs.co.rightway.ui.coach.CoachesFragment
 import com.rahafcs.co.rightway.ui.workout.BrowsFragment
 import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
 import com.rahafcs.co.rightway.ui.workout.WorkoutsViewModel
+import com.rahafcs.co.rightway.utility.Constant
+import com.rahafcs.co.rightway.utility.LocaleHelper
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import kotlinx.coroutines.launch
 
 class ViewPagerFragment : Fragment() {
     private var _binding: FragmentViewPagerBinding? = null
     val binding get() = _binding!!
+    private val localeHelper = LocaleHelper()
 
     private val workoutsViewModel: WorkoutsViewModel by activityViewModels {
         ViewModelFactory(
@@ -46,26 +50,17 @@ class ViewPagerFragment : Fragment() {
         )
         binding.viewPager.isUserInputEnabled = false // to disable swiping
         binding.viewPager.adapter = adapter
-
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            when (position) {
-                0 -> tab.text = requireContext().getString(R.string.Workouts)
-                1 -> tab.text = requireContext().getString(R.string.Brows)
-                2 -> tab.text = requireContext().getString(R.string.Coaches)
-            }
-        }.attach()
-
-//        binding.viewPager.setCurrentItem(adapter.itemCount - 1, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        appLanguage()
         workoutsViewModel.getUserType() // to get user type--> trainer or trainee
         getUserType()
         reloadListOfSavedWorkouts()
         binding.userInfo.setOnClickListener {
-            if (userType.equals(requireContext().getString(R.string.trainer), true)) {
+            if (isTrainer()) {
                 goToCoachInfoSettings()
             } else {
                 goToTraineeInfoSettings()
@@ -74,6 +69,41 @@ class ViewPagerFragment : Fragment() {
         binding.savedWorkout.setOnClickListener { goToSavedWorkoutsPage() }
         binding.settings.setOnClickListener { goToSettings() }
     }
+
+    // To set local language from sharedPreferences.
+    private fun appLanguage() {
+        val sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
+        sharedPreferences.getString(
+            Constant.LANGUAGE_CODE,
+            getString(R.string.language_code_select)
+        )?.let {
+            localeHelper.setLocale(it, requireContext())
+            onConfigurationChanged(localeHelper.configuration)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.text = requireContext().getString(R.string.Workouts)
+                1 -> tab.text = requireContext().getString(R.string.Brows)
+                2 -> tab.text = requireContext().getString(R.string.Coaches)
+            }
+        }.attach()
+        binding.homePage.text = getString(R.string.home)
+    }
+
+    // Check user type --> trainer "coach" or trainee.
+    private fun isTrainer() =
+        userType.equals(
+            requireContext().getString(R.string.trainer_to_compare_en),
+            true
+        ) || userType.equals(
+            requireContext().getString(R.string.trainer_to_compare_ar),
+            true
+        )
 
     // Go to settings page.
     private fun goToSettings() {

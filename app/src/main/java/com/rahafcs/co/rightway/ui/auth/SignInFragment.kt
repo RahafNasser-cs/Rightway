@@ -20,6 +20,7 @@ import com.google.firebase.auth.AuthResult
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
+import com.rahafcs.co.rightway.utility.Constant
 import com.rahafcs.co.rightway.utility.Constant.EMAIL
 import com.rahafcs.co.rightway.utility.Constant.REMEMBER_ME
 import com.rahafcs.co.rightway.utility.Constant.USERID
@@ -210,6 +211,7 @@ class SignInFragment : Fragment() {
             activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         sharedPreferences.edit().apply {
             putString(USERID, userId)
+            putString(Constant.LANGUAGE_CODE, "")
             apply()
         }
     }

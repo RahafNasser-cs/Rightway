@@ -11,6 +11,8 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="trainer">Trainer</string>
+    <string name="trainer_to_compare_ar">مدرب</string>
+    <string name="trainer_to_compare_en">Trainer</string>
     <string name="trainee">Trainee</string>
     <string name="Workouts">Workouts</string>
     <string name="Brows">Brows</string>
@@ -131,7 +133,7 @@
     <string name="lang_code_en">en</string>
     <string name="lang_code_ar">ar</string>
     <string name="language_code_select">en</string>
-
+    <string name="remember_me">Remember me</string>
 
 
     <string-array name="languages">

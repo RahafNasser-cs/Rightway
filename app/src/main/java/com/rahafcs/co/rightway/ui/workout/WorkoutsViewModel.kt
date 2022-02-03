@@ -38,7 +38,7 @@ class WorkoutsViewModel(
     private var _userStatus = MutableStateFlow("")
 
     init {
-        getAllWorkouts()
+        // getAllWorkouts()
     }
 
     // To set list od saved workouts from Firestore.

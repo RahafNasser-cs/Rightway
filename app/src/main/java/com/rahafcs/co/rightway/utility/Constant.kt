@@ -32,4 +32,5 @@ object Constant {
     const val LANGUAGES = "languages"
     const val PROFILE = "profile"
     const val DARK_MODE = "darkMode"
+    const val LANGUAGE_CODE = "languageCode"
 }

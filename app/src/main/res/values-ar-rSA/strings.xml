@@ -12,6 +12,8 @@
     <string name="email">البريد الإلكتروني</string>
     <string name="password">الرقم السري</string>
     <string name="trainer">مدرب</string>
+    <string name="trainer_to_compare_ar">مدرب</string>
+    <string name="trainer_to_compare_en">Trainer</string>
     <string name="trainee">متدرب</string>
     <string name="Workouts">التمارين</string>
     <string name="Brows">بحث</string>
@@ -132,6 +134,7 @@
     <string name="lang_code_en">en</string>
     <string name="lang_code_ar">ar</string>
     <string name="language_code_select">ar</string>
+    <string name="remember_me">تذكرني</string>
 
 
     <string-array name="languages">

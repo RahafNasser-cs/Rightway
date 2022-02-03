@@ -1,5 +1,6 @@
 package com.rahafcs.co.rightway.ui.coach
 
+import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +9,9 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -42,6 +45,11 @@ class CoachInfoSettingsFragment : Fragment() {
     }
     private var isEditMode = false
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ServiceLocator.ProgramListService.application = context?.applicationContext as Application
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -70,6 +78,7 @@ class CoachInfoSettingsFragment : Fragment() {
                 }
             }
         }
+        readCoachInfo()
     }
 
     override fun onResume() {
@@ -92,9 +101,13 @@ class CoachInfoSettingsFragment : Fragment() {
     // To get user "coach" info then show it in edittext.
     private fun readCoachInfo() {
         lifecycleScope.launch {
-            coachViewModel.coachInfoUiState.collect {
-                if (isEditMode)
-                    showEditUserInfo(it)
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                coachViewModel.coachInfoUiState.collect {
+                    if (isEditMode)
+                        showEditUserInfo(it)
+                    else
+                        showUserInfo(it)
+                }
             }
         }
     }
@@ -164,6 +177,17 @@ class CoachInfoSettingsFragment : Fragment() {
             coachPhone.visibility = View.VISIBLE
             coachRangePrice.visibility = View.VISIBLE
         }
+
+    // Show user "trainee" info in textview.
+    private fun showUserInfo(coachInfo: CoachInfoUiState) {
+        binding.apply {
+            coachNameTextview.text = coachInfo.name
+            coachExperience.text = coachInfo.experience
+            coachEmail.text = coachInfo.email
+            coachPhone.text = coachInfo.phoneNumber
+            coachRangePrice.text = coachInfo.price
+        }
+    }
 
     // Make edittext gone to disable edit mode.
     private fun hideEditUserInfo() =

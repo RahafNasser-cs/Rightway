@@ -1,5 +1,6 @@
 package com.rahafcs.co.rightway.data.source
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.rahafcs.co.rightway.data.User
@@ -25,17 +26,20 @@ class UserRemoteDataSource : UserDataSource {
     override fun saveUserInfo(user: User) {
         FirebaseAuth.getInstance().currentUser?.let { firebaseUser ->
             db.collection(collection).document(firebaseUser.uid).set(user)
-                .addOnSuccessListener {}
+                .addOnSuccessListener {
+                    Log.e(TAG, "saveUserInfo: uid -- ${firebaseUser.uid}",)
+                }
                 .addOnFailureListener {}
         }
     }
 
     // To get user info
     override suspend fun readUserInfo(): Flow<User> = callbackFlow {
-        FirebaseAuth.getInstance().currentUser?.let {
-            db.collection(collection).document(it.uid).addSnapshotListener { value, error ->
+        FirebaseAuth.getInstance().currentUser?.let { firebaseUser ->
+            db.collection(collection).document(firebaseUser.uid).addSnapshotListener { value, error ->
                 val userInfo = value?.toObject(User::class.java)
                 userInfo?.let {
+                    Log.e(TAG, "readUserInfo: uid -- ${firebaseUser.uid}", )
                     trySend(userInfo)
                 }
             }

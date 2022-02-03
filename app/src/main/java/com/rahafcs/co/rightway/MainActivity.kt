@@ -1,5 +1,6 @@
 package com.rahafcs.co.rightway
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -22,7 +23,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        // navController.popBackStack()
         supportFragmentManager.popBackStack()
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
     }
 }

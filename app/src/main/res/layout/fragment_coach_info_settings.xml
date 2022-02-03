@@ -154,10 +154,10 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="244dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginEnd="4dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/experience_textview"
-                app:layout_constraintStart_toEndOf="@id/experience_textview"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/experience_textview">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/email_textview"
-                app:layout_constraintStart_toStartOf="@id/experience_input_layout"
+                app:layout_constraintEnd_toEndOf="@id/experience_input_layout"
                 app:layout_constraintTop_toTopOf="@id/email_textview">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -237,7 +237,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/phone_textview"
-                app:layout_constraintStart_toStartOf="@id/email_input_layout"
+                app:layout_constraintEnd_toEndOf="@id/email_input_layout"
                 app:layout_constraintTop_toTopOf="@id/phone_textview">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -277,7 +277,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/range_price_textview"
-                app:layout_constraintStart_toStartOf="@id/phone_input_layout"
+                app:layout_constraintEnd_toEndOf="@id/phone_input_layout"
                 app:layout_constraintTop_toTopOf="@id/range_price_textview">
 
                 <com.google.android.material.textfield.TextInputEditText

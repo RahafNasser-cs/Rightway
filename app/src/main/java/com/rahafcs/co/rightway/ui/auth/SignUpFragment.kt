@@ -22,6 +22,7 @@ import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.SubscriptionStatus
 import com.rahafcs.co.rightway.databinding.FragmentSignUpBinding
+import com.rahafcs.co.rightway.utility.Constant
 import com.rahafcs.co.rightway.utility.Constant.EMAIL
 import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
 import com.rahafcs.co.rightway.utility.Constant.LAST_NAME
@@ -124,6 +125,7 @@ class SignUpFragment : Fragment() {
             putBoolean(SIGN_UP, true)
             putBoolean(REMEMBER_ME, false)
             putString(EMAIL, "")
+            putString(Constant.LANGUAGE_CODE, "")
             apply()
         }
     }

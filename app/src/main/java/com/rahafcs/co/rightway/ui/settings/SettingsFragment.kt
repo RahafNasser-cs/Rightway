@@ -1,5 +1,6 @@
 package com.rahafcs.co.rightway.ui.settings
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
@@ -12,9 +13,10 @@ import androidx.preference.PreferenceFragmentCompat
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.utility.Constant.DARK_MODE
 import com.rahafcs.co.rightway.utility.Constant.LANGUAGES
+import com.rahafcs.co.rightway.utility.Constant.LANGUAGE_CODE
 import com.rahafcs.co.rightway.utility.Constant.PROFILE
+import com.rahafcs.co.rightway.utility.LocaleHelper
 import com.rahafcs.co.rightway.utility.toast
-import java.util.*
 
 class SettingsFragment :
     PreferenceFragmentCompat() {
@@ -24,6 +26,7 @@ class SettingsFragment :
     private lateinit var languagesSettingsCategory: PreferenceCategory
     private lateinit var profile: Preference
     private lateinit var languages: Preference
+    private val localeHelper = LocaleHelper()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
@@ -31,13 +34,27 @@ class SettingsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val languagePref = findPreference<Preference>(LANGUAGES)
-        languagePref?.summary = getString(R.string.language_select)
+        preparePreferences()
+        appLanguage()
+    }
+
+    // To find and prepare preferences.
+    private fun preparePreferences() {
         profile = findPreference(getString(R.string.profile_key))!!
         languages = findPreference(getString(R.string.languages_key))!!
+        languages.summary = getString(R.string.language_select)
         personalCategory = findPreference(getString(R.string.personal_key))!!
         languagesSettingsCategory =
             findPreference(getString(R.string.languages_settings_title_key))!!
+    }
+
+    // To set local language from sharedPreferences.
+    private fun appLanguage() {
+        val sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
+        sharedPreferences.getString(LANGUAGE_CODE, getString(R.string.language_code_select))?.let {
+            localeHelper.setLocale(it, requireContext())
+        }
     }
 
     override fun onResume() {
@@ -74,7 +91,7 @@ class SettingsFragment :
                 true
             }
             findPreference<Preference>(PROFILE) -> {
-                if (args.userType.equals(requireContext()?.getString(R.string.trainer), true)) {
+                if (isTrainer()) {
                     goToCoachInfoSettings()
                 } else {
                     goToTraineeInfoSettings()
@@ -87,9 +104,30 @@ class SettingsFragment :
         }
     }
 
+    // Save language code in 
+    private fun saveInSharedPreferences(languageCode: String) {
+        val sharedPreferences =
+            activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
+        sharedPreferences.edit().apply {
+            putString(LANGUAGE_CODE, languageCode)
+        }.apply()
+    }
+
+    // Check user type --> trainer "coach" or trainee.
+    private fun isTrainer() =
+        args.userType.equals(
+            requireContext().getString(R.string.trainer_to_compare_en),
+            true
+        ) || args.userType.equals(
+            requireContext().getString(R.string.trainer_to_compare_ar),
+            true
+        )
+
     // To change languages. 
     private fun changeLanguage(languagePref: Preference, languageCode: String) {
-        setLocale(languageCode)
+        localeHelper.setLocale(languageCode, requireContext())
+        saveInSharedPreferences(languageCode)
+        onConfigurationChanged(localeHelper.configuration)
         languagePref.summary = requireContext()?.getString(R.string.language_select)
     }
 
@@ -102,26 +140,13 @@ class SettingsFragment :
         findNavController().navigate(R.id.action_settingsFragment_to_coachInfoSettingsFragment)
 
     private fun darkMode() =
-        requireContext()?.toast(DARK_MODE)
+        requireContext().toast(DARK_MODE)
 
     // Go to home page.
     private fun goToHomePage() =
         findNavController().navigateUp()
 
-    // Set a new language.
-    private fun setLocale(language: String) {
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val resource = requireContext()?.resources
-        val config = resource?.configuration
-        config?.setLocale(locale)
-        config?.setLayoutDirection(locale)
-        resource?.updateConfiguration(config, resource.displayMetrics)
-        config?.let {
-            onConfigurationChanged(it)
-        }
-    }
-
+    // Update views when configuration changed.
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         listView.layoutDirection = View.LAYOUT_DIRECTION_LOCALE
