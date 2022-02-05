@@ -12,14 +12,17 @@
 ## Techniques
 ### Tools
 - Platform -> Android Studio - Kotlin
-- GitKraken - Gitflow.
+- GitKraken -> Gitflow.
+- Clean architecture usring MVVM.
 ### Librarys
-- Firebase -> Authentication, Firestore, Cloud Messaging.
+- Coroutines.
+- Hilt
 - Retrofit.
 - Moshi.
 - Navigation.
 - Glide
-- Coroutines.
+- Firebase -> Authentication, Firestore, Cloud Messaging.
+
 
 ## Demo
 
