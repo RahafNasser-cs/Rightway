@@ -18,7 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
 import com.rahafcs.co.rightway.utility.Constant
 import com.rahafcs.co.rightway.utility.Constant.EMAIL
@@ -27,19 +26,16 @@ import com.rahafcs.co.rightway.utility.Constant.USERID
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
+@AndroidEntryPoint
 class SignInFragment : Fragment() {
     var binding: FragmentSignInBinding? = null
     private lateinit var sharedPreferences: SharedPreferences
-    private val authViewModel by activityViewModels<AuthViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val authViewModel by activityViewModels<AuthViewModel>()
+//    lateinit var googleSignInOptions: GoogleSignInOptions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

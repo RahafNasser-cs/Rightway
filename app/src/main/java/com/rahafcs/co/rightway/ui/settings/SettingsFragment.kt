@@ -17,7 +17,9 @@ import com.rahafcs.co.rightway.utility.Constant.LANGUAGE_CODE
 import com.rahafcs.co.rightway.utility.Constant.PROFILE
 import com.rahafcs.co.rightway.utility.LocaleHelper
 import com.rahafcs.co.rightway.utility.toast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment :
     PreferenceFragmentCompat() {
 

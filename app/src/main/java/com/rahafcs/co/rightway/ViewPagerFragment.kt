@@ -19,21 +19,23 @@ import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment
 import com.rahafcs.co.rightway.ui.workout.WorkoutsViewModel
 import com.rahafcs.co.rightway.utility.Constant
 import com.rahafcs.co.rightway.utility.LocaleHelper
-import com.rahafcs.co.rightway.utility.ServiceLocator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ViewPagerFragment : Fragment() {
     private var _binding: FragmentViewPagerBinding? = null
     val binding get() = _binding!!
     private val localeHelper = LocaleHelper()
 
-    private val workoutsViewModel: WorkoutsViewModel by activityViewModels {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val workoutsViewModel: WorkoutsViewModel by activityViewModels()
+//    {
+//        ViewModelFactory(
+//            ServiceLocator.provideWorkoutRepository(),
+//            ServiceLocator.provideDefaultUserRepository(),
+// //            ServiceLocator.provideAuthRepository()
+//        )
+//    }
     private var userType = ""
 
     override fun onCreateView(

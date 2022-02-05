@@ -12,7 +12,9 @@ import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.databinding.FragmentWelcomeBinding
 import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
 import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WelcomeFragment : Fragment() {
     private var _binding: FragmentWelcomeBinding? = null
     val binding: FragmentWelcomeBinding get() = _binding!!

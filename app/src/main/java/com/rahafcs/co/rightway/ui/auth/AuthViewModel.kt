@@ -3,8 +3,11 @@ package com.rahafcs.co.rightway.ui.auth
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.rahafcs.co.rightway.data.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
+@HiltViewModel
+class AuthViewModel @Inject constructor(private val authRepository: AuthRepository) : ViewModel() {
     fun signInWithGoogle() {}
 
     // Sign in with email and password.

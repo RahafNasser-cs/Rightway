@@ -13,21 +13,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSendEmailBinding
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SendEmailFragment : Fragment() {
     private var binding: FragmentSendEmailBinding? = null
-    private val emailViewModel by activityViewModels<EmailViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val emailViewModel by activityViewModels<EmailViewModel>()
     private val args: SendEmailFragmentArgs by navArgs()
 
     override fun onCreateView(

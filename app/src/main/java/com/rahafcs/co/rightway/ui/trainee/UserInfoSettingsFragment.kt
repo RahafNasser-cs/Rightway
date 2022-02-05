@@ -16,33 +16,37 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentUserInfoSettingsBinding
 import com.rahafcs.co.rightway.ui.auth.AuthViewModel
 import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class UserInfoSettingsFragment : Fragment() {
     var binding: FragmentUserInfoSettingsBinding? = null
     private var isEditMode = false
-    private val traineeViewModel: TraineeViewModel by activityViewModels {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
-    private val authViewModel by activityViewModels<AuthViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val traineeViewModel: TraineeViewModel by activityViewModels()
+
+    //    {
+//        ViewModelFactory(
+//            ServiceLocator.provideWorkoutRepository(),
+//            ServiceLocator.provideDefaultUserRepository(),
+// //            ServiceLocator.provideAuthRepository()
+//        )
+//    }
+    private val authViewModel by activityViewModels<AuthViewModel>()
+//    {
+//        ViewModelFactory(
+//            ServiceLocator.provideWorkoutRepository(),
+//            ServiceLocator.provideDefaultUserRepository(),
+//            ServiceLocator.provideAuthRepository()
+//        )
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

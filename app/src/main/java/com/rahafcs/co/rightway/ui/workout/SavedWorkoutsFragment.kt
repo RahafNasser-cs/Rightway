@@ -9,21 +9,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSavedWorkoutsBinding
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.upToTop
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SavedWorkoutsFragment : Fragment() {
     private var _binding: FragmentSavedWorkoutsBinding? = null
     val binding get() = _binding!!
-    val viewModel by activityViewModels<WorkoutsViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    val viewModel by activityViewModels<WorkoutsViewModel> ()
+//    {
+//        ViewModelFactory(
+//            ServiceLocator.provideWorkoutRepository(),
+//            ServiceLocator.provideDefaultUserRepository(),
+// //            ServiceLocator.provideAuthRepository()
+//        )
+//    }
     private lateinit var adapter: WorkoutHorizontalAdapter
 
     override fun onCreateView(

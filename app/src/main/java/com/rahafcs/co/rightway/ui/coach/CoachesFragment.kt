@@ -11,21 +11,22 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentCoachesBinding
-import com.rahafcs.co.rightway.utility.ServiceLocator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class CoachesFragment : Fragment() {
     private var _binding: FragmentCoachesBinding? = null
-    private val viewModel: CoachViewModel by activityViewModels {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val viewModel: CoachViewModel by activityViewModels()
+//    {
+//        ViewModelFactory(
+//            ServiceLocator.provideWorkoutRepository(),
+//            ServiceLocator.provideDefaultUserRepository(),
+// //            ServiceLocator.provideAuthRepository()
+//        )
+//    }
     private var userType = ""
 
     override fun onCreateView(

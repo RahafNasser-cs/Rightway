@@ -114,6 +114,7 @@ fun TextView.getStringFromResources(messageKey: String) {
         KETTLE_BELL -> this.text = this.context.getString(R.string.kettle_bell)
         BODY_WEIGHT -> this.text = this.context.getString(R.string.body_weight)
         RESISTANCE_BAND -> this.text = this.context.getString(R.string.resistance_band)
+        else -> ""
     }
 }
 

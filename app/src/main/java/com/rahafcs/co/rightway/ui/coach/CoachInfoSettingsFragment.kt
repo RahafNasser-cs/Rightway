@@ -16,33 +16,36 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoSettingsBinding
 import com.rahafcs.co.rightway.ui.auth.AuthViewModel
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
 import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class CoachInfoSettingsFragment : Fragment() {
     private var _binding: FragmentCoachInfoSettingsBinding? = null
     val binding: FragmentCoachInfoSettingsBinding get() = _binding!!
-    private val coachViewModel by activityViewModels<CoachViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
-    private val authViewModel by activityViewModels<AuthViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val coachViewModel by activityViewModels<CoachViewModel>()
+//    {
+//        ViewModelFactory(
+//            ServiceLocator.provideWorkoutRepository(),
+//            ServiceLocator.provideDefaultUserRepository(),
+//        )
+//    }
+    private val authViewModel by activityViewModels<AuthViewModel>()
+
+    //    {
+//        ViewModelFactory(
+//            ServiceLocator.provideWorkoutRepository(),
+//            ServiceLocator.provideDefaultUserRepository(),
+//            ServiceLocator.provideAuthRepository()
+//        )
+//    }
     private var isEditMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

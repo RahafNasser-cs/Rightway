@@ -13,26 +13,27 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutsByEquipmentBinding
 import com.rahafcs.co.rightway.ui.state.BrowsWorkoutUiState
 import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment.Companion.listOfSavedWorkouts
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.upToTop
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class WorkoutsByEquipmentFragment : Fragment() {
 
     private var binding: FragmentWorkoutsByEquipmentBinding? = null
     private val args: WorkoutsByEquipmentFragmentArgs by navArgs()
-    private val viewModel by activityViewModels<WorkoutsViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val viewModel by activityViewModels<WorkoutsViewModel>()
+//    {
+//        ViewModelFactory(
+//            ServiceLocator.provideWorkoutRepository(),
+//            ServiceLocator.provideDefaultUserRepository(),
+// //            ServiceLocator.provideAuthRepository()
+//        )
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

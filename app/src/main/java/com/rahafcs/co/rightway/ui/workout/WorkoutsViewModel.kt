@@ -10,10 +10,13 @@ import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.ui.state.*
 import com.rahafcs.co.rightway.utility.Constant.ALL_EQUIPMENT
 import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WorkoutsViewModel(
+@HiltViewModel
+class WorkoutsViewModel @Inject constructor(
     private val workoutRepository: DefaultWorkoutsRepository,
     private val userRepository: DefaultUserRepository,
 ) : ViewModel() {
@@ -33,9 +36,6 @@ class WorkoutsViewModel(
     // Use it to saved workouts fragment.
     private val _listSavedWorkout = MutableLiveData<List<WorkoutsInfoUiState>>()
     val listSavedWorkout: MutableLiveData<List<WorkoutsInfoUiState>> get() = _listSavedWorkout
-
-    // To define user status --> trainer or trainee.
-    private var _userStatus = MutableStateFlow("")
 
     init {
         // getAllWorkouts()

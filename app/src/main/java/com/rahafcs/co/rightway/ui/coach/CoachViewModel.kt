@@ -8,13 +8,16 @@ import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 import com.rahafcs.co.rightway.ui.state.ListCoachInfoUiState
 import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class CoachViewModel(
+@HiltViewModel
+class CoachViewModel @Inject constructor(
     private val userRepository: DefaultUserRepository,
 ) : ViewModel() {
     // To show it in coaches list --> fragment_coaches.xml.

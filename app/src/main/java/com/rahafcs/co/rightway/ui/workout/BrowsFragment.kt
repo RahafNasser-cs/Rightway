@@ -13,7 +13,9 @@ import com.rahafcs.co.rightway.utility.Constant.CABLE
 import com.rahafcs.co.rightway.utility.Constant.DUMBBELL
 import com.rahafcs.co.rightway.utility.Constant.KETTLE_BELL
 import com.rahafcs.co.rightway.utility.Constant.RESISTANCE_BAND
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BrowsFragment : Fragment() {
 
     private var binding: FragmentBrowsBinding? = null

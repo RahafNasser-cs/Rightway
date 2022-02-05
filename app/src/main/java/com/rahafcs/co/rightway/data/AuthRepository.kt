@@ -2,8 +2,9 @@ package com.rahafcs.co.rightway.data
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.rahafcs.co.rightway.data.source.AuthRemoteDataSource
+import javax.inject.Inject
 
-class AuthRepository(private val authRemoteDataSource: AuthRemoteDataSource) {
+class AuthRepository @Inject constructor(private val authRemoteDataSource: AuthRemoteDataSource) {
     // Sign in with email and password.
     fun signInWithEmailAndPassword(email: String, password: String) =
         authRemoteDataSource.signInWithEmailAndPassword(email, password)

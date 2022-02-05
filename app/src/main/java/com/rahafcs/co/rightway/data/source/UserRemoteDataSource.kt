@@ -1,6 +1,5 @@
 package com.rahafcs.co.rightway.data.source
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.rahafcs.co.rightway.data.User
@@ -9,10 +8,11 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import javax.inject.Inject
 
 // Implementation of a user(trainer "coach" or trainee) data source as db in Firestore.
 
-class UserRemoteDataSource : UserDataSource {
+class UserRemoteDataSource @Inject constructor() : UserDataSource {
     private val db = FirebaseFirestore.getInstance()
     private val TAG = "UserRemoteDataSource"
     private val collection = "users"
@@ -27,7 +27,6 @@ class UserRemoteDataSource : UserDataSource {
         FirebaseAuth.getInstance().currentUser?.let { firebaseUser ->
             db.collection(collection).document(firebaseUser.uid).set(user)
                 .addOnSuccessListener {
-                    Log.e(TAG, "saveUserInfo: uid -- ${firebaseUser.uid}",)
                 }
                 .addOnFailureListener {}
         }
@@ -36,13 +35,13 @@ class UserRemoteDataSource : UserDataSource {
     // To get user info
     override suspend fun readUserInfo(): Flow<User> = callbackFlow {
         FirebaseAuth.getInstance().currentUser?.let { firebaseUser ->
-            db.collection(collection).document(firebaseUser.uid).addSnapshotListener { value, error ->
-                val userInfo = value?.toObject(User::class.java)
-                userInfo?.let {
-                    Log.e(TAG, "readUserInfo: uid -- ${firebaseUser.uid}", )
-                    trySend(userInfo)
+            db.collection(collection).document(firebaseUser.uid)
+                .addSnapshotListener { value, error ->
+                    val userInfo = value?.toObject(User::class.java)
+                    userInfo?.let {
+                        trySend(userInfo)
+                    }
                 }
-            }
         }
         awaitClose { cancel() }
     }

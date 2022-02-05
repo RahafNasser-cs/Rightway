@@ -5,17 +5,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.*
 import com.rahafcs.co.rightway.data.source.*
-import com.rahafcs.co.rightway.network.WorkoutApi
-import com.rahafcs.co.rightway.network.WorkoutApiService
 
 object ServiceLocator {
-    private fun provideWorkoutApi(): WorkoutApiService = WorkoutApi.retrofitService
+//    private fun provideWorkoutApi(): WorkoutApiService = WorkoutApi.retrofitService
 
-    private fun provideWorkoutRemoteDataSource(): WorkoutRemoteDataSource =
-        WorkoutRemoteDataSource(provideWorkoutApi())
+//    private fun provideWorkoutRemoteDataSource(): WorkoutRemoteDataSource =
+//        WorkoutRemoteDataSource(provideWorkoutApi())
 
-    fun provideWorkoutRepository(): DefaultWorkoutsRepository =
-        DefaultWorkoutsRepository(provideWorkoutRemoteDataSource())
+//    fun provideWorkoutRepository(): DefaultWorkoutsRepository =
+//        DefaultWorkoutsRepository(provideWorkoutRemoteDataSource())
 
     private fun provideTraineeRemoteDataSource(): TraineeRemoteDataSource =
         TraineeRemoteDataSource()
@@ -33,9 +31,9 @@ object ServiceLocator {
         provideUserRemoteDataSource()
     )
 
-    private fun provideAuthRemoteDataSource(): AuthRemoteDataSource = AuthRemoteDataSource()
-
-    fun provideAuthRepository(): AuthRepository = AuthRepository(provideAuthRemoteDataSource())
+//    private fun provideAuthRemoteDataSource(): AuthRemoteDataSource = AuthRemoteDataSource()
+//
+//    fun provideAuthRepository(): AuthRepository = AuthRepository(provideAuthRemoteDataSource())
 
     fun provideGoogleSignInOptions(): GoogleSignInOptions =
         GoogleSignInOptions

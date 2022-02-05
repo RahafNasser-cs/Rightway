@@ -1,6 +1,7 @@
 package com.rahafcs.co.rightway.utility
 
 object Constant {
+    const val BASE_URL = "https://exercisedb.p.rapidapi.com"
     const val USERID = "userId"
     const val FIRST_NAME = "firstName"
     const val SUPERSCRIPTION = "SubscriptionStatus"

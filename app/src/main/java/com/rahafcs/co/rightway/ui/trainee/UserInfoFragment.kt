@@ -15,7 +15,9 @@ import com.rahafcs.co.rightway.utility.Constant.GENDER
 import com.rahafcs.co.rightway.utility.Constant.HEIGHT
 import com.rahafcs.co.rightway.utility.Constant.WEIGHT
 import com.rahafcs.co.rightway.utility.toast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserInfoFragment : Fragment() {
 
     private var _binding: FragmentUserInfoBinding? = null

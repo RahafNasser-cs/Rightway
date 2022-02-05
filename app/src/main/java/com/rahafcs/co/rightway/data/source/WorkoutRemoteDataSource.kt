@@ -4,21 +4,20 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.rahafcs.co.rightway.data.Workout
 import com.rahafcs.co.rightway.network.WorkoutApiService
 import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 // Implementation of a workouts data source as db in Firestore.
-
 class WorkoutRemoteDataSource(
     private val api: WorkoutApiService,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+//    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : WorkoutDataSource {
     private val TAG = WorkoutRemoteDataSource::class.java.name
     private val db = FirebaseFirestore.getInstance()
     private val collection = "workouts"
     private val document = "listOfAllWorkouts"
+    private val ioDispatcher = Dispatchers.IO
 
     // To refresh workouts. Get all workouts from API --> RapidApi
     override suspend fun getAllWorkouts(isRefresh: Boolean): List<WorkoutsInfoUiState> {

@@ -4,6 +4,7 @@ import com.rahafcs.co.rightway.data.Workout
 import com.rahafcs.co.rightway.utility.Constant.RAPID_API_KEY
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dagger.Binds
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,6 +12,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
+import javax.inject.Inject
 
 private const val BASE_URL = "https://exercisedb.p.rapidapi.com"
 
@@ -45,6 +47,14 @@ interface WorkoutApiService {
     )
     @GET("/exercises/equipment/{equipment}")
     suspend fun getWorkoutsByEquipment(@Path("equipment") equipment: String): List<Workout>
+}
+
+class WorkoutApiServiceImpl @Inject constructor(private val workoutApiService: WorkoutApiService) :
+    WorkoutApiService {
+    override suspend fun getAllWorkout(): List<Workout> = workoutApiService.getAllWorkout()
+
+    override suspend fun getWorkoutsByEquipment(equipment: String): List<Workout> =
+        workoutApiService.getWorkoutsByEquipment(equipment)
 }
 
 object WorkoutApi {
