@@ -9,8 +9,7 @@
 - You can save exercises and come back to them later.
 - If you are a coach, you can join the Rightway coaches.
 
-## Techniques
-### Tools
+### Tools and Techniques
 - Platform -> Android Studio - Kotlin
 - GitKraken -> Gitflow.
 - Clean architecture usring MVVM.
