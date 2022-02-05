@@ -1,6 +1,5 @@
 package com.rahafcs.co.rightway.ui.auth
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -23,7 +22,6 @@ import com.rahafcs.co.rightway.utility.Constant
 import com.rahafcs.co.rightway.utility.Constant.EMAIL
 import com.rahafcs.co.rightway.utility.Constant.REMEMBER_ME
 import com.rahafcs.co.rightway.utility.Constant.USERID
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,12 +33,6 @@ class SignInFragment : Fragment() {
     var binding: FragmentSignInBinding? = null
     private lateinit var sharedPreferences: SharedPreferences
     private val authViewModel by activityViewModels<AuthViewModel>()
-//    lateinit var googleSignInOptions: GoogleSignInOptions
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        ServiceLocator.ProgramListService.application = context?.applicationContext as Application
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -116,13 +108,10 @@ class SignInFragment : Fragment() {
     }
 
     // Sign in with google.
-    private fun signInWithGoogle() {
-        val googleSignInClient =
-            GoogleSignIn.getClient(requireContext(), ServiceLocator.provideGoogleSignInOptions())
-        googleSignInClient.signInIntent.also {
+    private fun signInWithGoogle() =
+        authViewModel.googleSignInClient().signInIntent.also {
             startActivityForResult(it, REQUEST_CODE_SIGNING)
         }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

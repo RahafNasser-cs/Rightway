@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.di
+package com.rahafcs.co.rightway.di.modules
 
 import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
 import com.rahafcs.co.rightway.data.WorkoutsRepository

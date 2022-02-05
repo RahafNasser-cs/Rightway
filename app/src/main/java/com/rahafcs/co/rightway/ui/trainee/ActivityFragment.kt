@@ -31,13 +31,6 @@ class ActivityFragment : Fragment() {
     private var binding: FragmentActivityBinding? = null
     private lateinit var sharedPreferences: SharedPreferences
     private val traineeViewModel: TraineeViewModel by activityViewModels()
-//    {
-//        ViewModelFactory(
-//            ServiceLocator.provideWorkoutRepository(),
-//            ServiceLocator.provideDefaultUserRepository(),
-// //            ServiceLocator.provideAuthRepository()
-//        )
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

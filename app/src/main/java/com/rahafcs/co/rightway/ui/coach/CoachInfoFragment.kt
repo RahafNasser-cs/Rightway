@@ -28,12 +28,6 @@ class CoachInfoFragment : Fragment() {
     private var _binding: FragmentCoachInfoBinding? = null
     val binding: FragmentCoachInfoBinding get() = _binding!!
     private val coachViewModel: CoachViewModel by activityViewModels()
-//    {
-//        ViewModelFactory(
-//            ServiceLocator.provideWorkoutRepository(),
-//            ServiceLocator.provideDefaultUserRepository(),
-//        )
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

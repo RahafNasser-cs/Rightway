@@ -1,6 +1,5 @@
 package com.rahafcs.co.rightway.ui.auth
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,8 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.rahafcs.co.rightway.R
@@ -31,14 +30,11 @@ import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
 import com.rahafcs.co.rightway.utility.Constant.SIGN_UP
 import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
 import com.rahafcs.co.rightway.utility.Constant.USERID
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.lang.Exception
-import javax.inject.Inject
-import javax.inject.Singleton
 
 const val REQUEST_CODE_SIGNING = 0
 
@@ -47,15 +43,7 @@ class SignUpFragment : Fragment() {
     private var binding: FragmentSignUpBinding? = null
     private lateinit var sharedPreferences: SharedPreferences
     private val authViewModel by activityViewModels<AuthViewModel>()
-
-//    @Inject
-//    @Singleton
-//    lateinit var googleSignInOptions: GoogleSignInOptions
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        ServiceLocator.ProgramListService.application = context?.applicationContext as Application
-    }
+    private lateinit var userType: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,7 +60,7 @@ class SignUpFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             signUpWithEmailPasswordBtn.setOnClickListener { registration() }
             signInLinkBtn.setOnClickListener { goToSignInPage() }
-            signUpWithGoogleBtn.setOnClickListener { signUpWithGoogle() }
+            signUpWithGoogleBtn.setOnClickListener { showDialogUserTypeToSignInWithGoogle() }
             backArrow.setOnClickListener { this@SignUpFragment.upToTop() }
         }
     }
@@ -94,18 +82,36 @@ class SignUpFragment : Fragment() {
         )
     }
 
+    // Choose user type --> trainer "coach" or trainee.
+    private fun showDialogUserTypeToSignInWithGoogle() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.user_type_dialog))
+            .setMessage(getString(R.string.user_type_dialog))
+            .setPositiveButton(getString(R.string.trainer)) { _, _ ->
+                userType = getString(R.string.trainer)
+                signUpWithGoogle()
+            }
+            .setNegativeButton(getString(R.string.trainee)) { _, _ ->
+                userType = getString(R.string.trainee)
+                signUpWithGoogle()
+            }.show()
+    }
+
     // Get user info from views. 
-    private fun getUserInfo(userId: String) {
+    private fun getUserInfo(userId: String, userType: String = "") {
         var firstName = binding?.firstNameEditText?.text.toString()
         if (firstName.isEmpty()) { // if signup with google 
             firstName = FirebaseAuth.getInstance().currentUser?.displayName.toString()
         }
         val lastName = binding?.lastNameEditText?.text.toString()
-        val subscriptionStatus = if (binding?.trainee?.isChecked == true) {
-            SubscriptionStatus.TRAINEE.toString()
-        } else {
-            SubscriptionStatus.TRAINER.toString()
-        }
+
+        val subscriptionStatus = if (userType.isEmpty()) {
+            if (binding?.trainee?.isChecked == true) {
+                SubscriptionStatus.TRAINEE.toString()
+            } else {
+                SubscriptionStatus.TRAINER.toString()
+            }
+        } else userType
         addToSharedPreference(userId, firstName, lastName, subscriptionStatus)
     }
 
@@ -150,13 +156,10 @@ class SignUpFragment : Fragment() {
         findNavController().navigate(R.id.action_signUpFragment_to_welcomeFragment)
 
     // Sign up with google.
-    private fun signUpWithGoogle() {
-        val googleSignInClient =
-            GoogleSignIn.getClient(requireContext(), ServiceLocator.provideGoogleSignInOptions())
-        googleSignInClient.signInIntent.also {
+    private fun signUpWithGoogle() =
+        authViewModel.googleSignInClient().signInIntent.also {
             startActivityForResult(it, REQUEST_CODE_SIGNING)
         }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -176,7 +179,7 @@ class SignUpFragment : Fragment() {
                 if (it is Task<*>) {
                     val task = it as Task<AuthResult>
                     if (task.isSuccessful) {
-                        getUserInfo(task.result.user?.uid!!)
+                        getUserInfo(task.result.user?.uid!!, userType)
                         goToWelcomePage()
                     }
                 } else {

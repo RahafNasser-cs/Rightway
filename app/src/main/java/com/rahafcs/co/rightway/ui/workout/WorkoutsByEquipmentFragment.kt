@@ -27,13 +27,6 @@ class WorkoutsByEquipmentFragment : Fragment() {
     private var binding: FragmentWorkoutsByEquipmentBinding? = null
     private val args: WorkoutsByEquipmentFragmentArgs by navArgs()
     private val viewModel by activityViewModels<WorkoutsViewModel>()
-//    {
-//        ViewModelFactory(
-//            ServiceLocator.provideWorkoutRepository(),
-//            ServiceLocator.provideDefaultUserRepository(),
-// //            ServiceLocator.provideAuthRepository()
-//        )
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

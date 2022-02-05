@@ -24,14 +24,6 @@ class WorkoutDetailsFragment : Fragment() {
     private val args: WorkoutDetailsFragmentArgs by navArgs()
     private var binding: FragmentWorkoutDetailsBinding? = null
     private val workoutsViewModel: WorkoutsViewModel by activityViewModels()
-
-    //    {
-//        ViewModelFactory(
-//            ServiceLocator.provideWorkoutRepository(),
-//            ServiceLocator.provideDefaultUserRepository(),
-// //            ServiceLocator.provideAuthRepository()
-//        )
-//    }
     private var isStarted = false
     private var isPause = false
     private var numberOfSeconds = 0

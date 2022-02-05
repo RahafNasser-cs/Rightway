@@ -35,14 +35,10 @@ class WelcomeFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             welcomeTextview.text = getWelcomeStatement()
             getStartedBtn.setOnClickListener {
-                if (getUserSubscriptionStatus().equals(
-                        requireContext().getString(R.string.trainee),
-                        true
-                    )
-                ) {
-                    goToTraineeInfoPage()
-                } else {
+                if (isTrainer()) {
                     goToCoachInfoPage()
+                } else {
+                    goToTraineeInfoPage()
                 }
             }
         }
@@ -64,6 +60,16 @@ class WelcomeFragment : Fragment() {
             }
         )
     }
+
+    // Check user type --> trainer "coach" or trainee.
+    private fun isTrainer() =
+        getUserSubscriptionStatus().equals(
+            requireContext().getString(R.string.trainer_to_compare_en),
+            true
+        ) || getUserSubscriptionStatus().equals(
+            requireContext().getString(R.string.trainer_to_compare_ar),
+            true
+        )
 
     // Go to trainee info page.
     private fun goToTraineeInfoPage() =

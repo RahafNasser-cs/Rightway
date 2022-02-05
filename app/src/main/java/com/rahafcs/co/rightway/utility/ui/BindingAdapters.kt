@@ -104,7 +104,7 @@ fun ImageView.findUrlGlide(imgUrl: String?) {
 }
 
 @BindingAdapter("getStringFromResources")
-fun TextView.getStringFromResources(messageKey: String) {
+fun TextView.getStringFromResources(messageKey: String?) {
     when (messageKey) {
         ERROR_MESSAGE -> this.text = this.context.getString(R.string.error_message)
         ALL_EQUIPMENT -> this.text = this.context.getString(R.string.all_equipment)
@@ -114,7 +114,6 @@ fun TextView.getStringFromResources(messageKey: String) {
         KETTLE_BELL -> this.text = this.context.getString(R.string.kettle_bell)
         BODY_WEIGHT -> this.text = this.context.getString(R.string.body_weight)
         RESISTANCE_BAND -> this.text = this.context.getString(R.string.resistance_band)
-        else -> ""
     }
 }
 

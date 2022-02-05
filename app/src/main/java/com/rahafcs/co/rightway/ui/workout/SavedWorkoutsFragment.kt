@@ -17,14 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SavedWorkoutsFragment : Fragment() {
     private var _binding: FragmentSavedWorkoutsBinding? = null
     val binding get() = _binding!!
-    val viewModel by activityViewModels<WorkoutsViewModel> ()
-//    {
-//        ViewModelFactory(
-//            ServiceLocator.provideWorkoutRepository(),
-//            ServiceLocator.provideDefaultUserRepository(),
-// //            ServiceLocator.provideAuthRepository()
-//        )
-//    }
+    val viewModel by activityViewModels<WorkoutsViewModel>()
     private lateinit var adapter: WorkoutHorizontalAdapter
 
     override fun onCreateView(

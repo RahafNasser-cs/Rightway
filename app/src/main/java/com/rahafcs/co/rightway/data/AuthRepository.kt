@@ -1,6 +1,7 @@
 package com.rahafcs.co.rightway.data
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.rahafcs.co.rightway.data.source.AuthRemoteDataSource
 import javax.inject.Inject
 
@@ -19,4 +20,7 @@ class AuthRepository @Inject constructor(private val authRemoteDataSource: AuthR
     // Sign in with google.
     fun signInWithGoogleAuthFirebase(account: GoogleSignInAccount) =
         authRemoteDataSource.signInWithGoogleAuthFirebase(account)
+
+    // Provide google sign in client.
+    fun googleSignInClient(): GoogleSignInClient = authRemoteDataSource.googleSignInClient()
 }

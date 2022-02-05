@@ -5,7 +5,6 @@
     tools:context=".ui.coach.CoachesFragment">
 
     <data>
-
         <variable
             name="coachViewModel"
             type="com.rahafcs.co.rightway.ui.coach.CoachViewModel" />
@@ -92,7 +91,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                app:coachListItem="@{coachViewModel.coachList.coachInfoUiState}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

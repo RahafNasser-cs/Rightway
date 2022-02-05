@@ -27,15 +27,7 @@ class ViewPagerFragment : Fragment() {
     private var _binding: FragmentViewPagerBinding? = null
     val binding get() = _binding!!
     private val localeHelper = LocaleHelper()
-
     private val workoutsViewModel: WorkoutsViewModel by activityViewModels()
-//    {
-//        ViewModelFactory(
-//            ServiceLocator.provideWorkoutRepository(),
-//            ServiceLocator.provideDefaultUserRepository(),
-// //            ServiceLocator.provideAuthRepository()
-//        )
-//    }
     private var userType = ""
 
     override fun onCreateView(

@@ -19,14 +19,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CoachesFragment : Fragment() {
     private var _binding: FragmentCoachesBinding? = null
-    private val viewModel: CoachViewModel by activityViewModels()
-//    {
-//        ViewModelFactory(
-//            ServiceLocator.provideWorkoutRepository(),
-//            ServiceLocator.provideDefaultUserRepository(),
-// //            ServiceLocator.provideAuthRepository()
-//        )
-//    }
+    private val coachViewModel: CoachViewModel by activityViewModels()
     private var userType = ""
 
     override fun onCreateView(
@@ -42,12 +35,13 @@ class CoachesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUserType()
+        coachViewModel.setCoachesList()
         _binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            coachViewModel = viewModel
+            coachViewModel = this@CoachesFragment.coachViewModel
             recyclerview.adapter = CoachAdapter(userType)
         }
-        viewModel.setCoachesList()
+        coachViewModel.setCoachesList()
         handleLayout()
     }
 
@@ -55,7 +49,7 @@ class CoachesFragment : Fragment() {
         super.onResume()
         onBackPressedDispatcher()
         lifecycleScope.launch {
-            viewModel.coachList.collect {
+            coachViewModel.coachList.collect {
                 val adapter = CoachAdapter(userType)
                 _binding?.recyclerview?.adapter = adapter
                 adapter.submitList(it.coachInfoUiState)
@@ -79,7 +73,7 @@ class CoachesFragment : Fragment() {
     private fun getUserType() =
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.getUserType().collect {
+                coachViewModel.getUserType().collect {
                     userType = it
                 }
             }
@@ -89,7 +83,7 @@ class CoachesFragment : Fragment() {
     private fun handleLayout() =
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.coachList.collect {
+                coachViewModel.coachList.collect {
                     when (it.loadingState) {
                         LoadingStatus.ERROR -> {
                             showErrorLayout()
@@ -98,7 +92,7 @@ class CoachesFragment : Fragment() {
                             showLoadingLayout()
                         }
                         LoadingStatus.SUCCESS -> {
-                            shoeSuccessLayout()
+                            showSuccessLayout()
                         }
                     }
                 }
@@ -106,7 +100,7 @@ class CoachesFragment : Fragment() {
         }
 
     // To show success Layout.
-    private fun shoeSuccessLayout() =
+    private fun showSuccessLayout() =
         _binding?.apply {
             error.visibility = View.GONE
             success.visibility = View.VISIBLE

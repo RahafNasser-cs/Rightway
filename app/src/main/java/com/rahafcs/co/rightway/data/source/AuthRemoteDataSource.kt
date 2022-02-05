@@ -1,9 +1,11 @@
 package com.rahafcs.co.rightway.data.source
 
 import android.content.Context
-import android.util.Log
 import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -11,10 +13,11 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import javax.inject.Inject
 
-// / @ApplicationContext context: Context
-class AuthRemoteDataSource @Inject constructor(@ApplicationContext context: Context) {
+class AuthRemoteDataSource(
+    @ApplicationContext context: Context,
+    private val googleSignInOptions: GoogleSignInOptions,
+) {
     private val appContext = context.applicationContext
 
     // Sign in with email and password.
@@ -70,4 +73,8 @@ class AuthRemoteDataSource @Inject constructor(@ApplicationContext context: Cont
         }
         awaitClose { cancel() }
     }
+
+    // Provide google sign in client.
+    fun googleSignInClient(): GoogleSignInClient =
+        GoogleSignIn.getClient(appContext, googleSignInOptions)
 }
