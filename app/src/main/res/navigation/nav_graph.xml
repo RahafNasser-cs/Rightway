@@ -23,9 +23,6 @@
         <action
             android:id="@+id/action_signInFragment_to_viewPagerFragment2"
             app:destination="@id/viewPagerFragment2" />
-        <action
-            android:id="@+id/action_signInFragment_to_homeActivity"
-            app:destination="@id/homeActivity" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -62,15 +59,7 @@
         <action
             android:id="@+id/action_activityFragment_to_viewPagerFragment2"
             app:destination="@id/viewPagerFragment2" />
-        <action
-            android:id="@+id/action_activityFragment_to_homeActivity"
-            app:destination="@id/homeActivity" />
     </fragment>
-    <activity
-        android:id="@+id/homeActivity"
-        android:name="com.rahafcs.co.rightway.HomeActivity"
-        android:label="activity_home"
-        tools:layout="@layout/activity_home" />
     <fragment
         android:id="@+id/viewPagerFragment2"
         android:name="com.rahafcs.co.rightway.ViewPagerFragment"
@@ -105,7 +94,7 @@
         tools:layout="@layout/fragment_workout_details">
         <argument
             android:name="workoutInfoUiState"
-            app:argType="com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState" />
+            app:argType="com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState" />
     </fragment>
     <fragment
         android:id="@+id/userInfoFragment"

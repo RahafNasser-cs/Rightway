@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class WorkoutDetailsFragment : Fragment() {
-
     private val timerViewModel by activityViewModels<TimerViewModel>()
     private val args: WorkoutDetailsFragmentArgs by navArgs()
     private var binding: FragmentWorkoutDetailsBinding? = null

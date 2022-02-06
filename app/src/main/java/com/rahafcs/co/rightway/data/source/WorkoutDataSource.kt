@@ -1,7 +1,7 @@
 package com.rahafcs.co.rightway.data.source
 
 import com.rahafcs.co.rightway.data.Workout
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
 
 // Main entry point to accessing workout data source. 
 

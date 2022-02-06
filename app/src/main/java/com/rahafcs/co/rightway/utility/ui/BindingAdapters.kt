@@ -14,8 +14,8 @@ import com.rahafcs.co.rightway.R
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.ui.coach.CoachAdapter
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
-import com.rahafcs.co.rightway.ui.state.WorkoutsUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsUiState
 import com.rahafcs.co.rightway.ui.workout.WorkoutHorizontalAdapter
 import com.rahafcs.co.rightway.ui.workout.WorkoutVerticalAdapter
 import com.rahafcs.co.rightway.utility.Constant.ALL_EQUIPMENT

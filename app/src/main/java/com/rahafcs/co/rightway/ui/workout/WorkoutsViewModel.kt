@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.rahafcs.co.rightway.data.DefaultUserRepository
 import com.rahafcs.co.rightway.data.DefaultWorkoutsRepository
 import com.rahafcs.co.rightway.data.LoadingStatus
-import com.rahafcs.co.rightway.ui.state.*
 import com.rahafcs.co.rightway.utility.Constant.ALL_EQUIPMENT
 import com.rahafcs.co.rightway.utility.Constant.ERROR_MESSAGE
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,7 +37,7 @@ class WorkoutsViewModel @Inject constructor(
     val listSavedWorkout: MutableLiveData<List<WorkoutsInfoUiState>> get() = _listSavedWorkout
 
     init {
-        // getAllWorkouts()
+        getAllWorkouts()
     }
 
     // To set list od saved workouts from Firestore.

@@ -19,9 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UserInfoFragment : Fragment() {
-
     private var _binding: FragmentUserInfoBinding? = null
     val binding: FragmentUserInfoBinding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

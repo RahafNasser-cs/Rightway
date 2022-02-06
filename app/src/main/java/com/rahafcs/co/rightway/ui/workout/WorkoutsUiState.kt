@@ -1,4 +1,4 @@
-package com.rahafcs.co.rightway.ui.state
+package com.rahafcs.co.rightway.ui.workout
 
 import android.os.Parcelable
 import com.rahafcs.co.rightway.data.LoadingStatus

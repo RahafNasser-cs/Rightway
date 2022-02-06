@@ -3,7 +3,7 @@ package com.rahafcs.co.rightway.data.source
 import com.google.firebase.firestore.FirebaseFirestore
 import com.rahafcs.co.rightway.data.Workout
 import com.rahafcs.co.rightway.network.WorkoutApiService
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.lang.Exception

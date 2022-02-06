@@ -1,7 +1,7 @@
 package com.rahafcs.co.rightway.data
 
 import com.rahafcs.co.rightway.data.source.WorkoutDataSource
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
 import javax.inject.Inject
 import javax.inject.Singleton
 
