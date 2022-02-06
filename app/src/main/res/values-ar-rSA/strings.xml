@@ -9,7 +9,7 @@
     <string name="or">أو</string>
     <string name="first_name">الأسم الأول</string>
     <string name="last_name">الأسم الأخير</string>
-    <string name="email">البريد الإلكتروني</string>
+    <string name="email">البريد</string>
     <string name="password">الرقم السري</string>
     <string name="trainer">مدرب</string>
     <string name="trainer_to_compare_ar">مدرب</string>
