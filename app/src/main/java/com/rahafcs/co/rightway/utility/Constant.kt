@@ -1,6 +1,7 @@
 package com.rahafcs.co.rightway.utility
 
 object Constant {
+    const val BASE_URL = "https://exercisedb.p.rapidapi.com"
     const val USERID = "userId"
     const val FIRST_NAME = "firstName"
     const val SUPERSCRIPTION = "SubscriptionStatus"
@@ -29,4 +30,8 @@ object Constant {
     const val RESISTANCE_BAND = "resistance band"
     const val BODY_WEIGHT = "body weight"
     const val ALL_EQUIPMENT = "allEquipment"
+    const val LANGUAGES = "languages"
+    const val PROFILE = "profile"
+    const val DARK_MODE = "darkMode"
+    const val LANGUAGE_CODE = "languageCode"
 }

@@ -18,12 +18,12 @@
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_auth.xml" value="0.264" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_brows.xml" value="0.1" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_coach_info.xml" value="0.264" />
-        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_coach_info_settings.xml" value="0.6" />
+        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_coach_info_settings.xml" value="0.2" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_coaches.xml" value="0.1" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_gender.xml" value="0.25" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_height.xml" value="0.4" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_home.xml" value="0.264" />
-        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_registration.xml" value="0.4" />
+        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_registration.xml" value="0.1" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_saved_workouts.xml" value="0.14895833333333333" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_send_email.xml" value="0.22529644268774704" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_show_saved_workouts.xml" value="0.234375" />
@@ -33,10 +33,10 @@
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_splash.xml" value="0.1953125" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_user_info.xml" value="0.4" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_user_info_settings.xml" value="0.264" />
-        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_view_pager.xml" value="0.3577863577863578" />
+        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_view_pager.xml" value="0.2" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_weight.xml" value="0.25" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_welcome.xml" value="0.264" />
-        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_workout_details.xml" value="0.25995316159250587" />
+        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_workout_details.xml" value="0.4" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_workouts.xml" value="0.1" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/fragment_workouts_by_equipment.xml" value="0.1625" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/layout/nested_item.xml" value="0.4" />
@@ -47,6 +47,7 @@
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/menu/equipment_menu.xml" value="0.2203125" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/CS_ra/Downloads/Rightway/app/src/main/res/xml/settings.xml" value="0.184375" />
       </map>
     </option>
   </component>

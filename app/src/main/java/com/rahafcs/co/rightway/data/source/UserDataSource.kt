@@ -1,7 +1,7 @@
 package com.rahafcs.co.rightway.data.source
 
 import com.rahafcs.co.rightway.data.User
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
 import kotlinx.coroutines.flow.Flow
 
 // Main entry point to accessing user data source.

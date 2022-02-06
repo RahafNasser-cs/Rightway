@@ -1,7 +1,7 @@
 package com.rahafcs.co.rightway.data
 
 import com.rahafcs.co.rightway.data.source.CoachRemoteDataSource
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
 import kotlinx.coroutines.flow.Flow
 
 // Implementation of UserRepository as CoachRepository. Single entry point for managing coaches data.

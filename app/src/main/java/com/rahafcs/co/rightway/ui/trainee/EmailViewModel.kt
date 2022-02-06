@@ -7,9 +7,13 @@ import com.rahafcs.co.rightway.data.DefaultUserRepository
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.utility.Constant.PRE_MESSAGE
 import com.rahafcs.co.rightway.utility.Constant.PRE_SUBJECT
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EmailViewModel(private val userRepository: DefaultUserRepository) : ViewModel() {
+@HiltViewModel
+class EmailViewModel @Inject constructor(private val userRepository: DefaultUserRepository) :
+    ViewModel() {
     private var _user = MutableLiveData(arrayListOf(""))
     val user: MutableLiveData<ArrayList<String>> get() = _user
 

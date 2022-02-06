@@ -13,7 +13,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layoutDirection="locale">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/back_arrow"
@@ -37,11 +38,11 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/body_part_textview"
-                getStringFromResources="@{workoutsViewModel.browsWorkoutUiState.workoutsUiState.workoutTypeUiState.bodyPart}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@{workoutsViewModel.browsWorkoutUiState.workoutsUiState.workoutTypeUiState.bodyPart}"
+                getStringFromResources="@{workoutsViewModel.browsWorkoutUiState.workoutsUiState.workoutTypeUiState.bodyPart}"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

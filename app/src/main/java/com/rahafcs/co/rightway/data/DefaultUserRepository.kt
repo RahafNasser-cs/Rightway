@@ -1,17 +1,18 @@
 package com.rahafcs.co.rightway.data
 
 import com.rahafcs.co.rightway.data.source.UserRemoteDataSource
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 // Default implementation of UserRepository. Single entry point for managing users data.
 
-class DefaultUserRepository(
+class DefaultUserRepository @Inject constructor(
 //    private val coachRemoteDataSource: CoachRemoteDataSource,
 //    private val traineeRemoteDataSource: TraineeRemoteDataSource,
     private val userRemoteDataSource: UserRemoteDataSource,
 ) : UserRepository {
-    // To save user info. 
+    // To save user info.
     override fun saveUserInfo(user: User) = userRemoteDataSource.saveUserInfo(user)
 
     // To get user info.

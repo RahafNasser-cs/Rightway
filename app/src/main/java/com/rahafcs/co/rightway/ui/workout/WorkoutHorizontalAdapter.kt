@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rahafcs.co.rightway.*
 import com.rahafcs.co.rightway.databinding.NestedItemBinding
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
 import com.rahafcs.co.rightway.ui.workout.WorkoutsFragment.Companion.listOfSavedWorkouts
 import com.rahafcs.co.rightway.utility.ui.findUrlGlide
 

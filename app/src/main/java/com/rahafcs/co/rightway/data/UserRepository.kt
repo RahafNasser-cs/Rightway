@@ -1,6 +1,6 @@
 package com.rahafcs.co.rightway.data
 
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
 import kotlinx.coroutines.flow.Flow
 
 // Interface to the data layer.

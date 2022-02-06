@@ -1,6 +1,7 @@
 package com.rahafcs.co.rightway.ui.state
 
 import com.rahafcs.co.rightway.data.LoadingStatus
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
 
 data class CoachInfoUiState(
     val name: String = "",

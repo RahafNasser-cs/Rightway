@@ -33,7 +33,16 @@ class CoachAdapter(val userType: String) :
         }
 
         private fun trainer() =
-            userType.equals(binding.root.context.getString(R.string.trainer), true)
+            (
+                userType.equals(
+                    binding.root.context.getString(R.string.trainer_to_compare_ar),
+                    true
+                ) ||
+                    userType.equals(
+                        binding.root.context.getString(R.string.trainer_to_compare_en),
+                        true
+                    )
+                )
     }
 
     companion object CoachDiffCallback : DiffUtil.ItemCallback<CoachInfoUiState>() {

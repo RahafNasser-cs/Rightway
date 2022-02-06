@@ -18,7 +18,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layoutDirection="locale">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/back_arrow"
@@ -56,7 +57,7 @@
                 android:id="@+id/workout_img"
                 imageUrl="@{workoutViewModel.workoutsInfoUiState.gifUrl}"
                 android:layout_width="380dp"
-                android:layout_height="300dp"
+                android:layout_height="364dp"
                 android:layout_margin="8dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/broken_image"
@@ -114,6 +115,8 @@
                         android:layout_margin="8dp"
                         android:text="@{workoutViewModel.workoutsInfoUiState.equipment}"
                         android:textSize="16sp"
+                        android:textDirection="locale"
+                        android:textAlignment="viewStart"
                         app:layout_constraintBottom_toBottomOf="@id/equipment_textview"
                         app:layout_constraintStart_toEndOf="@id/equipment_textview"
                         app:layout_constraintTop_toTopOf="@id/equipment_textview" />
@@ -136,6 +139,8 @@
                         android:layout_margin="8dp"
                         android:text="@{workoutViewModel.workoutsInfoUiState.bodyPart}"
                         android:textSize="16sp"
+                        android:textDirection="locale"
+                        android:textAlignment="viewStart"
                         app:layout_constraintBottom_toBottomOf="@id/body_part_textview"
                         app:layout_constraintStart_toEndOf="@id/body_part_textview"
                         app:layout_constraintTop_toTopOf="@id/body_part_textview" />
@@ -159,6 +164,8 @@
                         android:layout_margin="8dp"
                         android:text="@{workoutViewModel.workoutsInfoUiState.target}"
                         android:textSize="16sp"
+                        android:textDirection="locale"
+                        android:textAlignment="viewStart"
                         app:layout_constraintBottom_toBottomOf="@id/target_textview"
                         app:layout_constraintStart_toEndOf="@id/target_textview"
                         app:layout_constraintTop_toTopOf="@id/target_textview" />

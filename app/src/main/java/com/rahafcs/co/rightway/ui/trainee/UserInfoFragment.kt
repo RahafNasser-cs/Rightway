@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
@@ -14,11 +15,13 @@ import com.rahafcs.co.rightway.utility.Constant.GENDER
 import com.rahafcs.co.rightway.utility.Constant.HEIGHT
 import com.rahafcs.co.rightway.utility.Constant.WEIGHT
 import com.rahafcs.co.rightway.utility.toast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserInfoFragment : Fragment() {
-
     private var _binding: FragmentUserInfoBinding? = null
     val binding: FragmentUserInfoBinding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +40,23 @@ class UserInfoFragment : Fragment() {
                 goToActivityPage()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedDispatcher()
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To save user "trainee" info.

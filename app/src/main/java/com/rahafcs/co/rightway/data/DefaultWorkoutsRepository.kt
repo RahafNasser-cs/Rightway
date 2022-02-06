@@ -1,11 +1,13 @@
 package com.rahafcs.co.rightway.data
 
 import com.rahafcs.co.rightway.data.source.WorkoutDataSource
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
+import javax.inject.Inject
+import javax.inject.Singleton
 
 // Default implementation of WorkoutsRepository. Single entry point for managing workouts data.
-
-class DefaultWorkoutsRepository(
+@Singleton
+class DefaultWorkoutsRepository @Inject constructor(
     private val workoutRemoteDataSource: WorkoutDataSource,
 ) : WorkoutsRepository {
     // To get all workouts.

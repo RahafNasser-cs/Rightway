@@ -5,40 +5,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoSettingsBinding
 import com.rahafcs.co.rightway.ui.auth.AuthViewModel
 import com.rahafcs.co.rightway.ui.state.CoachInfoUiState
 import com.rahafcs.co.rightway.utility.Constant.SIGN_IN
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class CoachInfoSettingsFragment : Fragment() {
     private var _binding: FragmentCoachInfoSettingsBinding? = null
     val binding: FragmentCoachInfoSettingsBinding get() = _binding!!
-    private val coachViewModel by activityViewModels<CoachViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
-    private val authViewModel by activityViewModels<AuthViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val coachViewModel by activityViewModels<CoachViewModel>()
+    private val authViewModel by activityViewModels<AuthViewModel>()
     private var isEditMode = false
 
     override fun onCreateView(
@@ -69,14 +60,36 @@ class CoachInfoSettingsFragment : Fragment() {
                 }
             }
         }
+        readCoachInfo()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedDispatcher()
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To get user "coach" info then show it in edittext.
     private fun readCoachInfo() {
         lifecycleScope.launch {
-            coachViewModel.coachInfoUiState.collect {
-                if (isEditMode)
-                    showEditUserInfo(it)
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                coachViewModel.coachInfoUiState.collect {
+                    if (isEditMode)
+                        showEditUserInfo(it)
+                    else
+                        showUserInfo(it)
+                }
             }
         }
     }
@@ -146,6 +159,17 @@ class CoachInfoSettingsFragment : Fragment() {
             coachPhone.visibility = View.VISIBLE
             coachRangePrice.visibility = View.VISIBLE
         }
+
+    // Show user "trainee" info in textview.
+    private fun showUserInfo(coachInfo: CoachInfoUiState) {
+        binding.apply {
+            coachNameTextview.text = coachInfo.name
+            coachExperience.text = coachInfo.experience
+            coachEmail.text = coachInfo.email
+            coachPhone.text = coachInfo.phoneNumber
+            coachRangePrice.text = coachInfo.price
+        }
+    }
 
     // Make edittext gone to disable edit mode.
     private fun hideEditUserInfo() =

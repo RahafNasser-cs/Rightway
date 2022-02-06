@@ -21,7 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="56dp">
+            android:paddingBottom="56dp"
+            android:layoutDirection="locale">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/equipment_card"

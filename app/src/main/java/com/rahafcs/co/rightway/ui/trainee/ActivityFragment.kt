@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentActivityBinding
 import com.rahafcs.co.rightway.utility.Constant.ACTIVITY_LEVEL
@@ -22,20 +22,15 @@ import com.rahafcs.co.rightway.utility.Constant.LAST_NAME
 import com.rahafcs.co.rightway.utility.Constant.SIGN_UP
 import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
 import com.rahafcs.co.rightway.utility.Constant.WEIGHT
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
 import com.rahafcs.co.rightway.utility.upToTop
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ActivityFragment : Fragment() {
     private var binding: FragmentActivityBinding? = null
     private lateinit var sharedPreferences: SharedPreferences
-    private val traineeViewModel: TraineeViewModel by activityViewModels {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val traineeViewModel: TraineeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +53,23 @@ class ActivityFragment : Fragment() {
             }
             backArrow.setOnClickListener { this@ActivityFragment.upToTop() }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedDispatcher()
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // Go to home page.

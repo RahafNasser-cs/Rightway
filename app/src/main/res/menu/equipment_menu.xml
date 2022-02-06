@@ -3,20 +3,20 @@
 
     <item
         android:id="@+id/all_equipment"
-        android:title="All equipment"/>
+        android:title="@string/all_equipment" />
     <item
         android:id="@+id/barbell"
-        android:title="Barbell"/>
+        android:title="@string/barbell" />
     <item
         android:id="@+id/cable"
-        android:title="Cable"/>
+        android:title="@string/cable" />
     <item
         android:id="@+id/dumbbell"
-        android:title="Dumbbell"/>
+        android:title="@string/dumbbell" />
     <item
         android:id="@+id/kettle_bell"
-        android:title="Kettle bell"/>
+        android:title="@string/kettle_bell" />
     <item
         android:id="@+id/resistance_band"
-        android:title="Resistance band"/>
+        android:title="@string/resistance_band" />
 </menu>

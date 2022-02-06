@@ -4,24 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSavedWorkoutsBinding
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.upToTop
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SavedWorkoutsFragment : Fragment() {
     private var _binding: FragmentSavedWorkoutsBinding? = null
     val binding get() = _binding!!
-    val viewModel by activityViewModels<WorkoutsViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    val viewModel by activityViewModels<WorkoutsViewModel>()
     private lateinit var adapter: WorkoutHorizontalAdapter
 
     override fun onCreateView(
@@ -56,6 +52,7 @@ class SavedWorkoutsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        onBackPressedDispatcher()
         viewModel.listSavedWorkout.observe(viewLifecycleOwner, {
             adapter.submitList(it)
             if (it.isEmpty()) {
@@ -64,6 +61,18 @@ class SavedWorkoutsFragment : Fragment() {
                 showLayoutOfSavedWorkouts()
             }
         })
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To show saved workouts.

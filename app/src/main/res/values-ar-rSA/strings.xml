@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rightway</string>
+    <string name="web_client">427576789394-3botmelcdrunvn14h1dptpibd8n3r7kj.apps.googleusercontent.com</string>
+    <string name="option_3">تمرين مكثف 6–7 مرات في الأسبوع</string>
+    <string name="option_2">تمرين 4–5 مرات في الأسبوع</string>
+    <string name="option_1">تمرين من 1–3 مرات في الأسبوع</string>
+    <string name="option_0">تمرين قليل أو لا يوجد</string>
+    <string name="or">أو</string>
+    <string name="first_name">الأسم الأول</string>
+    <string name="last_name">الأسم الأخير</string>
+    <string name="email">البريد</string>
+    <string name="password">الرقم السري</string>
+    <string name="trainer">مدرب</string>
+    <string name="trainer_to_compare_ar">مدرب</string>
+    <string name="trainer_to_compare_en">Trainer</string>
+    <string name="trainee">متدرب</string>
+    <string name="Workouts">التمارين</string>
+    <string name="Brows">بحث</string>
+    <string name="Coaches">المدربين</string>
+    <string name="sign_up">التسجيل</string>
+    <string name="already_registered">لديك حساب؟</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="get_started">ابدأ الآن</string>
+    <string name="intro_get_started">لنبدأ ببعض المعلومات لمساعدتك بأفضل طريقة.</string>
+    <string name="password_requirements">يجب ألا يقل عن 6 أحرف</string>
+    <string name="height">الطول</string>
+    <string name="weight">الوزن</string>
+    <string name="age">العمر</string>
+    <string name="gender">الجنس</string>
+    <string name="activity_level">معدل النشاط</string>
+    <string name="sign_out">تسجيل الخروج</string>
+    <string name="back_to_home">الصفحة الرئيسية</string>
+    <string name="confirm_sign_out">هل أنت متأكد أنك تريد الخروج؟</string>
+    <string name="cancel">إلغاء</string>
+    <string name="sign_out_error">خطأ ما حاول مرة أخرى!</string>
+    <string name="user_info">userInfo</string>
+    <string name="enter_age">ادخل العمر</string>
+    <string name="enter_weight">ادخل الوزن</string>
+    <string name="enter_height">ادخل الطول</string>
+    <string name="enter_experience">ادخل الخبرة</string>
+    <string name="enter_phone">ادخل رقم الجوال</string>
+    <string name="enter_email">ادخل بريد إلكتروني صحيح</string>
+    <string name="enter_price">ادخل نطاق السعر</string>
+    <string name="enter_first_name">ادخل الأسم الأول</string>
+    <string name="enter_last_name">ادخل الأسم الأخير</string>
+    <string name="enter_password">ادخل رقم سري صحيح</string>
+    <string name="pre_subject">مرحبًا ، أود الاشتراك معك!</string>
+    <string name="required_app">التطبيق المطلوب غير مثبت</string>
+    <string name="saved_workouts_fragment">SavedWorkoutsFragment</string>
+    <string name="workouts_fragment">WorkoutsFragment</string>
+    <string name="workouts_by_equipment_fragment">WorkoutsByEquipmentFragment</string>
+    <string name="all_equipment">جميع الأدوات</string>
+    <string name="welcome">مرحبًا %1$s</string>
+    <string name="pause">توقف</string>
+    <string name="reset_timer">00:00</string>
+    <string name="resume">استأناف</string>
+    <string name="select_time">من فضلك أختر وقت</string>
+    <string name="formatted_time">%02d:%02d</string>
+    <string name="female">أنثى</string>
+    <string name="male">ذكر</string>
+    <string name="years">سنوات</string>
+    <string name="kg">kg</string>
+    <string name="lb">lb</string>
+    <string name="cm">cm</string>
+    <string name="ft">ft</string>
+    <string name="next">التالي</string>
+    <string name="track_1_out_of_2">1 من 2</string>
+    <string name="to">إلى</string>
+    <string name="email_address">عنوان البريد الالكترونى</string>
+    <string name="subject">العنوان</string>
+    <string name="message">الرسالة</string>
+    <string name="type_your_message_here">اكتب رسالتك هنا…</string>
+    <string name="send">إرسال</string>
+    <string name="save">حفظ</string>
+    <string name="sign_in_with_google">تسجيل الدخول مع جوجل</string>
+    <string name="sign_up_with_google">قم بالتسجيل مع جوجل</string>
+    <string name="coach_name">اسم المدرب</string>
+    <string name="experience">الخبرة</string>
+    <string name="coach_experience">خبرة المدرب</string>
+    <string name="coach_email">البريد الالكتروني الخاص بالمدرب</string>
+    <string name="phone">رقم الجوال</string>
+    <string name="coach_phone">رقم جوال المدرب</string>
+    <string name="price">السعر</string>
+    <string name="coach_price">سعر الاشتراك</string>
+    <string name="track_2_out_of_2">2 من 2</string>
+    <string name="activity_level_">معدل النشاط</string>
+    <string name="explain_activity_level">كم مرة تمارس الرياضة في الأسبوع؟</string>
+    <string name="done">اكتمل</string>
+    <string name="equipment">الأدوات</string>
+    <string name="all_equipment_">جميع الأدوات</string>
+    <string name="barbell">باربل</string>
+    <string name="cable">كيبل</string>
+    <string name="dumbbell">الدمبل</string>
+    <string name="kettle_bell">كيتل بيل</string>
+    <string name="resistance_band">حبال المقاومة</string>
+    <string name="body_weight">وزن الجسم</string>
+    <string name="track_1_out_of_1">1 من 1</string>
+    <string name="price_range">نطاق السعر</string>
+    <string name="saved_workouts">التمارين المحفوظة</string>
+    <string name="home">الصفحة الرئيسية</string>
+    <string name="workouts">التمارين</string>
+    <string name="coaches">المدربين</string>
+    <string name="brows">بحث</string>
+    <string name="workout_details">تفاصيل التمرين</string>
+    <string name="target">العضلة المستهدفة</string>
+    <string name="body_part">جزء الجسم</string>
+    <string name="_0">0</string>
+    <string name="_00_00">00:00</string>
+    <string name="start">أبدأ</string>
+    <string name="stop">إلغاء</string>
+    <string name="nested">Nested</string>
+    <string name="workout_photo">workout photo</string>
+    <string name="logo">logo</string>
+    <string name="title">title</string>
+    <string name="waist">Waist</string>
+    <string name="pre_message">مرحبا %1$s , \n  أود أن أشترك معك! \nبعض المعلومات عني:\nالجنس: %2$s \n الطول: %3$s \nالوزن: %4$s \nالعمر: %5$s \nمعدل النشاط: %6$s \n </string>
+    <string name="error_message">هناك خطأ ما\nنواجه مشاكل في تحميل هذه الصفحة.\nحاول مرة أخرى!</string>
+    <string name="profile_key">profile</string>
+    <string name="profile_title">الملف الشخصي</string>
+    <string name="general_title">عام</string>
+    <string name="dark_mode_key">darkMode</string>
+    <string name="dark_mode_title">الوضع اليلي</string>
+    <string name="languages_settings_title">إعدادات اللغة</string>
+    <string name="languages_key">languages</string>
+    <string name="languages_title">اللغات</string>
+    <string name="en">اللغة الإنجليزية</string>
+    <string name="personal_title">شخصي</string>
+    <string name="personal_key">personal</string>
+    <string name="languages_settings_title_key">languageTitle</string>
+    <string name="english">الإنجليزية</string>
+    <string name="arabic">العربية</string>
+    <string name="language_select">العربية</string>
+    <string name="lang_code_en">en</string>
+    <string name="lang_code_ar">ar</string>
+    <string name="language_code_select">ar</string>
+    <string name="remember_me">تذكرني</string>
+    <string name="user_type_dialog">هل أنت مدرب أو متدرب</string>
+
+
+
+    <string-array name="languages">
+        <item>@string/english</item>
+        <item>@string/arabic</item>
+    </string-array>
+
+    <string-array name="lang_code">
+        <item>en</item>
+        <item>ar</item>
+    </string-array>
+</resources>
+

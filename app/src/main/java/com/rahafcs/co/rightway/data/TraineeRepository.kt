@@ -1,7 +1,7 @@
 package com.rahafcs.co.rightway.data
 
 import com.rahafcs.co.rightway.data.source.TraineeRemoteDataSource
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

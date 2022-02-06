@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -46,15 +45,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
         }
-
-        Log.e("MyFirebaseMessagingService", "generateNotification: ")
         notificationManager.notify(0, builder.build())
     }
 
-    // create custom layout
+    // create custom layout.
     @SuppressLint("RemoteViewLayout")
     fun getRemoteView(title: String, message: String): RemoteViews {
-        val remoteViews = RemoteViews("com.rahafcs.co.rightway", R.layout.notification)
+        val remoteViews = RemoteViews(CHANNEL_NAME, R.layout.notification)
         remoteViews.setTextViewText(R.id.title_textview, title)
         remoteViews.setTextViewText(R.id.message_textview, message)
         remoteViews.setImageViewResource(R.id.logo_img, R.drawable.logo_app)
@@ -68,6 +65,5 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 remoteMessage.notification?.title!!,
                 remoteMessage.notification?.body!!
             )
-        Log.e("TAG", "onMessageReceived: message resecedv")
     }
 }

@@ -5,29 +5,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentWorkoutDetailsBinding
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class WorkoutDetailsFragment : Fragment() {
-
     private val timerViewModel by activityViewModels<TimerViewModel>()
     private val args: WorkoutDetailsFragmentArgs by navArgs()
     private var binding: FragmentWorkoutDetailsBinding? = null
-    private val workoutsViewModel: WorkoutsViewModel by activityViewModels {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val workoutsViewModel: WorkoutsViewModel by activityViewModels()
     private var isStarted = false
     private var isPause = false
     private var numberOfSeconds = 0
@@ -57,6 +52,23 @@ class WorkoutDetailsFragment : Fragment() {
         updateProgressBar()
         updateTimerSecondsTextview()
         checkTimerIsFinished()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedDispatcher()
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To check timer is finished.

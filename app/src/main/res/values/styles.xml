@@ -4,8 +4,8 @@
     <style name="Widget.Rightway.Divider" parent="">
         <item name="android:background">?attr/dividerHorizontal</item>
     </style>
-    <!--  -->
-    <style name="AppThemeHome" parent="Theme.MaterialComponents.Light">
+    <!-- App theme -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/app_theme</item>
         <item name="colorPrimaryVariant">@color/app_theme</item>
         <item name="colorOnPrimary">@color/white</item>

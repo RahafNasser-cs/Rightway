@@ -1,6 +1,6 @@
 package com.rahafcs.co.rightway.data
 
-import com.rahafcs.co.rightway.ui.state.WorkoutsInfoUiState
+import com.rahafcs.co.rightway.ui.workout.WorkoutsInfoUiState
 
 data class User(
     val firstName: String = "",

@@ -2,11 +2,13 @@ package com.rahafcs.co.rightway.ui.auth
 
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.rahafcs.co.rightway.data.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
-    fun signInWithGoogle() {}
-
+@HiltViewModel
+class AuthViewModel @Inject constructor(private val authRepository: AuthRepository) : ViewModel() {
     // Sign in with email and password.
     fun signInWithEmailAndPassword(email: String, password: String) =
         authRepository.signInWithEmailAndPassword(email, password)
@@ -21,4 +23,7 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
     // Sign in with google.
     fun signInWithGoogleAuthFirebase(account: GoogleSignInAccount) =
         authRepository.signInWithGoogleAuthFirebase(account)
+
+    // Provide google sign in client.
+    fun googleSignInClient(): GoogleSignInClient = authRepository.googleSignInClient()
 }

@@ -4,26 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.rahafcs.co.rightway.ViewModelFactory
+import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.data.LoadingStatus
 import com.rahafcs.co.rightway.databinding.FragmentCoachesBinding
-import com.rahafcs.co.rightway.utility.ServiceLocator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class CoachesFragment : Fragment() {
     private var _binding: FragmentCoachesBinding? = null
-    private val viewModel: CoachViewModel by activityViewModels {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val coachViewModel: CoachViewModel by activityViewModels()
     private var userType = ""
 
     override fun onCreateView(
@@ -39,19 +35,21 @@ class CoachesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUserType()
+        coachViewModel.setCoachesList()
         _binding?.apply {
             lifecycleOwner = viewLifecycleOwner
-            coachViewModel = viewModel
+            coachViewModel = this@CoachesFragment.coachViewModel
             recyclerview.adapter = CoachAdapter(userType)
         }
-        viewModel.setCoachesList()
+        coachViewModel.setCoachesList()
         handleLayout()
     }
 
     override fun onResume() {
         super.onResume()
+        onBackPressedDispatcher()
         lifecycleScope.launch {
-            viewModel.coachList.collect {
+            coachViewModel.coachList.collect {
                 val adapter = CoachAdapter(userType)
                 _binding?.recyclerview?.adapter = adapter
                 adapter.submitList(it.coachInfoUiState)
@@ -59,11 +57,23 @@ class CoachesFragment : Fragment() {
         }
     }
 
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
+    }
+
     // To get user type --> Trainer"Coach" or Trainee.
     private fun getUserType() =
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.getUserType().collect {
+                coachViewModel.getUserType().collect {
                     userType = it
                 }
             }
@@ -73,7 +83,7 @@ class CoachesFragment : Fragment() {
     private fun handleLayout() =
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.coachList.collect {
+                coachViewModel.coachList.collect {
                     when (it.loadingState) {
                         LoadingStatus.ERROR -> {
                             showErrorLayout()
@@ -82,7 +92,7 @@ class CoachesFragment : Fragment() {
                             showLoadingLayout()
                         }
                         LoadingStatus.SUCCESS -> {
-                            shoeSuccessLayout()
+                            showSuccessLayout()
                         }
                     }
                 }
@@ -90,7 +100,7 @@ class CoachesFragment : Fragment() {
         }
 
     // To show success Layout.
-    private fun shoeSuccessLayout() =
+    private fun showSuccessLayout() =
         _binding?.apply {
             error.visibility = View.GONE
             success.visibility = View.VISIBLE

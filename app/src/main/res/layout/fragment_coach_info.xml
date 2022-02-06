@@ -7,7 +7,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layoutDirection="locale">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -38,8 +39,9 @@
             android:layout_width="192dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
+            android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="@id/experience_textview"
-            app:layout_constraintStart_toEndOf="@id/experience_textview"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/experience_textview">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -66,7 +68,7 @@
             android:layout_width="192dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/email_textview"
-            app:layout_constraintStart_toStartOf="@id/experience_input_layout"
+            app:layout_constraintEnd_toEndOf="@id/experience_input_layout"
             app:layout_constraintTop_toTopOf="@id/email_textview">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -93,7 +95,7 @@
             android:layout_width="192dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/phone_textview"
-            app:layout_constraintStart_toStartOf="@id/email_input_layout"
+            app:layout_constraintEnd_toEndOf="@id/email_input_layout"
             app:layout_constraintTop_toTopOf="@id/phone_textview">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -122,7 +124,7 @@
             app:endIconDrawable="@drawable/money"
             app:endIconMode="custom"
             app:layout_constraintBottom_toBottomOf="@id/price_range_textview"
-            app:layout_constraintStart_toStartOf="@id/phone_input_layout"
+            app:layout_constraintEnd_toEndOf="@id/phone_input_layout"
             app:layout_constraintTop_toTopOf="@id/price_range_textview">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -136,11 +138,10 @@
             android:id="@+id/done_btn"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
+            android:layout_marginTop="64dp"
             android:text="@string/done"
             android:textAllCaps="false"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/price_range_input_layout" />

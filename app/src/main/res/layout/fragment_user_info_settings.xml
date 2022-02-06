@@ -19,7 +19,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layoutDirection="locale">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/logout_img"
@@ -180,7 +181,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="40dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/experience_textview"
                 app:layout_constraintStart_toEndOf="@id/experience_textview"
@@ -408,6 +409,8 @@
                 android:layout_marginStart="8dp"
                 android:text="@{traineeViewModel.traineeInfo.activity}"
                 android:textSize="16sp"
+                android:textDirection="locale"
+                android:textAlignment="viewStart"
                 app:layout_constraintBottom_toBottomOf="@id/activity_level_textview"
                 app:layout_constraintStart_toEndOf="@id/activity_level_textview"
                 app:layout_constraintTop_toTopOf="@id/activity_level_textview" />

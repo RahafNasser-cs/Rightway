@@ -1,6 +1,5 @@
 package com.rahafcs.co.rightway.ui.auth
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,32 +17,22 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.databinding.FragmentSignInBinding
+import com.rahafcs.co.rightway.utility.Constant
 import com.rahafcs.co.rightway.utility.Constant.EMAIL
 import com.rahafcs.co.rightway.utility.Constant.REMEMBER_ME
 import com.rahafcs.co.rightway.utility.Constant.USERID
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.toast
 import com.rahafcs.co.rightway.utility.upToTop
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
+@AndroidEntryPoint
 class SignInFragment : Fragment() {
     var binding: FragmentSignInBinding? = null
     private lateinit var sharedPreferences: SharedPreferences
-    private val authViewModel by activityViewModels<AuthViewModel> {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        ServiceLocator.ProgramListService.application = context?.applicationContext as Application
-    }
+    private val authViewModel by activityViewModels<AuthViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,6 +55,23 @@ class SignInFragment : Fragment() {
             backArrow.setOnClickListener { this@SignInFragment.upToTop() }
         }
         showUserEmail()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedDispatcher()
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To clear user email from sharedPreferences.
@@ -101,13 +108,10 @@ class SignInFragment : Fragment() {
     }
 
     // Sign in with google.
-    private fun signInWithGoogle() {
-        val googleSignInClient =
-            GoogleSignIn.getClient(requireContext(), ServiceLocator.provideGoogleSignInOptions())
-        googleSignInClient.signInIntent.also {
+    private fun signInWithGoogle() =
+        authViewModel.googleSignInClient().signInIntent.also {
             startActivityForResult(it, REQUEST_CODE_SIGNING)
         }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -192,6 +196,7 @@ class SignInFragment : Fragment() {
             activity?.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE)!!
         sharedPreferences.edit().apply {
             putString(USERID, userId)
+            putString(Constant.LANGUAGE_CODE, "")
             apply()
         }
     }

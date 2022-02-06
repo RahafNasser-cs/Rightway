@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rahafcs.co.rightway.R
-import com.rahafcs.co.rightway.ViewModelFactory
 import com.rahafcs.co.rightway.data.User
 import com.rahafcs.co.rightway.databinding.FragmentCoachInfoBinding
 import com.rahafcs.co.rightway.utility.Constant.COACH_EMAIL
@@ -19,20 +19,15 @@ import com.rahafcs.co.rightway.utility.Constant.COACH_PRICE_RANGE
 import com.rahafcs.co.rightway.utility.Constant.FIRST_NAME
 import com.rahafcs.co.rightway.utility.Constant.LAST_NAME
 import com.rahafcs.co.rightway.utility.Constant.SUPERSCRIPTION
-import com.rahafcs.co.rightway.utility.ServiceLocator
 import com.rahafcs.co.rightway.utility.capitalizeFormatIfFirstLatterCapital
 import com.rahafcs.co.rightway.utility.toast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CoachInfoFragment : Fragment() {
     private var _binding: FragmentCoachInfoBinding? = null
     val binding: FragmentCoachInfoBinding get() = _binding!!
-    private val coachViewModel: CoachViewModel by activityViewModels {
-        ViewModelFactory(
-            ServiceLocator.provideWorkoutRepository(),
-            ServiceLocator.provideDefaultUserRepository(),
-            ServiceLocator.provideAuthRepository()
-        )
-    }
+    private val coachViewModel: CoachViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,6 +68,23 @@ class CoachInfoFragment : Fragment() {
             putString(COACH_PRICE_RANGE, priceRange)
             apply()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedDispatcher()
+    }
+
+    // Handel back press.
+    private fun onBackPressedDispatcher() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     // To go home page.
