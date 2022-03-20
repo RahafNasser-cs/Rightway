@@ -12,7 +12,7 @@
 ### Tools and Techniques
 - Platform -> Android Studio - Kotlin
 - GitKraken -> Gitflow.
-- Clean architecture usring MVVM.
+- Clean architecture using MVVM.
 ### Librarys
 - Coroutines.
 - Hilt
